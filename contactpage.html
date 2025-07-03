@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us - TechLink</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="contact.css" />
+</head>
+<style>
+      /* ✅ Reset and Variables */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --dark-blue-bg: #1a2a3a;
+      --darker-blue-bg: #121f2f;
+      --medium-blue-accent: #3498db;
+      --purple-accent: #9b59b6;
+      --text-color-light: #ecf0f1;
+      --text-color-lighter: #bdc3c7;
+      --input-bg: #2c3e50;
+      --input-border: #4a667f;
+      --error-red: #e74c3c;
+      --font-heading: 'Poppins', sans-serif;
+      --font-body: 'Lato', sans-serif;
+      --space-sm: 1rem;
+      --space-md: 2rem;
+      --space-lg: 4rem;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--dark-blue-bg);
+      color: var(--text-color-light);
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--medium-blue-accent);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: var(--purple-accent);
+      text-decoration: underline;
+    }
+
+    h1, h2, h3 {
+      font-family: var(--font-heading);
+      color: var(--text-color-light);
+      margin-bottom: 1rem;
+    }
+
+    h1 { font-size: 3.5rem; }
+    h2 { font-size: 2.5rem; }
+    h3 { font-size: 1.75rem; }
+
+    img {
+      width: 50px;
+    }
+
+    /* ✅ Navbar */
+   .navbar {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo i {
+      margin-right: 10px;
+    }
+
+    .nav-links ul {
+      list-style: none;
+      display: flex;
+    }
+
+    .nav-links ul li {
+      margin-right: 30px;
+    }
+
+    .nav-links ul li a {
+      color: #fff;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links ul li a:hover {
+      color: #00ffff;
+    }
+
+    .social-icons i {
+      margin-left: 20px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      color: #fff;
+    }
+
+    .social-icons i:hover {
+      color: #ff00ff;
+    }
+.hamburger {
+  display: none;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 28px;
+  cursor: pointer;
+  color: #00ffff;
+  z-index: 11;
+}
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 250px;
+      height: 100vh;
+      background: #1a0033;
+      z-index: 999;
+      padding: 60px 30px;
+      transition: left 0.3s ease-in-out;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 30px;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      margin-bottom: 20px;
+    }
+
+    .sidebar ul li a {
+      color: #fff;
+      font-weight: 600;
+      font-size: 18px;
+      display: block;
+      transition: color 0.3s ease;
+    }
+
+    .sidebar ul li a:hover {
+      color: #00ffff;
+    }
+
+    /* ✅ Hero Section */
+    .contact-hero {
+      background: linear-gradient(rgba(26, 42, 58, 0.85), rgba(26, 42, 58, 0.85)), url('6486215.jpg') no-repeat center center/cover;
+      color: var(--text-color-light);
+      text-align: center;
+      padding: var(--space-lg) var(--space-md);
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .contact-hero h1 {
+      font-size: 4.5rem;
+      animation: fadeInDown 1s ease-out;
+    }
+
+    .contact-hero p {
+      font-size: 1.3rem;
+      color: var(--text-color-lighter);
+      animation: fadeInUp 1s ease-out 0.3s forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ✅ Main Sections */
+    .contact-sections-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      padding: var(--space-lg) var(--space-md);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .contact-form-container,
+    .contact-info-container {
+      flex: 1;
+      min-width: 300px;
+      background-color: var(--input-bg);
+      padding: var(--space-md);
+      border-radius: 8px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .contact-form-container:hover,
+    .contact-info-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .contact-form-container h2,
+    .contact-info-container h2 {
+      text-align: center;
+      margin-bottom: var(--space-md);
+      color: var(--medium-blue-accent);
+    }
+
+    /* ✅ Contact Form */
+    .contact-form .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-form label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      background-color: var(--dark-blue-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 5px;
+      color: var(--text-color-light);
+      font-size: 1rem;
+    }
+
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: var(--text-color-lighter);
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: var(--medium-blue-accent);
+      outline: none;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 1rem;
+      background-color: var(--medium-blue-accent);
+      color: var(--text-color-light);
+      border: none;
+      border-radius: 5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background-color: var(--purple-accent);
+    }
+
+    /* ✅ Info Boxes */
+    .info-blocks {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .info-block {
+      background-color: var(--dark-blue-bg);
+      border: 1px solid var(--input-border);
+      padding: 1.5rem;
+      text-align: center;
+      border-radius: 8px;
+    }
+
+    .info-block i {
+      font-size: 2.5rem;
+      color: var(--medium-blue-accent);
+      margin-bottom: 1rem;
+    }
+
+    .info-block h3 {
+      color: var(--text-color-light);
+      margin-bottom: 0.5rem;
+    }
+
+    .info-block p {
+      color: var(--text-color-lighter);
+    }
+
+    /* ✅ Map Section */
+    .map-section {
+      padding: var(--space-md);
+      background-color: var(--input-bg);
+      border-radius: 8px;
+      margin: var(--space-lg) auto;
+      max-width: 1000px;
+      text-align: center;
+    }
+
+    .map-section iframe {
+      width: 100%;
+      height: 400px;
+      border: none;
+      border-radius: 8px;
+    }
+
+    /* ✅ Footer */
+    .main-footer {
+      background-color: var(--darker-blue-bg);
+      text-align: center;
+      color: var(--text-color-lighter);
+      padding: 2rem;
+    }
+
+    .main-footer a {
+      margin: 0 0.5rem;
+      color: var(--text-color-lighter);
+    }
+
+    .main-footer a:hover {
+      color: var(--medium-blue-accent);
+    }
+
+    /* ✅ Responsive */
+    @media (max-width: 768px) {
+      h1 { font-size: 2.8rem; }
+      h2 { font-size: 2rem; }
+  .nav-links, .social-icons {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+    
+
+    @media (max-width: 480px) {
+      h1 { font-size: 2.2rem; }
+      h2 { font-size: 1.8rem; }
+      .submit-btn {
+        font-size: 0.95rem;
+      }
+    }
+
+</style>
+<body>
+  <header class="navbar">
+    <div class="logo">
+      <img src="8806258-Photoroom.png" alt="TechLink Logo" />
+      <span>TechLink</span>
+    </div>
+    <nav class="nav-links">
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="aboutpage.html">ABOUT</a></li>
+        <li><a href="servicesinfoscreen.html">SERVICES</a></li>
+        <li><a href="contactpage.html">CONTACT</a></li>
+      </ul>
+    </nav>
+    <div class="social-icons">
+      <i class="fab fa-facebook-f"></i>
+      <i class="fab fa-twitter"></i>
+      <i class="fab fa-instagram"></i>
+      <i class="fab fa-pinterest-p"></i>
+    </div>
+    <div class="hamburger" id="hamburger">
+      <i class="fas fa-bars"></i>
+    </div>
+  </header>
+
+  <div class="sidebar" id="sidebar">
+    <div class="close-btn" id="closeBtn">&times;</div>
+    <ul>
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="aboutpage.html">ABOUT</a></li>
+      <li><a href="servicesinfoscreen.html">SERVICES</a></li>
+      <li><a href="contactpage.html">CONTACT</a></li>
+    </ul>
+  </div>
+
+  <main>
+    <section class="contact-hero">
+      <div class="hero-content">
+        <h1>Get In Touch</h1>
+        <p>We're here to help and answer any question you might have. We look forward to hearing from you.</p>
+      </div>
+    </section>
+
+    <section class="contact-sections-wrapper">
+      <div class="contact-form-container">
+        <h2>Send Us a Message</h2>
+        <form class="contact-form">
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="user_name" required placeholder="John Doe" />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Your Email</label>
+            <input type="email" id="email" name="user_email" required placeholder="john.doe@example.com" />
+          </div>
+
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="message_subject" placeholder="Inquiry about services" />
+          </div>
+
+          <div class="form-group">
+            <label for="message">Your Message</label>
+            <textarea id="message" name="user_message" rows="6" required placeholder="Tell us more about your query..."></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn">Send Message</button>
+          <p class="form-note">We aim to respond to all inquiries within 24 business hours.</p>
+        </form>
+      </div>
+
+      <div class="contact-info-container">
+        <h2>Our Details</h2>
+        <div class="info-blocks">
+          <div class="info-block">
+            <i class="fas fa-phone-alt"></i>
+            <h3>Call Us</h3>
+            <p><a href="tel:+254712345678">+254 712 345 678</a></p>
+            <p class="hours">Mon - Fri: 9:00 AM - 5:00 PM EAT</p>
+          </div>
+
+          <div class="info-block">
+            <i class="fas fa-envelope"></i>
+            <h3>Email Us</h3>
+            <p><a href="mailto:info@yourcompany.com">info@yourcompany.com</a></p>
+            <p><a href="mailto:support@yourcompany.com">support@yourcompany.com</a></p>
+          </div>
+
+          <div class="info-block">
+            <i class="fas fa-map-marker-alt"></i>
+            <h3>Visit Our Office</h3>
+            <p>Address, Suite/Office No.</p>
+            <p>Bungoma Town, Bungoma County, Kenya</p>
+            <p>12345</p>
+          </div>
+        </div>
+
+        <div class="social-media-block">
+          <h3>Connect With Us</h3>
+          <div class="social-icons">
+            <a href="https://facebook.com/yourcompany" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://twitter.com/yourcompany" target="_blank"><i class="fab fa-x-twitter"></i></a>
+            <a href="https://linkedin.com/company/yourcompany" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://instagram.com/yourcompany" target="_blank"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="map-section">
+      <h2>Find Us Here</h2>
+      <div class="map-container">
+        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=34.547%2C0.573%2C34.569%2C0.592&layer=mapnik" frameborder="0" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-accordion">
+        <div class="faq-item">
+          <input type="checkbox" id="faq1" />
+          <label for="faq1" class="faq-question">How long does it take to get a response?</label>
+          <div class="faq-answer">
+            <p>We typically respond to all inquiries within 24 business hours. For urgent requests, please call us.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <input type="checkbox" id="faq2" />
+          <label for="faq2" class="faq-question">What services do you offer?</label>
+          <div class="faq-answer">
+            <p>View our complete services on the <a href="servicesinfoscreen.html">Services page</a>.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <input type="checkbox" id="faq3" />
+          <label for="faq3" class="faq-question">Can I schedule a consultation?</label>
+          <div class="faq-answer">
+            <p>Yes, please use the contact form above and select "consultation request" as your subject.</p>
+          </div>
+        </div>
+      </div>
+      <p class="more-faq-link">Still have questions? Visit our <a href="faq.html">FAQ page</a>.</p>
+    </section>
+  </main>
+
+  <footer class="main-footer">
+    <p>&copy; 2025 TechLink. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+    </div>
+  </footer>
+
+  <script>
+    const hamburger = document.getElementById("hamburger");
+    const sidebar = document.getElementById("sidebar");
+    const closeBtn = document.getElementById("closeBtn");
+
+    hamburger.onclick = () => sidebar.classList.add("active");
+    closeBtn.onclick = () => sidebar.classList.remove("active");
+    document.querySelectorAll("#sidebar a").forEach(link => {
+      link.addEventListener("click", () => sidebar.classList.remove("active"));
+    });
+  </script>
+</body>
+
+</html>
