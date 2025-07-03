@@ -384,6 +384,131 @@
         font-size: 0.95rem;
       }
     }
+/* Modern Tech Vibe CSS for FAQ Section */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0f111a;
+  color: #f4f4f4;
+}
+
+.faq-section {
+  max-width: 800px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background: linear-gradient(145deg, #12141e, #1c1e2b);
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.faq-section h2 {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+  color: #0ff;
+  letter-spacing: 1px;
+}
+
+.faq-accordion .faq-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem 0;
+}
+
+.faq-question {
+  display: block;
+  position: relative;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  background-color: #1c1f2e;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.faq-question:hover {
+  background-color: #23273a;
+}
+
+.faq-question::after {
+  content: '+';
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  color: #0ff;
+  transition: transform 0.3s ease;
+}
+
+.faq-item input[type="checkbox"] {
+  display: none;
+}
+
+.faq-item input[type="checkbox"]:checked + .faq-question::after {
+  content: '−';
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+  opacity: 0;
+  padding: 0 1rem;
+}
+
+.faq-item input[type="checkbox"]:checked ~ .faq-answer {
+  max-height: 200px;
+  opacity: 1;
+  margin-top: 0.5rem;
+}
+
+.faq-answer p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #dcdcdc;
+}
+
+.faq-answer a {
+  color: #00f5ff;
+  text-decoration: underline;
+}
+
+.more-faq-link {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1rem;
+}
+
+.more-faq-link a {
+  color: #00f5ff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.more-faq-link a:hover {
+  text-decoration: underline;
+  color: #66fcf1;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .faq-section {
+    padding: 1.5rem;
+  }
+
+  .faq-section h2 {
+    font-size: 1.8rem;
+  }
+
+  .faq-question {
+    font-size: 1rem;
+  }
+}
 
 </style>
 <body>
@@ -464,15 +589,15 @@
           <div class="info-block">
             <i class="fas fa-phone-alt"></i>
             <h3>Call Us</h3>
-            <p><a href="tel:+254712345678">+254 712 345 678</a></p>
+            <p><a href="tel:+254712345678">+254 715590690</a></p>
             <p class="hours">Mon - Fri: 9:00 AM - 5:00 PM EAT</p>
           </div>
 
           <div class="info-block">
             <i class="fas fa-envelope"></i>
             <h3>Email Us</h3>
-            <p><a href="mailto:info@yourcompany.com">info@yourcompany.com</a></p>
-            <p><a href="mailto:support@yourcompany.com">support@yourcompany.com</a></p>
+            <p><a href="mailto:joshuawemachristine@gmail.com">afriByt@gmail.com</a></p>
+            <p><a href="mailto:wotiajoshua@gmail.com">wotiajoshua@gmail.com</a></p>
           </div>
 
           <div class="info-block">
@@ -480,7 +605,7 @@
             <h3>Visit Our Office</h3>
             <p>Address, Suite/Office No.</p>
             <p>Bungoma Town, Bungoma County, Kenya</p>
-            <p>12345</p>
+            <p>337-50200</p>
           </div>
         </div>
 
@@ -489,8 +614,8 @@
           <div class="social-icons">
             <a href="https://facebook.com/yourcompany" target="_blank"><i class="fab fa-facebook-f"></i></a>
             <a href="https://twitter.com/yourcompany" target="_blank"><i class="fab fa-x-twitter"></i></a>
-            <a href="https://linkedin.com/company/yourcompany" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-            <a href="https://instagram.com/yourcompany" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://linkedin.com/company/Joshua Wema" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://instagram.com/thee_wema" target="_blank"><i class="fab fa-instagram"></i></a>
           </div>
         </div>
       </div>
