@@ -1008,6 +1008,45 @@
     img{
       width: 50px;
     }
+    .button-group2 button {
+      padding: 14px 32px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .button-group2 button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .login-btn1 {
+      color: #00ffcc;
+      border: 1px solid #00ffcc;
+    }
+
+    .signup-btn1 {
+      color: #ff66cc;
+      border: 1px solid #ff66cc;
+    }
+
+    .login-btn1:hover {
+      background-color: rgba(0, 255, 204, 0.1);
+    }
+
+    .signup-btn1:hover {
+      background-color: rgba(255, 102, 204, 0.1);
+    }
   </style>
   <body>
     <header class="navbar">
@@ -1033,16 +1072,22 @@
       </div>
     </header>
 
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-      <div class="close-btn" id="closeBtn">&times;</div>
-      <ul>
-         <li><a href="index.html">HOME</a></li>
+     <!-- Sidebar -->
+      <div class="sidebar" id="sidebar">
+        <div class="close-btn" id="closeBtn">&times;</div>
+        <ul>
+          <li><a href="index.html">HOME</a></li>
         <li><a href="aboutpage.html">ABOUT</a></li>
         <li><a href="servicesinfoscreen.html">SERVICES</a></li>
         <li><a href="contactpage.html">CONTACT</a></li>
-      </ul>
-    </div>
+
+         <div class="button-group2">
+    <button class="login-btn1">Log in</button>
+    <button class="signup-btn1">Sign up</button>
+  </div>
+
+        </ul>
+      </div>
     <main>
       <section class="hero-about">
         <div class="container">

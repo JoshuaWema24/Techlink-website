@@ -509,6 +509,45 @@ body {
     font-size: 1rem;
   }
 }
+.button-group button {
+      padding: 14px 32px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .button-group button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .login-btn {
+      color: #00ffcc;
+      border: 1px solid #00ffcc;
+    }
+
+    .signup-btn {
+      color: #ff66cc;
+      border: 1px solid #ff66cc;
+    }
+
+    .login-btn:hover {
+      background-color: rgba(0, 255, 204, 0.1);
+    }
+
+    .signup-btn:hover {
+      background-color: rgba(255, 102, 204, 0.1);
+    }
 
 </style>
 <body>
@@ -535,16 +574,22 @@ body {
       <i class="fas fa-bars"></i>
     </div>
   </header>
+ <!-- Sidebar -->
+      <div class="sidebar" id="sidebar">
+        <div class="close-btn" id="closeBtn">&times;</div>
+        <ul>
+          <li><a href="index.html">HOME</a></li>
+        <li><a href="aboutpage.html">ABOUT</a></li>
+        <li><a href="servicesinfoscreen.html">SERVICES</a></li>
+        <li><a href="contactpage.html">CONTACT</a></li>
 
-  <div class="sidebar" id="sidebar">
-    <div class="close-btn" id="closeBtn">&times;</div>
-    <ul>
-      <li><a href="index.html">HOME</a></li>
-      <li><a href="aboutpage.html">ABOUT</a></li>
-      <li><a href="servicesinfoscreen.html">SERVICES</a></li>
-      <li><a href="contactpage.html">CONTACT</a></li>
-    </ul>
+         <div class="button-group">
+    <button class="login-btn">Log in</button>
+    <button class="signup-btn">Sign up</button>
   </div>
+
+        </ul>
+      </div>
 
   <main>
     <section class="contact-hero">
