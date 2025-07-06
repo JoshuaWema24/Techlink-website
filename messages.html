@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Messages</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      margin: 0;
+      padding: 30px;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #0f101c, #1c1d2e);
+      color: white;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #9e8dff;
+    }
+
+    .list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: rgba(40, 44, 68, 0.95);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(108, 99, 255, 0.1);
+      cursor: pointer;
+      transition: 0.3s ease;
+      border: 1px solid transparent;
+    }
+
+    .card:hover {
+      border-color: #6c63ff;
+      transform: translateY(-4px);
+    }
+
+    .tech-name {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .service {
+      font-size: 14px;
+      color: #bbb;
+      margin: 6px 0;
+    }
+
+    .status {
+      font-size: 13px;
+      padding: 6px 10px;
+      display: inline-block;
+      background: #6c63ff;
+      border-radius: 10px;
+      color: white;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Messages</h2>
+
+  <div class="list" id="techList">
+    <!-- Technician cards will appear here -->
+  </div>
+
+  <script>
+    const techs = [
+      {
+        id: "tech123",
+        name: "Brian Mwangi",
+        service: "Plumbing",
+        status: "Active"
+      },
+      {
+        id: "tech456",
+        name: "Susan Wanjiku",
+        service: "Electrical",
+        status: "Completed"
+      },
+      {
+        id: "tech789",
+        name: "Kevin Otieno",
+        service: "Networking",
+        status: "Pending"
+      }
+    ];
+
+    const list = document.getElementById("techList");
+
+    techs.forEach(tech => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.onclick = () => {
+        window.location.href = `chat.html?techId=${tech.id}`;
+      };
+
+      card.innerHTML = `
+        <div class="tech-name">${tech.name}</div>
+        <div class="service">Service: ${tech.service}</div>
+        <div class="status">${tech.status}</div>
+      `;
+
+      list.appendChild(card);
+    });
+  </script>
+
+</body>
+</html>

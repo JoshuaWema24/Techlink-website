@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>User Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #1c1d2e;
+      --card: #2c2e45;
+      --accent: #6c63ff;
+      --input: #1e1f33;
+      --text: #eee;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #0f101c, var(--bg));
+      color: var(--text);
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: var(--card);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: var(--accent);
+    }
+
+    .profile-pic {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .profile-pic img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--accent);
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .profile-pic img:hover {
+      opacity: 0.8;
+    }
+
+    .profile-pic label {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #aaa;
+      cursor: pointer;
+    }
+
+    .profile-pic input[type="file"] {
+      display: none;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .input-group label {
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: #ccc;
+    }
+
+    .input-group input {
+      padding: 12px;
+      background: var(--input);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 14px;
+    }
+
+    .actions {
+      margin-top: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .actions button {
+      background: var(--accent);
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .actions button:hover {
+      background: #847bff;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 20px;
+      }
+
+      .profile-pic img {
+        width: 100px;
+        height: 100px;
+      }
+
+      .actions button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>User Profile</h2>
+
+    <div class="profile-pic">
+      <label for="fileUpload">
+        <img src="https://via.placeholder.com/150" alt="Profile Picture" id="profilePic">
+      </label>
+      <input type="file" id="fileUpload" accept="image/*" onchange="previewImage(event)" />
+      <label for="fileUpload">Tap image to change photo</label>
+    </div>
+
+    <div class="form-grid">
+      <div class="input-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" value="Joshua Mwangi">
+      </div>
+
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" value="joshua@example.com">
+      </div>
+
+      <div class="input-group">
+        <label for="phone">Phone Number</label>
+        <input type="text" id="phone" value="+254700000000">
+      </div>
+
+      <div class="input-group">
+        <label for="country">Country</label>
+        <input type="text" id="country" value="Kenya">
+      </div>
+
+      <div class="input-group">
+        <label for="city">City</label>
+        <input type="text" id="city" value="Nairobi">
+      </div>
+    </div>
+
+    <div class="actions">
+      <button onclick="editProfile()">Edit</button>
+      <button onclick="saveProfile()">Save</button>
+    </div>
+  </div>
+
+  <script>
+    function previewImage(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          document.getElementById("profilePic").src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function editProfile() {
+      document.querySelectorAll("input[type='text'], input[type='email']").forEach(input => input.removeAttribute("disabled"));
+    }
+
+    function saveProfile() {
+      const userData = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        country: document.getElementById("country").value,
+        city: document.getElementById("city").value,
+      };
+
+      const imageFile = document.getElementById("fileUpload").files[0];
+      const formData = new FormData();
+      formData.append("profileData", JSON.stringify(userData));
+      if (imageFile) {
+        formData.append("profilePicture", imageFile);
+      }
+
+      console.log("Saving profile:", userData);
+
+      // Sample fetch POST request:
+      // fetch('/api/profile', {
+      //   method: 'POST',
+      //   body: formData
+      // });
+
+      alert("Profile saved!");
+    }
+  </script>
+
+</body>
+</html>

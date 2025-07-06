@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chat with Technician</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+    :root {
+      --purple: #6c63ff;
+      --dark-bg: #0f101c;
+      --container-bg: #24283c;
+      --input-bg: #2c2e45;
+      --green: #27cf73;
+      --gray: #bbb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, var(--dark-bg), #1c1d2e);
+      color: white;
+    }
+
+    .chat-container {
+      max-width: 100%;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: var(--container-bg);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+      color: #9e8dff;
+      padding-top: 20px;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+
+    .online {
+      background-color: var(--green);
+    }
+
+    .offline {
+      background-color: var(--gray);
+    }
+
+    #chatBox {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 10px;
+    }
+
+    .message {
+      padding: 12px 16px;
+      margin: 8px 0;
+      border-radius: 12px;
+      max-width: 80%;
+      word-wrap: break-word;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .technician {
+      background: #2d3550;
+      align-self: flex-start;
+    }
+
+    .user {
+      background: var(--purple);
+      align-self: flex-end;
+    }
+
+    .system {
+      background: #444b67;
+      align-self: center;
+      text-align: center;
+      font-style: italic;
+      font-size: 14px;
+    }
+
+    .timestamp {
+      display: block;
+      font-size: 11px;
+      margin-top: 4px;
+      color: #aaa;
+      opacity: 0.7;
+    }
+
+    .input-box {
+      display: flex;
+      padding: 10px 0;
+      background-color: var(--container-bg);
+      gap: 10px;
+    }
+
+    .input-box input {
+      flex: 1;
+      padding: 12px;
+      background: var(--input-bg);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .input-box button {
+      padding: 12px 16px;
+      background: var(--purple);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      font-size: 14px;
+    }
+
+    .input-box button:hover {
+      background: #837bff;
+    }
+
+    @media (max-width: 600px) {
+      .chat-container {
+        padding: 10px 12px;
+        border-radius: 0;
+      }
+
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+      }
+
+      .message {
+        font-size: 14px;
+        padding: 10px 14px;
+        max-width: 90%;
+      }
+
+      .input-box input,
+      .input-box button {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="chat-container">
+    <div class="header">
+      <div id="chatHeader">Chat</div>
+      <div class="status" id="statusBox">
+        <span class="dot offline" id="statusDot"></span>
+        <span id="statusText">Offline</span>
+      </div>
+    </div>
+
+    <div id="chatBox"></div>
+
+    <div class="input-box">
+      <input type="text" id="messageInput" placeholder="Type your message..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const techId = urlParams.get("techId");
+
+    const chatBox = document.getElementById("chatBox");
+    const header = document.getElementById("chatHeader");
+
+    const techNames = {
+      tech123: "Brian Mwangi",
+      tech456: "Susan Wanjiku",
+      tech789: "Kevin Otieno"
+    };
+
+    header.innerText = `Chat with ${techNames[techId] || "Technician"}`;
+
+    const messages = [
+      { sender: "system", text: "Chat started with your technician", time: "09:59 AM" },
+      { sender: "technician", text: "Hello, I’ll be there at 2PM.", time: "10:01 AM" },
+      { sender: "user", text: "Alright, I’ll be waiting.", time: "10:03 AM" }
+    ];
+
+    function renderMessages() {
+      chatBox.innerHTML = "";
+      messages.forEach(msg => {
+        const div = document.createElement("div");
+        div.className = `message ${msg.sender}`;
+        div.innerHTML = `${msg.text}<span class="timestamp">${msg.time}</span>`;
+        chatBox.appendChild(div);
+      });
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function sendMessage() {
+      const input = document.getElementById("messageInput");
+      const text = input.value.trim();
+      if (!text) return;
+
+      const now = new Date();
+      const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      messages.push({ sender: "user", text, time });
+      renderMessages();
+      input.value = "";
+    }
+
+    // Simulate online status (replace with real backend fetch later)
+    function updateStatus(isOnline) {
+      const dot = document.getElementById("statusDot");
+      const text = document.getElementById("statusText");
+
+      if (isOnline) {
+        dot.classList.remove("offline");
+        dot.classList.add("online");
+        text.innerText = "Online";
+      } else {
+        dot.classList.remove("online");
+        dot.classList.add("offline");
+        text.innerText = "Offline";
+      }
+    }
+
+    // Simulate random online/offline toggle every 5s
+    setInterval(() => {
+      const isOnline = Math.random() > 0.5;
+      updateStatus(isOnline);
+    }, 5000);
+
+    renderMessages();
+    updateStatus(true); // initial
+  </script>
+
+</body>
+</html>
