@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Request Service - TechLink</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #0d0d1f, #14142c);
+      color: #fff;
+      padding: 40px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #9e8dff;
+      margin-bottom: 40px;
+      font-size: 2rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: rgba(40, 44, 68, 0.9);
+      border: 2px solid transparent;
+      border-radius: 16px;
+      padding: 20px;
+      position: relative;
+      transition: 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(108, 99, 255, 0.1);
+    }
+
+    .card:hover {
+      border-color: #6c63ff;
+      box-shadow: 0 4px 20px rgba(108, 99, 255, 0.25);
+    }
+
+    .card.active {
+      border-color: #9e8dff;
+      background: rgba(54, 58, 90, 0.95);
+    }
+
+    .card i {
+      font-size: 24px;
+      color: #6c63ff;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .card label {
+      display: block;
+      font-size: 14px;
+      color: #bbb;
+      margin-bottom: 8px;
+    }
+
+    .card input,
+    .card select,
+    .card textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 15px;
+      background: #2d3044;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      margin-top: 8px;
+    }
+
+    .card textarea {
+      resize: vertical;
+    }
+
+    .card-content {
+      display: none;
+      margin-top: 15px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .card.active .card-content {
+      display: block;
+    }
+
+    .submit-btn {
+      margin-top: 30px;
+      padding: 14px 28px;
+      font-size: 16px;
+      background: linear-gradient(to right, #6c63ff, #8a80ff);
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.3s ease;
+      box-shadow: 0 0 10px rgba(108, 99, 255, 0.3);
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .submit-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 20px rgba(108, 99, 255, 0.5);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Request a New Service</h2>
+
+ <form action="http://localhost:3000/api/request-service" method="POST" enctype="multipart/form-data" class="grid" id="requestForm">
+  
+  <!-- Service Type -->
+  <div class="card" onclick="toggleCard(this)">
+    <i class="fas fa-tools"></i>
+    <label>Service Type</label>
+    <div class="card-content">
+      <select name="serviceType" required>
+        <option value="Electrical">Electrical</option>
+        <option value="Plumbing">Plumbing</option>
+        <option value="IT Support">IT Support</option>
+        <option value="Appliance Repair">Appliance Repair</option>
+        <option value="Automotive">Automotive</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Location -->
+  <div class="card" onclick="toggleCard(this)">
+    <i class="fas fa-map-marker-alt"></i>
+    <label>Location</label>
+    <div class="card-content">
+      <input type="text" name="location" placeholder="e.g., Nairobi, Kenya" required />
+    </div>
+  </div>
+
+  <!-- Urgency -->
+  <div class="card" onclick="toggleCard(this)">
+    <i class="fas fa-exclamation-circle"></i>
+    <label>Urgency</label>
+    <div class="card-content">
+      <select name="urgency">
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Time -->
+  <div class="card" onclick="toggleCard(this)">
+    <i class="fas fa-calendar-alt"></i>
+    <label>Preferred Time</label>
+    <div class="card-content">
+      <input type="datetime-local" name="preferredTime" />
+    </div>
+  </div>
+
+  <!-- Description -->
+  <div class="card" onclick="toggleCard(this)">
+    <i class="fas fa-comment-dots"></i>
+    <label>Description</label>
+    <div class="card-content">
+      <textarea name="description" rows="4" placeholder="Briefly describe the problem..." required></textarea>
+    </div>
+  </div>
+
+  <!-- Photo -->
+  <div class="card" onclick="toggleCard(this)">
+    <i class="fas fa-image"></i>
+    <label>Upload a Photo</label>
+    <div class="card-content">
+      <input type="file" name="photo" accept="image/*" />
+    </div>
+  </div>
+
+  <button type="submit" class="submit-btn">🚀 Submit Request</button>
+</form>
+
+
+  
+
+  <script>
+  function toggleCard(card) {
+    // If the user clicked directly on an input, select, textarea, or label — don't toggle
+    const tag = event.target.tagName.toLowerCase();
+    if (['input', 'select', 'textarea', 'label'].includes(tag)) return;
+
+    // Close all other cards
+    document.querySelectorAll('.card').forEach(c => {
+      if (c !== card) c.classList.remove('active');
+    });
+
+    // Toggle current card
+    card.classList.toggle('active');
+  }
+</script>
+
+
+</body>
+</html>
