@@ -268,5 +268,96 @@
       nextBtn.style.display = 'block';
     }
   </script>
+  <script>
+  function showForm(role) {
+    const dynamicFields = document.getElementById('dynamicFields');
+    const nextBtn = document.getElementById('nextBtnContainer');
+    let fields = '';
+    const common = [
+      'Name', 'Email', 'Phone Number', 'Country', 'County', 'Subcounty', 'Estate', 'Password', 'Confirm Password'
+    ];
+    fields = common.map(label => `
+      <div class="form-group">
+        <label>${label}</label>
+        <input type="${label.toLowerCase().includes('password') ? 'password' : 'text'}"
+               name="${label.toLowerCase().replace(/ /g, '_')}" required />
+      </div>
+    `).join('');
+
+    if (role === 'technician') {
+      fields += `
+        <div class="form-group">
+          <label>Job Type</label>
+          <select name="job_type" required>
+            <option value="">Select a Job Type</option>
+            <option value="electrical_work">Electrical Work</option>
+            <option value="mobile_app_dev">Mobile App Development</option>
+            <option value="web_dev">Web Development</option>
+            <option value="networking">Networking</option>
+            <option value="mobile_phone_repair">Mobile Phone Repair</option>
+          </select>
+        </div>
+      `;
+    }
+
+    dynamicFields.innerHTML = fields;
+    nextBtn.style.display = 'block';
+
+    // Attach submit handler after showing the form
+    const form = document.getElementById('roleForm');
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      //  password validation
+      if (data.password !== data.confirm_password) {
+        alert("Passwords do not match.");
+        return;
+      }
+
+      // Build payload for backend
+      const payload = {
+        name: data.name,
+        email: data.email,
+        phonenumber: data.phone_number,
+        country: data.country,
+        county: data.county,
+        subcounty: data.subcounty,
+        estaste: data.estate, // spelling matches backend
+        password: data.password,
+        ...(role === 'technician' && { jobType: data.job_type })
+      };
+
+      try {
+        const baseUrl = 'http://localhost:3000'; 
+        const endpoint = role === 'technician'
+            ? `${baseUrl}/techniciansSignUp`
+            : `${baseUrl}/customerSignUp`;
+
+          const res = await fetch(endpoint, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(payload)
+});
+
+
+        const result = await res.json();
+        if (res.ok) {
+          alert("Sign-up successful!");
+          window.location.href = 'homepage.html';
+        } else {
+          alert("Error: " + (result.message || "Unknown error"));
+        }
+      } catch (err) {
+        alert("Server error. Try again later.");
+        console.error(err);
+      }
+    };
+  }
+</script>
 </body>
 </html>
