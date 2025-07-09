@@ -1,363 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>sign up</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap");
 
-    :root {
-      --orange: #ff6600;
-      --neon-blue: #00ffff;
-      --deep-blue: rgba(0, 0, 139, 0.6);
-      --white: #ffffff;
-      --black: #000000;
-    }
+      :root {
+        --orange: #ff6600;
+        --neon-blue: #00ffff;
+        --deep-blue: rgba(0, 0, 139, 0.6);
+        --white: #ffffff;
+        --black: #000000;
+      }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Montserrat', sans-serif;
-    }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Montserrat", sans-serif;
+      }
 
-    body {
-      background: url('anthropomorphic-futuristic-robot-performing-regular-human-job.jpg') no-repeat center center fixed;
-      background-size: cover;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
-
-    .container {
-      max-width: 1400px;
-      width: 100%;
-    }
-
-    .hero-section {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      backdrop-filter: blur(12px);
-      border-radius: 25px;
-      padding: 40px;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      background-color: rgba(0, 0, 0, 0.3);
-      flex-wrap: wrap;
-      gap: 40px;
-    }
-
-    .left-panel {
-      max-width: 500px;
-      color: var(--white);
-      text-align: center;
-    }
-
-    .left-panel h1 {
-      font-size: 2.5em;
-      font-weight: 900;
-      margin-bottom: 20px;
-    }
-
-    .left-panel p {
-      font-size: 1em;
-      margin-bottom: 10px;
-    }
-
-    .login-register-card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(0, 255, 255, 0.2);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-radius: 20px;
-      padding: 40px 30px;
-      max-width: 400px;
-      width: 100%;
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.15), 0 0 40px rgba(0, 255, 255, 0.05);
-      color: var(--neon-blue);
-      text-align: center;
-      transition: all 0.3s ease;
-    }
-
-    .login-register-card:hover {
-      box-shadow: 0 0 25px rgba(0, 255, 255, 0.3), 0 0 50px rgba(0, 255, 255, 0.1);
-    }
-
-    .card-header h2 {
-      font-size: 1.2em;
-      color: var(--neon-blue);
-      margin-bottom: 5px;
-    }
-
-    .card-header h1 {
-      font-size: 2em;
-      font-weight: 900;
-      text-transform: uppercase;
-      color: #ffffff;
-      margin-bottom: 10px;
-    }
-
-    .card-header p {
-      font-size: 0.9em;
-      color: #bbfaff;
-      opacity: 0.8;
-      margin-bottom: 25px;
-    }
-
-    .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 10px;
-      flex-wrap: wrap;
-    }
-
-    .login-register-card button {
-      padding: 12px 20px;
-      font-weight: 700;
-      border: none;
-      border-radius: 8px;
-      font-size: 1em;
-      cursor: pointer;
-      transition: 0.3s ease-in-out;
-    }
-
-    .login-btn {
-      background: linear-gradient(135deg, var(--neon-blue), #007bff);
-      color: #000;
-      box-shadow: 0 4px 12px rgba(0, 255, 255, 0.3);
-    }
-
-    .login-btn:hover {
-      background: linear-gradient(135deg, #00cccc, #005eff);
-      transform: scale(1.03);
-    }
-
-    .register-btn {
-      background-color: transparent;
-      color: var(--neon-blue);
-      border: 1px solid var(--neon-blue);
-    }
-
-    .register-btn:hover {
-      background-color: rgba(0, 255, 255, 0.1);
-      transform: scale(1.03);
-    }
-
-    .terms-text {
-      font-size: 0.75em;
-      margin-top: 20px;
-      color: #bbfaff;
-      opacity: 0.7;
-    }
-
-    .form-group {
-      margin: 15px 0;
-      text-align: left;
-    }
-
-    .form-group input, .form-group select {
-      width: 100%;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid rgba(0, 255, 255, 0.3);
-      background-color: rgba(255, 255, 255, 0.05);
-      color: white;
-    }
-
-    .form-group button {
-      display: block;
-      margin: 0 auto;
-    }
-
-    @media (max-width: 768px) {
-      .hero-section {
-        flex-direction: column;
+      body {
+        background: url("anthropomorphic-futuristic-robot-performing-regular-human-job.jpg")
+          no-repeat center center fixed;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
         padding: 20px;
       }
 
+      .container {
+        max-width: 1400px;
+        width: 100%;
+      }
+
+      .hero-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(12px);
+        border-radius: 25px;
+        padding: 40px;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        background-color: rgba(0, 0, 0, 0.3);
+        flex-wrap: wrap;
+        gap: 40px;
+      }
+
+      .left-panel {
+        max-width: 500px;
+        color: var(--white);
+        text-align: center;
+      }
+
       .left-panel h1 {
-        font-size: 2em;
+        font-size: 2.5em;
+        font-weight: 900;
+        margin-bottom: 20px;
+      }
+
+      .left-panel p {
+        font-size: 1em;
+        margin-bottom: 10px;
+      }
+
+      .login-register-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(0, 255, 255, 0.2);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 40px 30px;
+        max-width: 400px;
+        width: 100%;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.15),
+          0 0 40px rgba(0, 255, 255, 0.05);
+        color: var(--neon-blue);
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+
+      .login-register-card:hover {
+        box-shadow: 0 0 25px rgba(0, 255, 255, 0.3),
+          0 0 50px rgba(0, 255, 255, 0.1);
+      }
+
+      .card-header h2 {
+        font-size: 1.2em;
+        color: var(--neon-blue);
+        margin-bottom: 5px;
       }
 
       .card-header h1 {
-        font-size: 1.8em;
+        font-size: 2em;
+        font-weight: 900;
+        text-transform: uppercase;
+        color: #ffffff;
+        margin-bottom: 10px;
       }
-    }
 
-    @media (max-width: 480px) {
-      .login-register-card {
-        padding: 25px;
+      .card-header p {
+        font-size: 0.9em;
+        color: #bbfaff;
+        opacity: 0.8;
+        margin-bottom: 25px;
       }
 
       .buttons {
-        flex-direction: column;
-        align-items: center;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+        flex-wrap: wrap;
       }
 
       .login-register-card button {
-        padding: 10px;
-        width: 100%;
-        max-width: 250px;
+        padding: 12px 20px;
+        font-weight: 700;
+        border: none;
+        border-radius: 8px;
+        font-size: 1em;
+        cursor: pointer;
+        transition: 0.3s ease-in-out;
       }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <main class="hero-section">
-      <div class="left-panel">
-        <p>Welcome to TechLink</p>
-        <h1>We are glad you are joining us</h1>
-      </div>
-      <div class="login-register-card">
-        <div class="card-header">
-          <h2>TechLink</h2>
-          <h1>Sign up</h1>
-          <p>Join us as we step into the future</p>
+
+      .login-btn {
+        background: linear-gradient(135deg, var(--neon-blue), #007bff);
+        color: #000;
+        box-shadow: 0 4px 12px rgba(0, 255, 255, 0.3);
+      }
+
+      .login-btn:hover {
+        background: linear-gradient(135deg, #00cccc, #005eff);
+        transform: scale(1.03);
+      }
+
+      .register-btn {
+        background-color: transparent;
+        color: var(--neon-blue);
+        border: 1px solid var(--neon-blue);
+      }
+
+      .register-btn:hover {
+        background-color: rgba(0, 255, 255, 0.1);
+        transform: scale(1.03);
+      }
+
+      .terms-text {
+        font-size: 0.75em;
+        margin-top: 20px;
+        color: #bbfaff;
+        opacity: 0.7;
+      }
+
+      .form-group {
+        margin: 15px 0;
+        text-align: left;
+      }
+
+      .form-group input,
+      .form-group select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid rgba(0, 255, 255, 0.3);
+        background-color: rgba(255, 255, 255, 0.05);
+        color: white;
+      }
+
+      .form-group button {
+        display: block;
+        margin: 0 auto;
+      }
+
+      @media (max-width: 768px) {
+        .hero-section {
+          flex-direction: column;
+          padding: 20px;
+        }
+
+        .left-panel h1 {
+          font-size: 2em;
+        }
+
+        .card-header h1 {
+          font-size: 1.8em;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .login-register-card {
+          padding: 25px;
+        }
+
+        .buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .login-register-card button {
+          padding: 10px;
+          width: 100%;
+          max-width: 250px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <main class="hero-section">
+        <div class="left-panel">
+          <p>Welcome to TechLink</p>
+          <h1>We are glad you are joining us</h1>
         </div>
-        <form action="homepage.html" id="roleForm">
-          <div class="buttons">
-            <button type="button" class="login-btn" onclick="showForm('customer')">Customer</button>
-            <button type="button" class="register-btn" onclick="showForm('technician')">Technician</button>
+        <div class="login-register-card">
+          <div class="card-header">
+            <h2>TechLink</h2>
+            <h1>Sign up</h1>
+            <p>Join us as we step into the future</p>
           </div>
-          <div id="dynamicFields"></div>
-          <div class="form-group" id="nextBtnContainer" style="display:none">
-            <button type="submit" class="login-btn">Next</button>
-          </div>
-        </form>
-        <p class="terms-text">By registering, you agree to our Terms and Privacy Policy.</p>
-      </div>
-    </main>
-  </div>
-  <script>
-    function showForm(role) {
-      const dynamicFields = document.getElementById('dynamicFields');
-      const nextBtn = document.getElementById('nextBtnContainer');
-      let fields = '';
-      const common = [
-        'Name', 'Email', 'Phone Number', 'Country', 'County', 'Subcounty', 'Estate', 'Password', 'Confirm Password'
-      ];
-      fields = common.map(label => `
+          <form id="roleForm">
+            <div class="buttons">
+              <button
+                type="button"
+                class="login-btn"
+                onclick="selectRole('customer')"
+              >
+                Customer
+              </button>
+              <button
+                type="button"
+                class="register-btn"
+                onclick="selectRole('technician')"
+              >
+                Technician
+              </button>
+            </div>
+            <div id="dynamicFields"></div>
+            <div class="form-group" id="nextBtnContainer" style="display: none">
+              <button type="submit" class="login-btn">Next</button>
+            </div>
+          </form>
+          <p class="terms-text">
+            By registering, you agree to our Terms and Privacy Policy.
+          </p>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      let selectedRole = "";
+
+      function selectRole(role) {
+        selectedRole = role;
+        const dynamicFields = document.getElementById("dynamicFields");
+        const nextBtn = document.getElementById("nextBtnContainer");
+        let fields = "";
+        const common = [
+          "Name",
+          "Email",
+          "Phone Number",
+          "Country",
+          "County",
+          "Subcounty",
+          "Estate",
+          "Password",
+          "Confirm Password",
+        ];
+        fields = common
+          .map(
+            (label) => `
         <div class="form-group">
           <label>${label}</label>
-          <input type="${label.toLowerCase().includes('password') ? 'password' : 'text'}" name="${label.toLowerCase().replace(/ /g, '_')}" required />
+          <input type="${
+            label.toLowerCase().includes("password") ? "password" : "text"
+          }"
+                 name="${label.toLowerCase().replace(/ /g, "_")}" required />
         </div>
-      `).join('');
+      `
+          )
+          .join("");
 
-      if (role === 'technician') {
-        fields += `
+        if (role === "technician") {
+          fields += `
           <div class="form-group">
             <label>Job Type</label>
             <select name="job_type" required>
-              <option value="" style="color:black;">Select a Job Type</option>
-              <option value="electrical_work" style="color:black;">Electrical Work</option>
-              <option value="mobile_app_dev" style="color:black;">Mobile App Development</option>
-              <option value="web_dev" style="color:black;">Web Development</option>
-              <option value="networking" style="color:black;">Networking</option>
-              <option value="mobile_phone_repair" style="color:black;">Mobile Phone Repair</option>
+              <option value="">Select a Job Type</option>
+              <option value="electrical_work">Electrical Work</option>
+              <option value="mobile_app_dev">Mobile App Development</option>
+              <option value="web_dev">Web Development</option>
+              <option value="networking">Networking</option>
+              <option value="mobile_phone_repair">Mobile Phone Repair</option>
             </select>
           </div>
         `;
-      }
-      dynamicFields.innerHTML = fields;
-      nextBtn.style.display = 'block';
-    }
-  </script>
-  <script>
-  function showForm(role) {
-    const dynamicFields = document.getElementById('dynamicFields');
-    const nextBtn = document.getElementById('nextBtnContainer');
-    let fields = '';
-    const common = [
-      'Name', 'Email', 'Phone Number', 'Country', 'County', 'Subcounty', 'Estate', 'Password', 'Confirm Password'
-    ];
-    fields = common.map(label => `
-      <div class="form-group">
-        <label>${label}</label>
-        <input type="${label.toLowerCase().includes('password') ? 'password' : 'text'}"
-               name="${label.toLowerCase().replace(/ /g, '_')}" required />
-      </div>
-    `).join('');
-
-    if (role === 'technician') {
-      fields += `
-        <div class="form-group">
-          <label>Job Type</label>
-          <select name="job_type" required>
-            <option value="">Select a Job Type</option>
-            <option value="electrical_work">Electrical Work</option>
-            <option value="mobile_app_dev">Mobile App Development</option>
-            <option value="web_dev">Web Development</option>
-            <option value="networking">Networking</option>
-            <option value="mobile_phone_repair">Mobile Phone Repair</option>
-          </select>
-        </div>
-      `;
-    }
-
-    dynamicFields.innerHTML = fields;
-    nextBtn.style.display = 'block';
-
-    // Attach submit handler after showing the form
-    const form = document.getElementById('roleForm');
-    form.onsubmit = async (e) => {
-      e.preventDefault();
-
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
-
-      //  password validation
-      if (data.password !== data.confirm_password) {
-        alert("Passwords do not match.");
-        return;
-      }
-
-      // Build payload for backend
-      const payload = {
-        name: data.name,
-        email: data.email,
-        phonenumber: data.phone_number,
-        country: data.country,
-        county: data.county,
-        subcounty: data.subcounty,
-        estaste: data.estate, // spelling matches backend
-        password: data.password,
-        ...(role === 'technician' && { jobType: data.job_type })
-      };
-
-      try {
-        const baseUrl = 'http://localhost:3000'; 
-        const endpoint = role === 'technician'
-            ? `${baseUrl}/techniciansSignUp`
-            : `${baseUrl}/customerSignUp`;
-
-          const res = await fetch(endpoint, {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify(payload)
-});
-
-
-        const result = await res.json();
-        if (res.ok) {
-          alert("Sign-up successful!");
-          window.location.href = 'homepage.html';
-        } else {
-          alert("Error: " + (result.message || "Unknown error"));
         }
-      } catch (err) {
-        alert("Server error. Try again later.");
-        console.error(err);
+
+        dynamicFields.innerHTML = fields;
+        nextBtn.style.display = "block";
       }
-    };
-  }
-</script>
-</body>
+
+      document
+        .getElementById("roleForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          if (!selectedRole) {
+            alert("Please select a role before submitting.");
+            return;
+          }
+
+          const formData = new FormData(this);
+          const data = Object.fromEntries(formData.entries());
+
+          if (data.password !== data.confirm_password) {
+            alert("Passwords do not match.");
+            return;
+          }
+
+          const payload = {
+            name: data.name,
+            email: data.email,
+            phonenumber: data.phone_number,
+            country: data.country,
+            county: data.county,
+            subcounty: data.subcounty,
+            estate: data.estate,
+            password: data.password,
+            ...(selectedRole === "technician" && { jobtype: data.job_type }),
+          };
+
+          try {
+            const baseUrl = "http://localhost:3000";
+            const endpoint =
+              selectedRole === "technician"
+                ? `${baseUrl}/technicianSignUp`
+                : `${baseUrl}/customerSignUp`;
+
+            const res = await fetch(endpoint, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+
+            const result = await res.json();
+            if (res.ok) {
+              alert("Sign-up successful!");
+              window.location.href = "homepage.html";
+            } else {
+              alert("Error: " + (result.message || "Unknown error occurred"));
+            }
+          } catch (error) {
+            console.error("Signup error:", error);
+            alert("Server error. Please try again later.");
+          }
+        });
+    </script>
+  </body>
 </html>

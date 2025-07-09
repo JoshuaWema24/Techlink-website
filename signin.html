@@ -103,6 +103,19 @@
       background: rgba(0, 0, 0, 0.7);
       box-shadow: 0 0 20px #f413f8;
     }
+    .input-group select {
+      padding: 12px;
+      border: 1px solid #d722f7;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.5);
+      color: #00ffe1;
+      outline: none;
+      transition: 0.3s;
+    } 
+    .input-group select:focus {
+      background: rgba(0, 0, 0, 0.7);
+      box-shadow: 0 0 20px #f413f8;
+    }
 .login-btn {
   padding: 12px 40px;
   border: none;
@@ -115,7 +128,7 @@
   transition: 0.3s ease-in-out;
   box-shadow: 0 0 20px #00ffe1;
   display: block;
-  margin: 20px auto 0 auto; /* Centered */
+  margin: 20px auto 0 auto;
 }
     .login-btn:hover {
       background: #cd09f5;
@@ -147,7 +160,7 @@
   <!-- Login form -->
   <div class="login-container">
     <h2>Welcome Back</h2>
-    <form name="loginForm" id="loginForm" action="homepage.html", method="get">
+    <form id="loginForm">
       <div class="input-group">
         <label for="email">Email</label>
         <input type="email" id="email" placeholder="Enter your email" required>
@@ -156,12 +169,70 @@
         <label for="password">Password</label>
         <input type="password" id="password" placeholder="Enter your password" required>
       </div>
+      <div class="input-group">
+        <label for="role">Role</label>
+        <select id="role" required>
+          <option value="">Select role</option>
+          <option value="customer">Customer</option>
+          <option value="technician">Technician</option>
+        </select>
+      </div>
       <button type="submit" class="login-btn">Log In</button>
     </form>
+    <div id="error" style="color: red; margin-top: 10px;"></div>
     <div class="footer-text">
       Don't have an account? <a href="signUp.html" style="color:#00ffe1;">Sign up</a>
     </div>
   </div>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const errorDiv = document.getElementById('error');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const role = document.getElementById('role').value;
+
+      if (!role) {
+        errorDiv.textContent = "Please select a role.";
+        return;
+      }
+
+      try {
+        const res = await fetch('http://localhost:3000/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email, password, role })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          // Save token to localStorage (optional)
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('role', role);
+
+          // Redirect based on role
+          if (role === 'customer') {
+            window.location.href = 'homepage.html';
+          } else {
+            window.location.href = 'homepage.html';
+          }
+        } else {
+         errorDiv.textContent = data.message || 'Login failed. Check credentials.';
+        }
+
+      } catch (err) {
+      console.error(err);
+        errorDiv.textContent = 'Something went wrong. Try again later.';
+     }
+   });
+  </script>
 
 </body>
 </html>

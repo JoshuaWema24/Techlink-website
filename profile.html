@@ -139,43 +139,41 @@
     }
   </style>
 </head>
-<body>
-
-  <div class="container">
+<div class="container">
     <h2>User Profile</h2>
 
     <div class="profile-pic">
       <label for="fileUpload">
         <img src="https://via.placeholder.com/150" alt="Profile Picture" id="profilePic">
       </label>
-      <input type="file" id="fileUpload" accept="image/*" onchange="previewImage(event)" />
+      <input type="file" id="fileUpload" accept="image/*" onchange="previewImage(event)" hidden />
       <label for="fileUpload">Tap image to change photo</label>
     </div>
 
     <div class="form-grid">
       <div class="input-group">
         <label for="name">Full Name</label>
-        <input type="text" id="name" value="Joshua Mwangi">
+        <input type="text" id="name">
       </div>
 
       <div class="input-group">
         <label for="email">Email</label>
-        <input type="email" id="email" value="joshua@example.com">
+        <input type="email" id="email">
       </div>
 
       <div class="input-group">
         <label for="phone">Phone Number</label>
-        <input type="text" id="phone" value="+254700000000">
+        <input type="text" id="phone">
       </div>
 
       <div class="input-group">
         <label for="country">Country</label>
-        <input type="text" id="country" value="Kenya">
+        <input type="text" id="country">
       </div>
 
       <div class="input-group">
         <label for="city">City</label>
-        <input type="text" id="city" value="Nairobi">
+        <input type="text" id="city">
       </div>
     </div>
 
@@ -186,6 +184,36 @@
   </div>
 
   <script>
+    const token = localStorage.getItem('token');
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!token) return (window.location.href = 'login.html');
+
+      fetch('http://localhost:3000/profile', {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      })
+      .then(res => res.json())
+      .then(user => {
+        document.getElementById("name").value = user.name || '';
+        document.getElementById("email").value = user.email || '';
+        document.getElementById("phone").value = user.phone || '';
+        document.getElementById("country").value = user.country || '';
+        document.getElementById("city").value = user.city || '';
+        if (user.profilePicture) {
+          document.getElementById("profilePic").src = user.profilePicture;
+        }
+
+        document.querySelectorAll("input").forEach(input => input.setAttribute("disabled", true));
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Failed to load profile");
+        window.location.href = 'login.html';
+      });
+    });
+
     function previewImage(event) {
       const file = event.target.files[0];
       if (file) {
@@ -198,10 +226,10 @@
     }
 
     function editProfile() {
-      document.querySelectorAll("input[type='text'], input[type='email']").forEach(input => input.removeAttribute("disabled"));
+      document.querySelectorAll("input").forEach(input => input.removeAttribute("disabled"));
     }
 
-    function saveProfile() {
+    async function saveProfile() {
       const userData = {
         name: document.getElementById("name").value,
         email: document.getElementById("email").value,
@@ -217,15 +245,24 @@
         formData.append("profilePicture", imageFile);
       }
 
-      console.log("Saving profile:", userData);
+      try {
+        const res = await fetch("http://localhost:3000/profile/update", {
+          method: "POST",
+          headers: { Authorization: "Bearer " + token },
+          body: formData
+        });
 
-      // Sample fetch POST request:
-      // fetch('/api/profile', {
-      //   method: 'POST',
-      //   body: formData
-      // });
-
-      alert("Profile saved!");
+        const result = await res.json();
+        if (res.ok) {
+          alert("Profile updated!");
+          window.location.reload();
+        } else {
+          alert("Update failed: " + result.message);
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Error saving profile.");
+      }
     }
   </script>
 
