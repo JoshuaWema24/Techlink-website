@@ -133,7 +133,7 @@
     <i class="fas fa-tools"></i>
     <label>Service Type</label>
     <div class="card-content">
-      <select name="serviceType" required>
+      <select id="serviceType" name="serviceType" required>
         <option value="Electrical">Electrical</option>
         <option value="Plumbing">Plumbing</option>
         <option value="IT Support">IT Support</option>
@@ -148,7 +148,7 @@
     <i class="fas fa-map-marker-alt"></i>
     <label>Location</label>
     <div class="card-content">
-      <input type="text" name="location" placeholder="e.g., Nairobi, Kenya" required />
+      <input id="location" type="text" name="location" placeholder="e.g., Nairobi, Kenya" required />
     </div>
   </div>
 
@@ -157,7 +157,7 @@
     <i class="fas fa-exclamation-circle"></i>
     <label>Urgency</label>
     <div class="card-content">
-      <select name="urgency">
+      <select id="urgency" name="urgency">
         <option value="Low">Low</option>
         <option value="Medium">Medium</option>
         <option value="High">High</option>
@@ -170,7 +170,7 @@
     <i class="fas fa-calendar-alt"></i>
     <label>Preferred Time</label>
     <div class="card-content">
-      <input type="datetime-local" name="preferredTime" />
+      <input id="time" type="datetime-local" name="preferredTime" />
     </div>
   </div>
 
@@ -179,7 +179,7 @@
     <i class="fas fa-comment-dots"></i>
     <label>Description</label>
     <div class="card-content">
-      <textarea name="description" rows="4" placeholder="Briefly describe the problem..." required></textarea>
+      <textarea id="description" name="description" rows="4" placeholder="Briefly describe the problem..." required></textarea>
     </div>
   </div>
 
@@ -191,20 +191,54 @@
   
 
   <script>
-  function toggleCard(card) {
-    // If the user clicked directly on an input, select, textarea, or label — don't toggle
+  function toggleCard(card, event) {
+    // Prevent toggling if user clicked inside a form field
     const tag = event.target.tagName.toLowerCase();
     if (['input', 'select', 'textarea', 'label'].includes(tag)) return;
+
+    const serviceType = document.getElementById("serviceType").value;
+  const urgency = document.getElementById("urgency").value;
+  const description = document.getElementById("description").value;
+  const location = document.getElementById("location").value;
+  const time = document.getElementById("time").value;
+
+  const requestData = {
+    serviceType,
+    urgency,
+    description,
+    location,
+    time
+  };
+
+    const token = localStorage.getItem("token");
+
+fetch("https://techlink-backend.onrender.com/api/request-service", {
+  method: "POST",
+  headers: {
+    "Authorization": `Bearer ${token}`, 
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(requestData),
+});
+
 
     // Close all other cards
     document.querySelectorAll('.card').forEach(c => {
       if (c !== card) c.classList.remove('active');
     });
 
-    // Toggle current card
+    // Toggle the clicked card
     card.classList.toggle('active');
   }
+
+  // Attach event listeners
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', function (event) {
+      toggleCard(card, event);
+    });
+  });
 </script>
+
 
 
 </body>
