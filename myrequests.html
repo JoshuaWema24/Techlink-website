@@ -87,7 +87,7 @@
   <script>
     async function fetchRequests() {
       try {
-        const res = await fetch('http://localhost:3000/api/my-requests');
+        const res = await fetch('https://techlink-backend.onrender.com/api/my-requests');
         const data = await res.json();
         const container = document.getElementById('requestsContainer');
 
