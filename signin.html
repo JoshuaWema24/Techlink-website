@@ -225,7 +225,7 @@
             "https://techlink-backend.onrender.com/login",
             {
               method: "POST",
-              headers: {
+              headers: { 
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({ email, password, role }),
@@ -235,23 +235,26 @@
           const data = await res.json();
 
           if (res.ok) {
-            // Save token to localStorage (optional)
+            //  Save token and role
             localStorage.setItem("token", data.token);
             localStorage.setItem("role", role);
+            localStorage.setItem("user", JSON.stringify(data.user));
 
-            // Redirect based on role
             if (role === "customer") {
+              window.location.href = "homepage.html";
+            } else if (role === "technician") {
               window.location.href = "homepage.html";
             } else {
               window.location.href = "homepage.html";
             }
           } else {
             errorDiv.textContent =
-              data.message || "Login failed. Check credentials.";
+              data.message || "Login failed. Check your credentials.";
           }
         } catch (err) {
-          console.error(err);
-          errorDiv.textContent = "Something went wrong. Try again later.";
+          console.error("Login error:", err);
+          errorDiv.textContent =
+            "Something went wrong. Please try again later.";
         }
       });
     </script>
