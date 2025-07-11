@@ -1,245 +1,278 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Request Service - TechLink</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #0d0d1f, #14142c);
-      color: #fff;
-      padding: 40px;
-    }
-
-    h2 {
-      text-align: center;
-      color: #9e8dff;
-      margin-bottom: 40px;
-      font-size: 2rem;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: rgba(40, 44, 68, 0.9);
-      border: 2px solid transparent;
-      border-radius: 16px;
-      padding: 20px;
-      position: relative;
-      transition: 0.3s ease;
-      cursor: pointer;
-      box-shadow: 0 0 15px rgba(108, 99, 255, 0.1);
-    }
-
-    .card:hover {
-      border-color: #6c63ff;
-      box-shadow: 0 4px 20px rgba(108, 99, 255, 0.25);
-    }
-
-    .card.active {
-      border-color: #9e8dff;
-      background: rgba(54, 58, 90, 0.95);
-    }
-
-    .card i {
-      font-size: 24px;
-      color: #6c63ff;
-      margin-bottom: 10px;
-      display: block;
-    }
-
-    .card label {
-      display: block;
-      font-size: 14px;
-      color: #bbb;
-      margin-bottom: 8px;
-    }
-
-    .card input,
-    .card select,
-    .card textarea {
-      width: 100%;
-      padding: 10px;
-      font-size: 15px;
-      background: #2d3044;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      margin-top: 8px;
-    }
-
-    .card textarea {
-      resize: vertical;
-    }
-
-    .card-content {
-      display: none;
-      margin-top: 15px;
-      animation: fadeIn 0.5s ease;
-    }
-
-    .card.active .card-content {
-      display: block;
-    }
-
-    .submit-btn {
-      margin-top: 30px;
-      padding: 14px 28px;
-      font-size: 16px;
-      background: linear-gradient(to right, #6c63ff, #8a80ff);
-      border: none;
-      border-radius: 12px;
-      color: #fff;
-      cursor: pointer;
-      transition: 0.3s ease;
-      box-shadow: 0 0 10px rgba(108, 99, 255, 0.3);
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .submit-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 10px 20px rgba(108, 99, 255, 0.5);
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Request Service - TechLink</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(to right, #0d0d1f, #14142c);
+        color: #fff;
+        padding: 40px;
       }
-      to {
-        opacity: 1;
-        transform: translateY(0);
+
+      h2 {
+        text-align: center;
+        color: #9e8dff;
+        margin-bottom: 40px;
+        font-size: 2rem;
       }
-    }
-  </style>
-</head>
-<body>
 
-  <h2>Request a New Service</h2>
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+      }
 
- <form action="https://techlink-backend.onrender.com/api/request-service" method="POST" enctype="multipart/form-data" class="grid" id="requestForm">
-  
-  <!-- Service Type -->
-  <div class="card" onclick="toggleCard(this)">
-    <i class="fas fa-tools"></i>
-    <label>Service Type</label>
-    <div class="card-content">
-      <select id="serviceType" name="serviceType" required>
-        <option value="Electrical">Electrical</option>
-        <option value="Plumbing">Plumbing</option>
-        <option value="IT Support">IT Support</option>
-        <option value="Appliance Repair">Appliance Repair</option>
-        <option value="Automotive">Automotive</option>
-      </select>
-    </div>
-  </div>
+      .card {
+        background: rgba(40, 44, 68, 0.9);
+        border: 2px solid transparent;
+        border-radius: 16px;
+        padding: 20px;
+        position: relative;
+        transition: 0.3s ease;
+        cursor: pointer;
+        box-shadow: 0 0 15px rgba(108, 99, 255, 0.1);
+      }
 
-  <!-- Location -->
-  <div class="card" onclick="toggleCard(this)">
-    <i class="fas fa-map-marker-alt"></i>
-    <label>Location</label>
-    <div class="card-content">
-      <input id="location" type="text" name="location" placeholder="e.g., Nairobi, Kenya" required />
-    </div>
-  </div>
+      .card:hover {
+        border-color: #6c63ff;
+        box-shadow: 0 4px 20px rgba(108, 99, 255, 0.25);
+      }
 
-  <!-- Urgency -->
-  <div class="card" onclick="toggleCard(this)">
-    <i class="fas fa-exclamation-circle"></i>
-    <label>Urgency</label>
-    <div class="card-content">
-      <select id="urgency" name="urgency">
-        <option value="Low">Low</option>
-        <option value="Medium">Medium</option>
-        <option value="High">High</option>
-      </select>
-    </div>
-  </div>
+      .card.active {
+        border-color: #9e8dff;
+        background: rgba(54, 58, 90, 0.95);
+      }
 
-  <!-- Time -->
-  <div class="card" onclick="toggleCard(this)">
-    <i class="fas fa-calendar-alt"></i>
-    <label>Preferred Time</label>
-    <div class="card-content">
-      <input id="time" type="datetime-local" name="preferredTime" />
-    </div>
-  </div>
+      .card i {
+        font-size: 24px;
+        color: #6c63ff;
+        margin-bottom: 10px;
+        display: block;
+      }
 
-  <!-- Description -->
-  <div class="card" onclick="toggleCard(this)">
-    <i class="fas fa-comment-dots"></i>
-    <label>Description</label>
-    <div class="card-content">
-      <textarea id="description" name="description" rows="4" placeholder="Briefly describe the problem..." required></textarea>
-    </div>
-  </div>
+      .card label {
+        display: block;
+        font-size: 14px;
+        color: #bbb;
+        margin-bottom: 8px;
+      }
 
-   
-  <button type="submit" class="submit-btn">🚀 Submit Request</button>
-</form>
+      .card input,
+      .card select,
+      .card textarea {
+        width: 100%;
+        padding: 10px;
+        font-size: 15px;
+        background: #2d3044;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        margin-top: 8px;
+      }
 
+      .card textarea {
+        resize: vertical;
+      }
 
-  
+      .card-content {
+        display: none;
+        margin-top: 15px;
+        animation: fadeIn 0.5s ease;
+      }
 
-  <script>
-  function toggleCard(card, event) {
-    // Prevent toggling if user clicked inside a form field
-    const tag = event.target.tagName.toLowerCase();
-    if (['input', 'select', 'textarea', 'label'].includes(tag)) return;
+      .card.active .card-content {
+        display: block;
+      }
 
-    const serviceType = document.getElementById("serviceType").value;
-  const urgency = document.getElementById("urgency").value;
-  const description = document.getElementById("description").value;
-  const location = document.getElementById("location").value;
-  const time = document.getElementById("time").value;
+      .submit-btn {
+        margin-top: 30px;
+        padding: 14px 28px;
+        font-size: 16px;
+        background: linear-gradient(to right, #6c63ff, #8a80ff);
+        border: none;
+        border-radius: 12px;
+        color: #fff;
+        cursor: pointer;
+        transition: 0.3s ease;
+        box-shadow: 0 0 10px rgba(108, 99, 255, 0.3);
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
 
-  const requestData = {
-    serviceType,
-    urgency,
-    description,
-    location,
-    time
-  };
+      .submit-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(108, 99, 255, 0.5);
+      }
 
-    const token = localStorage.getItem("token");
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Request a New Service</h2>
 
-fetch("https://techlink-backend.onrender.com/api/request-service", {
-  method: "POST",
-  headers: {
-    "Authorization": `Bearer ${token}`, 
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify(requestData),
-});
+    <form
+      action="https://techlink-backend.onrender.com/api/request-service"
+      method="POST"
+      enctype="multipart/form-data"
+      class="grid"
+      id="requestForm"
+    >
+      <!-- Service Type -->
+      <div class="card" onclick="toggleCard(this)">
+        <i class="fas fa-tools"></i>
+        <label>Service Type</label>
+        <div class="card-content">
+          <select id="serviceType" name="serviceType" required>
+            <option value="Electrical">Electrical</option>
+            <option value="Plumbing">Plumbing</option>
+            <option value="IT Support">IT Support</option>
+            <option value="Appliance Repair">Appliance Repair</option>
+            <option value="Automotive">Automotive</option>
+          </select>
+        </div>
+      </div>
 
+      <!-- Location -->
+      <div class="card" onclick="toggleCard(this)">
+        <i class="fas fa-map-marker-alt"></i>
+        <label>Location</label>
+        <div class="card-content">
+          <input
+            id="location"
+            type="text"
+            name="location"
+            placeholder="e.g., Nairobi, Kenya"
+            required
+          />
+        </div>
+      </div>
 
-    // Close all other cards
-    document.querySelectorAll('.card').forEach(c => {
-      if (c !== card) c.classList.remove('active');
-    });
+      <!-- Urgency -->
+      <div class="card" onclick="toggleCard(this)">
+        <i class="fas fa-exclamation-circle"></i>
+        <label>Urgency</label>
+        <div class="card-content">
+          <select id="urgency" name="urgency">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+        </div>
+      </div>
 
-    // Toggle the clicked card
-    card.classList.toggle('active');
-  }
+      <!-- Time -->
+      <div class="card" onclick="toggleCard(this)">
+        <i class="fas fa-calendar-alt"></i>
+        <label>Preferred Time</label>
+        <div class="card-content">
+          <input id="time" type="datetime-local" name="preferredTime" />
+        </div>
+      </div>
 
-  // Attach event listeners
-  document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('click', function (event) {
-      toggleCard(card, event);
-    });
-  });
-</script>
+      <!-- Description -->
+      <div class="card" onclick="toggleCard(this)">
+        <i class="fas fa-comment-dots"></i>
+        <label>Description</label>
+        <div class="card-content">
+          <textarea
+            id="description"
+            name="description"
+            rows="4"
+            placeholder="Briefly describe the problem..."
+            required
+          ></textarea>
+        </div>
+      </div>
 
+      <button type="submit" class="submit-btn">🚀 Submit Request</button>
+    </form>
 
+    <script>
+      function toggleCard(card, event) {
+        const tag = event.target.tagName.toLowerCase();
+        if (["input", "select", "textarea", "label"].includes(tag)) return;
 
-</body>
+        // Grab form values
+        const serviceType = document.getElementById("serviceType").value;
+        const urgency = document.getElementById("urgency").value;
+        const description = document.getElementById("description").value;
+        const location = document.getElementById("location").value;
+        const time = document.getElementById("time").value;
+
+        const requestData = {
+          serviceType,
+          urgency,
+          description,
+          location,
+          time,
+        };
+
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          alert("You are not logged in. Please log in first.");
+          return;
+        }
+
+        // Send request
+        fetch("https://techlink-backend.onrender.com/api/request-service", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestData),
+        })
+          .then(async (res) => {
+            const data = await res.json();
+
+            if (!res.ok) {
+              console.error("Error submitting request:", data.message || data);
+              alert(
+                "Failed to submit request: " + (data.message || "Unknown error")
+              );
+            } else {
+              console.log("Service request successful:", data);
+              alert("Request submitted successfully!");
+            }
+          })
+          .catch((err) => {
+            console.error("Network or server error:", err);
+            alert("Network error. Please try again.");
+          });
+
+        // Toggle card UI
+        document.querySelectorAll(".card").forEach((c) => {
+          if (c !== card) c.classList.remove("active");
+        });
+
+        card.classList.toggle("active");
+      }
+
+      // Attach event listeners to cards
+      document.querySelectorAll(".card").forEach((card) => {
+        card.addEventListener("click", function (event) {
+          toggleCard(card, event);
+        });
+      });
+    </script>
+  </body>
 </html>
