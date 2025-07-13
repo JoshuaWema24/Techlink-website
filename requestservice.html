@@ -206,7 +206,19 @@
     </form>
 
     <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          const token = localStorage.getItem('token');
+          console.log("token on page load:", token);
+
+          if (!token) {
+            alert("Youa re not logged in.");
+            window.location.href = "signin.html";
+          }
+          window.authToken = token;
+        });
+
       function toggleCard(card, event) {
+        const token = window.authToken || localStorage.getItem("token");
         const tag = event.target.tagName.toLowerCase();
         if (["input", "select", "textarea", "label"].includes(tag)) return;
 
@@ -225,13 +237,7 @@
           time,
         };
 
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-          alert("You are not logged in. Please log in first.");
-          return;
-        }
-
+        
         // Send request
         fetch("https://techlink-backend.onrender.com/api/request-service", {
           method: "POST",
