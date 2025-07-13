@@ -206,16 +206,28 @@
     </form>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-          const token = localStorage.getItem('token');
-          console.log("token on page load:", token);
+      document.addEventListener("DOMContentLoaded", () => {
+        const token = localStorage.getItem("token");
+        console.log("token on page load:", token);
 
-          if (!token) {
-            alert("Youa re not logged in.");
-            window.location.href = "signin.html";
-          }
-          window.authToken = token;
-        });
+        if (!token) {
+          alert("You are not logged in.");
+          window.location.href = "signin.html";
+        }
+        window.authToken = token;
+      });
+
+      function getUserIdFromToken(token) {
+        try {
+          const payloadBase64 = token.split(".")[1];
+          const decodedPayload = atob(payloadBase64); // base64 decode
+          const payloadObject = JSON.parse(decodedPayload);
+          return payloadObject.id;
+        } catch (error) {
+          console.error("Invalid token", error);
+          return null;
+        }
+      }
 
       function toggleCard(card, event) {
         const token = window.authToken || localStorage.getItem("token");
@@ -228,8 +240,10 @@
         const description = document.getElementById("description").value;
         const location = document.getElementById("location").value;
         const time = document.getElementById("time").value;
+        const customerId = getUserIdFromToken(token);
 
         const requestData = {
+          customerId,
           serviceType,
           urgency,
           description,
@@ -237,7 +251,6 @@
           time,
         };
 
-        
         // Send request
         fetch("https://techlink-backend.onrender.com/api/request-service", {
           method: "POST",
