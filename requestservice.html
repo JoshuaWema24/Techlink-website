@@ -128,17 +128,11 @@
   <body>
     <h2>Request a New Service</h2>
 
-    <form
-      action="https://techlink-backend.onrender.com/api/request-service"
-      method="POST"
-      enctype="multipart/form-data"
-      class="grid"
-      id="requestForm"
-    >
+    <form id="requestForm" class="grid">
       <!-- Service Type -->
-      <div class="card" onclick="toggleCard(this)">
+      <div class="card">
         <i class="fas fa-tools"></i>
-        <label>Service Type</label>
+        <label for="serviceType">Service Type</label>
         <div class="card-content">
           <select id="serviceType" name="serviceType" required>
             <option value="Electrical">Electrical</option>
@@ -151,9 +145,9 @@
       </div>
 
       <!-- Location -->
-      <div class="card" onclick="toggleCard(this)">
+      <div class="card">
         <i class="fas fa-map-marker-alt"></i>
-        <label>Location</label>
+        <label for="location">Location</label>
         <div class="card-content">
           <input
             id="location"
@@ -166,9 +160,9 @@
       </div>
 
       <!-- Urgency -->
-      <div class="card" onclick="toggleCard(this)">
+      <div class="card">
         <i class="fas fa-exclamation-circle"></i>
-        <label>Urgency</label>
+        <label for="urgency">Urgency</label>
         <div class="card-content">
           <select id="urgency" name="urgency">
             <option value="Low">Low</option>
@@ -179,18 +173,18 @@
       </div>
 
       <!-- Time -->
-      <div class="card" onclick="toggleCard(this)">
+      <div class="card">
         <i class="fas fa-calendar-alt"></i>
-        <label>Preferred Time</label>
+        <label for="time">Preferred Time</label>
         <div class="card-content">
           <input id="time" type="datetime-local" name="preferredTime" />
         </div>
       </div>
 
       <!-- Description -->
-      <div class="card" onclick="toggleCard(this)">
+      <div class="card">
         <i class="fas fa-comment-dots"></i>
-        <label>Description</label>
+        <label for="description">Description</label>
         <div class="card-content">
           <textarea
             id="description"
@@ -208,11 +202,10 @@
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const token = localStorage.getItem("token");
-        console.log("token on page load:", token);
-
         if (!token) {
           alert("You are not logged in.");
           window.location.href = "signin.html";
+          return;
         }
         window.authToken = token;
       });
@@ -220,78 +213,69 @@
       function getUserIdFromToken(token) {
         try {
           const payloadBase64 = token.split(".")[1];
-          const decodedPayload = atob(payloadBase64); // base64 decode
-          const payloadObject = JSON.parse(decodedPayload);
-          return payloadObject.id;
-        } catch (error) {
-          console.error("Invalid token", error);
+          const decodedPayload = atob(payloadBase64);
+          return JSON.parse(decodedPayload).id;
+        } catch (err) {
+          console.error("Invalid token", err);
           return null;
         }
       }
 
-      function toggleCard(card, event) {
-        const token = window.authToken || localStorage.getItem("token");
-        const tag = event.target.tagName.toLowerCase();
-        if (["input", "select", "textarea", "label"].includes(tag)) return;
+      // Toggle visual state only (for UI feedback)
+      document.querySelectorAll(".card").forEach((card) => {
+        card.addEventListener("click", function (e) {
+          const tag = e.target.tagName.toLowerCase();
+          if (["input", "select", "textarea", "label"].includes(tag)) return;
+          card.classList.toggle("active");
+        });
+      });
 
-        // Grab form values
-        const serviceType = document.getElementById("serviceType").value;
-        const urgency = document.getElementById("urgency").value;
-        const description = document.getElementById("description").value;
-        const location = document.getElementById("location").value;
-        const time = document.getElementById("time").value;
-        const customerId = getUserIdFromToken(token);
+      // Submit form via JS fetch
+      document
+        .getElementById("requestForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
 
-        const requestData = {
-          customerId,
-          serviceType,
-          urgency,
-          description,
-          location,
-          time,
-        };
+          const token = window.authToken;
+          const customerId = getUserIdFromToken(token);
 
-        // Send request
-        fetch("https://techlink-backend.onrender.com/api/request-service", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestData),
-        })
-          .then(async (res) => {
+          const formData = {
+            customerId,
+            serviceType: document.getElementById("serviceType").value,
+            location: document.getElementById("location").value,
+            urgency: document.getElementById("urgency").value,
+            preferredTime: document.getElementById("time").value,
+            description: document.getElementById("description").value,
+          };
+
+          try {
+            const res = await fetch(
+              "https://techlink-backend.onrender.com/api/request-service",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(formData),
+              }
+            );
+
             const data = await res.json();
 
             if (!res.ok) {
-              console.error("Error submitting request:", data.message || data);
               alert(
                 "Failed to submit request: " + (data.message || "Unknown error")
               );
             } else {
-              console.log("Service request successful:", data);
               alert("Request submitted successfully!");
+              document.getElementById("requestForm").reset();
             }
-          })
-          .catch((err) => {
-            console.error("Network or server error:", err);
+          } catch (err) {
+            console.error(err);
             alert("Network error. Please try again.");
-          });
-
-        // Toggle card UI
-        document.querySelectorAll(".card").forEach((c) => {
-          if (c !== card) c.classList.remove("active");
+          }
         });
-
-        card.classList.toggle("active");
-      }
-
-      // Attach event listeners to cards
-      document.querySelectorAll(".card").forEach((card) => {
-        card.addEventListener("click", function (event) {
-          toggleCard(card, event);
-        });
-      });
     </script>
   </body>
 </html>
