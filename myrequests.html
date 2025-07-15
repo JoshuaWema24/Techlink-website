@@ -130,7 +130,7 @@
               <div class="service-type">${req.serviceType}</div>
             </div>
             <div class="meta">📍 ${req.location}</div>
-            <div class="meta">⏰ ${req.preferredTime || 'Not specified'}</div>
+            <div class="meta">⏰ ${req.time || 'Not specified'}</div>
             <div class="meta">⚡ Urgency: ${req.urgency}</div>
             <div class="desc">${req.description}</div>
             ${req.photo ? `<img class="thumbnail" src="${req.photo}" alt="Photo" />` : ""}
