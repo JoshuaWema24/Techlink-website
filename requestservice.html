@@ -237,10 +237,8 @@
           e.preventDefault();
 
           const token = window.authToken;
-          const customerId = getUserIdFromToken(token);
-
+         
           const formData = {
-            customerId,
             serviceType: document.getElementById("serviceType").value,
             location: document.getElementById("location").value,
             urgency: document.getElementById("urgency").value,
