@@ -126,146 +126,172 @@
     </style>
   </head>
   <body>
-  <h2>Request a New Service</h2>
+    <h2>Request a New Service</h2>
 
-  <form id="requestForm" class="grid">
-    <!-- Service Type -->
-    <div class="card">
-      <i class="fas fa-tools"></i>
-      <label for="serviceType">Service Type</label>
-      <div class="card-content">
-        <select id="serviceType" name="serviceType" required>
-          <option value="Electrical">Electrical</option>
-          <option value="Plumbing">Plumbing</option>
-          <option value="IT Support">IT Support</option>
-          <option value="Appliance Repair">Appliance Repair</option>
-          <option value="Automotive">Automotive</option>
-        </select>
+    <form
+      action="https://techlink-backend.onrender.com/api/request-service"
+      method="POST"
+      enctype="multipart/form-data"
+      class="grid"
+      id="requestForm"
+    >
+      <!-- Service Type -->
+      <div class="card" onclick="toggleCard(this)">
+        <i class="fas fa-tools"></i>
+        <label>Service Type</label>
+        <div class="card-content">
+          <select id="serviceType" name="serviceType" required>
+            <option value="Electrical">Electrical</option>
+            <option value="Plumbing">Plumbing</option>
+            <option value="IT Support">IT Support</option>
+            <option value="Appliance Repair">Appliance Repair</option>
+            <option value="Automotive">Automotive</option>
+          </select>
+        </div>
       </div>
-    </div>
 
-    <!-- Location -->
-    <div class="card">
-      <i class="fas fa-map-marker-alt"></i>
-      <label for="location">Location</label>
-      <div class="card-content">
-        <input
-          id="location"
-          type="text"
-          name="location"
-          placeholder="e.g., Nairobi, Kenya"
-          required
-        />
+      <!-- Location -->
+      <div class="card" onclick="toggleCard(this)">
+        <i class="fas fa-map-marker-alt"></i>
+        <label>Location</label>
+        <div class="card-content">
+          <input
+            id="location"
+            type="text"
+            name="location"
+            placeholder="e.g., Nairobi, Kenya"
+            required
+          />
+        </div>
       </div>
-    </div>
 
-    <!-- Urgency -->
-    <div class="card">
-      <i class="fas fa-exclamation-circle"></i>
-      <label for="urgency">Urgency</label>
-      <div class="card-content">
-        <select id="urgency" name="urgency">
-          <option value="Low">Low</option>
-          <option value="Medium">Medium</option>
-          <option value="High">High</option>
-        </select>
+      <!-- Urgency -->
+      <div class="card" onclick="toggleCard(this)">
+        <i class="fas fa-exclamation-circle"></i>
+        <label>Urgency</label>
+        <div class="card-content">
+          <select id="urgency" name="urgency">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+        </div>
       </div>
-    </div>
 
-    <!-- Time -->
-    <div class="card">
-      <i class="fas fa-calendar-alt"></i>
-      <label for="time">Preferred Time</label>
-      <div class="card-content">
-        <input id="time" type="datetime-local" name="preferredTime" />
+      <!-- Time -->
+      <div class="card" onclick="toggleCard(this)">
+        <i class="fas fa-calendar-alt"></i>
+        <label>Preferred Time</label>
+        <div class="card-content">
+          <input id="time" type="datetime-local" name="preferredTime" />
+        </div>
       </div>
-    </div>
 
-    <!-- Description -->
-    <div class="card">
-      <i class="fas fa-comment-dots"></i>
-      <label for="description">Description</label>
-      <div class="card-content">
-        <textarea
-          id="description"
-          name="description"
-          rows="4"
-          placeholder="Briefly describe the problem..."
-          required
-        ></textarea>
+      <!-- Description -->
+      <div class="card" onclick="toggleCard(this)">
+        <i class="fas fa-comment-dots"></i>
+        <label>Description</label>
+        <div class="card-content">
+          <textarea
+            id="description"
+            name="description"
+            rows="4"
+            placeholder="Briefly describe the problem..."
+            required
+          ></textarea>
+        </div>
       </div>
-    </div>
 
-    <button type="submit" class="submit-btn">🚀 Submit Request</button>
-  </form>
+      <button type="submit" class="submit-btn">🚀 Submit Request</button>
+    </form>
 
-  <script>
-    let authToken = null;
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const token = localStorage.getItem("token");
+        console.log("token on page load:", token);
 
-    document.addEventListener("DOMContentLoaded", () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        alert("You are not logged in.");
-        window.location.href = "signin.html";
-        return;
-      }
-      authToken = token;
-    });
+        if (!token) {
+          alert("You are not logged in.");
+          window.location.href = "signin.html";
+        }
+        window.authToken = token;
+      });
 
-    function getUserIdFromToken(token) {
-      try {
-        const payloadBase64 = token.split(".")[1];
-        const decodedPayload = atob(payloadBase64);
-        const payloadObject = JSON.parse(decodedPayload);
-        return payloadObject.id;
-      } catch (error) {
-        console.error("Invalid token", error);
-        return null;
-      }
-    }
-
-    document.getElementById("requestForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const customerId = getUserIdFromToken(authToken);
-      if (!customerId) {
-        alert("Invalid token.");
-        return;
+      function getUserIdFromToken(token) {
+        try {
+          const payloadBase64 = token.split(".")[1];
+          const decodedPayload = atob(payloadBase64); // base64 decode
+          const payloadObject = JSON.parse(decodedPayload);
+          return payloadObject.id;
+        } catch (error) {
+          console.error("Invalid token", error);
+          return null;
+        }
       }
 
-      const formData = {
-        customerId,
-        serviceType: document.getElementById("serviceType").value,
-        location: document.getElementById("location").value,
-        urgency: document.getElementById("urgency").value,
-        preferredTime: document.getElementById("time").value,
-        description: document.getElementById("description").value,
-      };
+      function toggleCard(card, event) {
+        const token = window.authToken || localStorage.getItem("token");
+        const tag = event.target.tagName.toLowerCase();
+        if (["input", "select", "textarea", "label"].includes(tag)) return;
 
-      try {
-        const res = await fetch("https://techlink-backend.onrender.com/api/request-service", {
+        // Grab form values
+        const serviceType = document.getElementById("serviceType").value;
+        const urgency = document.getElementById("urgency").value;
+        const description = document.getElementById("description").value;
+        const location = document.getElementById("location").value;
+        const time = document.getElementById("time").value;
+        const customerId = getUserIdFromToken(token);
+
+        const requestData = {
+          customerId,
+          serviceType,
+          urgency,
+          description,
+          location,
+          time,
+        };
+
+        // Send request
+        fetch("https://techlink-backend.onrender.com/api/request-service", {
           method: "POST",
           headers: {
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
-            Authorization: `Bearer ${authToken}`,
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(requestData),
+        })
+          .then(async (res) => {
+            const data = await res.json();
+
+            if (!res.ok) {
+              console.error("Error submitting request:", data.message || data);
+              alert(
+                "Failed to submit request: " + (data.message || "Unknown error")
+              );
+            } else {
+              console.log("Service request successful:", data);
+              alert("Request submitted successfully!");
+            }
+          })
+          .catch((err) => {
+            console.error("Network or server error:", err);
+            alert("Network error. Please try again.");
+          });
+
+        // Toggle card UI
+        document.querySelectorAll(".card").forEach((c) => {
+          if (c !== card) c.classList.remove("active");
         });
 
-        const data = await res.json();
-
-        if (!res.ok) {
-          alert("Request failed: " + (data.message || "Unknown error"));
-        } else {
-          alert("Request submitted successfully!");
-          document.getElementById("requestForm").reset();
-        }
-      } catch (err) {
-        console.error(err);
-        alert("Network error. Please try again.");
+        card.classList.toggle("active");
       }
-    });
-  </script>
-</body>
 
+      // Attach event listeners to cards
+      document.querySelectorAll(".card").forEach((card) => {
+        card.addEventListener("click", function (event) {
+          toggleCard(card, event);
+        });
+      });
+    </script>
+  </body>
 </html>
