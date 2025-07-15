@@ -353,9 +353,19 @@
             });
 
             const result = await res.json();
+
             if (res.ok) {
               alert("Sign-up successful!");
-              window.location.href = "homepage.html";
+
+              if (selectedRole === "customer") {
+                alert(
+                  "Welcome to Techlink, we are here to bring the service to you!"
+                );
+                window.location.href = "homepage.html";
+              } else {
+                alert("Welcome to Techlink, let's put a price to your skill");
+                window.location.href = "technicianshomepage.html";
+              }
             } else {
               alert("Error: " + (result.message || "Unknown error occurred"));
             }
