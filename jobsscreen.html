@@ -1,21 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+    <meta charset="UTF-8" />
+    <title>Techlink - My Service Requests</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        body{
+        /* Global Styles & Body Background */
+        body {
+            margin: 0;
+            padding: 0; /* Remove default padding to allow background to fill */
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1a0033 0%, #000022 50%, #0a0044 100%); /* Dark purple to dark blue */
+            color: white;
+            min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            overflow-y: auto; /* Allow vertical scroll for all content */
+            position: relative; /* Needed for z-index of background elements */
         }
-        h1{
+
+        /* --- */
+
+        /* Header Styling */
+        .dashboard-header {
             text-align: center;
+            margin-top: 40px;
+            margin-bottom: 30px;
+            z-index: 2; /* Ensure header is above background */
+        }
+
+        .dashboard-header h1 {
+            font-family: 'Orbitron', sans-serif; /* Futuristic font for main title */
+            font-size: 3em;
+            color: #8affff; /* Light blue */
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.6), 0 0 25px rgba(0, 255, 255, 0.3);
+            letter-spacing: 2px;
+            animation: pulseGlow 3s infinite alternate; /* Subtle pulse effect */
+        }
+
+        @keyframes pulseGlow {
+            0% { text-shadow: 0 0 15px rgba(0, 255, 255, 0.6), 0 0 25px rgba(0, 255, 255, 0.3); }
+            100% { text-shadow: 0 0 20px rgba(0, 255, 255, 0.8), 0 0 35px rgba(0, 255, 255, 0.5); }
+        }
+
+        /* --- */
+
+        /* Animated Background Elements */
+        .background-elements {
+            position: fixed; /* Fixed so it doesn't scroll with content */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1; /* Keep them behind your content */
+        }
+
+        .background-elements span {
+            position: absolute;
+            display: block;
+            list-style: none;
+            width: 20px;
+            height: 20px;
+            background: rgba(100, 0, 255, 0.1); /* Semi-transparent purple */
+            animation: animate 25s linear infinite;
+            bottom: -150px; /* Start off-screen */
+            border-radius: 50%; /* Make them circles, or remove for squares */
+            box-shadow: 0 0 15px rgba(100, 0, 255, 0.4);
+        }
+
+        /* Individual span styling for varied animations */
+        .background-elements span:nth-child(1) { left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
+        .background-elements span:nth-child(2) { left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; background: rgba(0, 100, 255, 0.15); box-shadow: 0 0 15px rgba(0, 100, 255, 0.4); }
+        .background-elements span:nth-child(3) { left: 70%; width: 20px; height: 20px; animation-delay: 4s; background: rgba(100, 0, 255, 0.1); }
+        .background-elements span:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; background: rgba(0, 100, 255, 0.1); }
+        .background-elements span:nth-child(5) { left: 65%; width: 20px; height: 20px; animation-delay: 0s; background: rgba(100, 0, 255, 0.15); animation-duration: 10s; }
+        .background-elements span:nth-child(6) { left: 75%; width: 110px; height: 110px; animation-delay: 3s; background: rgba(0, 100, 255, 0.1); }
+        .background-elements span:nth-child(7) { left: 35%; width: 150px; height: 150px; animation-delay: 7s; background: rgba(100, 0, 255, 0.1); }
+        .background-elements span:nth-child(8) { left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; background: rgba(0, 100, 255, 0.15); }
+        .background-elements span:nth-child(9) { left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; background: rgba(100, 0, 255, 0.1); }
+        .background-elements span:nth-child(10) { left: 85%; width: 150px; height: 150px; animation-delay: 0s; animation-duration: 11s; background: rgba(0, 100, 255, 0.15); }
+
+        @keyframes animate {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+                border-radius: 0;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+                border-radius: 50%;
+            }
+        }
+
+        /* --- */
+
+        /* Requests Container & Card Styling */
+        .requests {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px; /* Increased gap for better spacing */
+            z-index: 1; /* Ensure cards are above background elements */
+            position: relative;
+            padding: 20px; /* Padding around the grid */
+            max-width: 1200px;
+            justify-content: center;
+            margin-bottom: 40px; /* Space at the bottom of the content */
+        }
+
+        .card {
+            background: linear-gradient(145deg, rgba(36, 40, 60, 0.95) 0%, rgba(20, 21, 44, 0.95) 100%); /* Darker, refined gradient */
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4); /* Stronger shadow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            border: 1px solid rgba(108, 99, 255, 0.2); /* Subtle initial border */
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 0.8s ease-out forwards; /* Simple fade-in for cards */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card:hover {
+            border-color: #6c63ff; /* Purple glow on hover */
+            transform: translateY(-8px) scale(1.02); /* Lift and slightly enlarge on hover */
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .card-header i {
+            font-size: 28px; /* Larger icon */
+            color: #8affff; /* Light blue icon */
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5); /* Icon glow */
+        }
+
+        .service-type {
+            font-family: 'Orbitron', sans-serif; /* Futuristic font for service type */
+            font-weight: bold;
+            font-size: 1.5em; /* Larger font size */
+            color: #9e8dff; /* Purple for service type */
+        }
+
+        .meta {
+            font-size: 14px;
+            margin: 6px 0;
+            color: #bbb;
+        }
+
+        .desc {
+            font-size: 15px;
+            margin: 12px 0;
+            flex-grow: 1; /* Allows content to push footer down */
+            line-height: 1.6;
+        }
+
+        .thumbnail {
+            max-width: 100%;
+            height: auto; /* Ensure aspect ratio is maintained */
+            margin-top: 15px; /* More space above image */
+            border-radius: 10px;
+            border: 1px solid #444;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Call Button for direct action */
+        .card-footer {
+            margin-top: auto; /* Pushes footer to the bottom of the card */
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: right;
+        }
+
+        .card-footer button {
+            background: linear-gradient(45deg, #007bff, #6f42c1); /* Blue to purple button */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-footer button:hover {
+            background: linear-gradient(45deg, #0056b3, #5a32a0);
+            transform: translateY(-2px);
+        }
+
+        /* --- */
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .dashboard-header h1 {
+                font-size: 2.2em;
+            }
+            .requests {
+                padding: 15px;
+                gap: 20px;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjust minmax for smaller screens */
+            }
+            .card {
+                width: auto; /* Allow auto width based on grid */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-header h1 {
+                font-size: 1.8em;
+            }
+            .requests {
+                grid-template-columns: 1fr; /* Single column on very small screens */
+            }
         }
     </style>
+</head>
 <body>
-    <h1>This is the jobs screen </h1>
+    <div class="background-elements">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="dashboard-header">
+        <h1>My Jobs</h1>
+    </div>
+
+    <div class="requests" id="requestsContainer">
+        <p style='text-align:center; width:100%;'>Loading Jobs...</p>
+    </div>
+
+    <script>
+        function decodeJwt(token) {
+            try {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+                return JSON.parse(jsonPayload);
+            } catch (e) {
+                console.error("Error decoding JWT:", e);
+                return null;
+            }
+        }
+
+        // Function to map service types to Font Awesome icons
+        function getServiceIcon(serviceType) {
+            const lowerCaseService = serviceType.toLowerCase();
+            if (lowerCaseService.includes('electrical') || lowerCaseService.includes('light')) {
+                return 'fas fa-bolt';
+            } else if (lowerCaseService.includes('plumbing') || lowerCaseService.includes('water')) {
+                return 'fas fa-faucet';
+            } else if (lowerCaseService.includes('hvac') || lowerCaseService.includes('ac') || lowerCaseService.includes('fan')) {
+                return 'fas fa-fan';
+            } else if (lowerCaseService.includes('network') || lowerCaseService.includes('internet') || lowerCaseService.includes('wifi')) {
+                return 'fas fa-globe';
+            } else if (lowerCaseService.includes('appliance') || lowerCaseService.includes('fridge') || lowerCaseService.includes('cooker')) {
+                return 'fas fa-blender'; // Generic appliance icon
+            } else if (lowerCaseService.includes('carpentry') || lowerCaseService.includes('furniture')) {
+                return 'fas fa-hammer';
+            } else if (lowerCaseService.includes('painting') || lowerCaseService.includes('paint')) {
+                return 'fas fa-paint-roller';
+            } else if (lowerCaseService.includes('cleaning')) {
+                return 'fas fa-broom';
+            } else {
+                return 'fas fa-wrench'; // Default service icon
+            }
+        }
+
+        async function fetchAndDisplayRequests(token) {
+            const requestsContainer = document.getElementById('requestsContainer');
+            requestsContainer.innerHTML = "<p style='text-align:center; width:100%;'>Loading requests...</p>"; // Show loading
+
+            try {
+                const res = await fetch('https://techlink-backend.onrender.com/api/getJob', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                if (!res.ok) {
+                    throw new Error("Failed to fetch service requests");
+                }
+
+                const data = await res.json();
+
+                requestsContainer.innerHTML = ''; // Clear loading message
+
+                if (!data || data.length === 0) {
+                    requestsContainer.innerHTML = "<p style='text-align:center; width:100%;'>No service requests found.</p>";
+                    return;
+                }
+
+                data.forEach((req, index) => {
+                    const card = document.createElement('div');
+                    card.classList.add('card');
+                    // Add a delay for each card to create a staggered fade-in effect
+                    card.style.animationDelay = `${index * 0.1}s`;
+
+                    const iconClass = getServiceIcon(req.serviceType);
+
+                    // Display only the requested fields
+                    card.innerHTML = `
+                        <div class="card-header">
+                            <i class="${iconClass}"></i>
+                            <div class="service-type">${req.serviceType}</div>
+                        </div>
+                        <div class="meta"><strong>Customer:</strong> ${req.customerName || 'N/A'}</div>
+                        <div class="meta"><strong>Phone:</strong> <a href="tel:${req.customerNumber}" style="color: #6d9bff;">${req.customerNumber || 'N/A'}</a></div>
+                        <div class="meta"><strong>Location:</strong> ${req.location || 'N/A'}</div>
+                        <div class="desc"><strong>Description:</strong> ${req.description || 'No description provided.'}</div>
+                        <div class="card-footer">
+                            <button onclick="alert('Viewing full details for jobs #${req.id || req._id}')">View Full Details</button>
+                        </div>
+                    `;
+                    requestsContainer.appendChild(card);
+                });
+            } catch (err) {
+                console.error('Error fetching requests:', err);
+                requestsContainer.innerHTML =
+                    "<p style='text-align:center; width:100%;'>Failed to load requests. Please ensure you are logged in and try again.</p>";
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const token = localStorage.getItem('token');
+
+            if (!token) {
+                console.log("No token found, redirecting to login.");
+                localStorage.removeItem('user');
+                localStorage.removeItem('role');
+                return (window.location.href = 'signin.html');
+            }
+
+            const decodedToken = decodeJwt(token);
+
+            if (!decodedToken || !decodedToken.id) {
+                console.error("Invalid token or missing user ID in token payload.");
+                alert("Authentication failed. Please log in again.");
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                localStorage.removeItem('role');
+                return (window.location.href = 'signin.html');
+            }
+
+            // Token is valid, fetch user requests
+            await fetchAndDisplayRequests(token);
+        });
+    </script>
 </body>
 </html>
