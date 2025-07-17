@@ -75,11 +75,14 @@
             border-radius: 20px;
             padding: 40px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-            max-width: 600px;
+            max-width: 600px; /* Default max-width for overall container */
             width: 90%; /* Responsive width */
             text-align: center;
             z-index: 1;
             animation: fadeInScale 0.7s ease-out forwards;
+            display: flex; /* Use flexbox for direct children alignment */
+            flex-direction: column;
+            align-items: center;
         }
 
         @keyframes fadeInScale {
@@ -100,6 +103,7 @@
             margin-bottom: 30px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             padding-bottom: 20px;
+            width: 100%; /* Ensure it takes full width */
         }
 
         .payment-details p {
@@ -121,11 +125,20 @@
             margin-top: 15px;
         }
 
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: #8affff;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            width: 100%; /* Ensure heading also takes full width */
+        }
+
+        /* Payment Methods Container - Default: flex column (for small screens) */
         .payment-methods {
             display: flex;
             flex-direction: column;
             gap: 15px;
-            margin-top: 30px;
+            width: 100%; /* Take full width of payment container */
         }
 
         .method-option {
@@ -134,15 +147,14 @@
             border-radius: 10px;
             padding: 15px 20px;
             display: flex;
-            align-items: center;
+            align-items: center; /* Align icon and name */
             justify-content: flex-start;
             gap: 15px;
             cursor: pointer;
             transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             text-align: left;
-            position: relative; /* Needed for absolute positioning of input container */
-            flex-wrap: wrap; /* Allow wrapping for input container */
+            position: relative; /* For the focus indicator */
         }
 
         .method-option:hover {
@@ -156,13 +168,14 @@
             color: #8affff;
             width: 40px;
             text-align: center;
+            flex-shrink: 0;
         }
 
         .method-option .method-name {
             font-size: 1.1em;
             font-weight: bold;
             color: #e0e0e0;
-            flex-grow: 1; /* Allow name to take available space */
+            flex-grow: 1;
         }
 
         .method-option.selected {
@@ -184,27 +197,20 @@
             text-align: center;
         }
 
-        /* M-Pesa Phone Number Input Box - NOW INSIDE METHOD-OPTION */
+        /* M-Pesa Phone Number Input Container - NOW A SIBLING TO .payment-methods */
         .mpesa-input-container {
-            width: 100%; /* Take full width of the parent card */
-            margin-top: 15px; /* Space from the method name */
-            padding-top: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%; /* Take full width of payment container */
+            margin-top: 25px; /* Space it out from the payment methods grid/stack */
+            padding: 20px;
             background: rgba(20, 25, 45, 0.8);
-            border-radius: 0 0 8px 8px; /* Rounded bottom corners only */
-            padding: 15px;
+            border: 1px solid rgba(46, 139, 87, 0.4); /* M-Pesa green border */
+            border-radius: 10px;
             display: none; /* Hidden by default */
             flex-direction: column;
             gap: 15px;
             animation: fadeInSlideDown 0.4s ease-out forwards;
-            /* Positioning is no longer absolute if it's a child element */
+            box-sizing: border-box; /* Include padding in width */
         }
-         /* Override default gap for direct children of .method-option */
-        .method-option.selected {
-            border-radius: 10px; /* Reset initial border-radius, it will be handled by overflow hidden */
-            overflow: hidden; /* Hide anything outside the card, including initial overflow from animation */
-        }
-
 
         @keyframes fadeInSlideDown {
             from { opacity: 0; transform: translateY(-10px); }
@@ -253,7 +259,7 @@
             transform: translateY(-2px);
         }
 
-        /* General Pay Now Button (always at the bottom of the main container) */
+        /* General Pay Now Button */
         .pay-button {
             background: linear-gradient(45deg, #007bff, #6f42c1);
             color: white;
@@ -299,7 +305,6 @@
             }
             .method-option {
                 padding: 12px 15px;
-                gap: 10px;
             }
             .method-option i {
                 font-size: 1.8em;
@@ -336,23 +341,25 @@
             .payment-amount {
                 font-size: 1.5em;
             }
+        }
+
+        /* Large screens: Apply Grid Layout */
+        @media (min-width: 769px) {
+            .payment-container {
+                max-width: 800px; /* Wider container for grid */
+            }
+            .payment-methods {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Adjusted minmax for better fit */
+                gap: 20px; /* Gap between grid items */
+                align-items: start; /* Crucial: Prevents cards from stretching vertically */
+            }
             .method-option {
-                flex-direction: column; /* Stack elements inside card for smaller screens */
-                align-items: flex-start;
-                justify-content: flex-start;
-                padding: 10px;
-            }
-            .method-option .method-header { /* Group icon and name */
-                display: flex;
+                flex-direction: row; /* Keep icon and name side-by-side in grid */
                 align-items: center;
-                gap: 10px;
-                width: 100%;
-                margin-bottom: 10px;
-            }
-            .mpesa-input-container {
-                margin-top: 10px; /* Adjust margin for smaller screens */
-                padding-top: 10px;
-                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                justify-content: flex-start;
+                padding: 20px;
+                height: auto; /* Allow height to adjust naturally */
             }
         }
     </style>
@@ -364,10 +371,11 @@
     </div>
 
     <div class="payment-container">
-        <h1>Pay for your Service</h1>
+        <h1>Complete Your Payment</h1>
 
         <div class="payment-details">
             <p>Service: <strong>Electrical Fault Diagnosis</strong></p>
+            <p>Technician's name: <strong>Frank</strong></p>
             <p>Amount Due:</p>
             <p class="payment-amount">Ksh 4,500.00</p>
         </div>
@@ -375,41 +383,37 @@
         <h2>Select Payment Method</h2>
         <div class="payment-methods">
             <div class="method-option" id="mpesa-option">
-                <div class="method-header"> <span class="mpesa-icon">M</span>
-                    <span class="method-name">M-Pesa (Kenya)</span>
-                </div>
-                <div class="mpesa-input-container" id="mpesa-phone-input-container">
-                    <label for="mpesa-phone">Enter M-Pesa Phone Number:</label>
-                    <input type="tel" id="mpesa-phone" placeholder="e.g., 0712345678" pattern="^(07|2547)\d{8}$" required>
-                    <small style="color: #ccc; text-align: left;">(Format: 07xxxxxxxx or 2547xxxxxxxx)</small>
-                    <button id="initiateMpesaPayBtn">Initiate M-Pesa Payment</button>
-                </div>
+                <span class="mpesa-icon">M</span>
+                <span class="method-name">M-Pesa (Kenya)</span>
             </div>
 
             <div class="method-option" id="paypal-option">
-                <div class="method-header">
-                    <i class="fab fa-paypal"></i>
-                    <span class="method-name">PayPal</span>
-                </div>
+                <i class="fab fa-paypal"></i>
+                <span class="method-name">PayPal</span>
             </div>
             <div class="method-option" id="visa-option">
-                <div class="method-header">
-                    <i class="fab fa-cc-visa"></i>
-                    <span class="method-name">Visa Card</span>
-                </div>
+                <i class="fab fa-cc-visa"></i>
+                <span class="method-name">Visa Card</span>
             </div>
             <div class="method-option" id="mastercard-option">
-                <div class="method-header">
-                    <i class="fab fa-cc-mastercard"></i>
-                    <span class="method-name">Mastercard</span>
-                </div>
+                <i class="fab fa-cc-mastercard"></i>
+                <span class="method-name">Mastercard</span>
             </div>
             <div class="method-option" id="other-option">
-                <div class="method-header">
-                    <i class="fas fa-money-check-alt"></i>
-                    <span class="method-name">Other Online Payment</span>
-                </div>
+                <i class="fas fa-money-check-alt"></i>
+                <span class="method-name">Other Online Payment</span>
             </div>
+        </div>
+
+        <div class="mpesa-input-container" id="mpesa-phone-input-container">
+            <label for="mpesa-phone">Enter M-Pesa Phone Number:</label>
+            <input type="tel" id="mpesa-phone" placeholder="e.g., 0712345678" pattern="^(07|2547)\d{8}$" required>
+            <small style="color: #ccc; text-align: left;">(Format: 07xxxxxxxx or 2547xxxxxxxx)</small>
+            <label for="mpesa-phone">Enter amount:</label>
+            <input type="tel" id="mpesa-phone" placeholder="e.g.,1000"  required>
+            
+            
+            <button id="initiateMpesaPayBtn">Initiate M-Pesa Payment</button>
         </div>
 
         <button class="pay-button" id="payNowBtn" disabled>Pay Now</button>
@@ -418,7 +422,7 @@
     <script>
         const payMethods = document.querySelectorAll('.method-option');
         const payNowBtn = document.getElementById('payNowBtn');
-        const mpesaOptionCard = document.getElementById('mpesa-option'); // Reference to the M-Pesa card
+        const mpesaOptionCard = document.getElementById('mpesa-option');
         const mpesaPhoneInputContainer = document.getElementById('mpesa-phone-input-container');
         const mpesaPhoneInput = document.getElementById('mpesa-phone');
         const initiateMpesaPayBtn = document.getElementById('initiateMpesaPayBtn');
@@ -429,14 +433,12 @@
         function hideMpesaInput() {
             mpesaPhoneInputContainer.style.display = 'none';
             mpesaPhoneInput.value = ''; // Clear input when hidden
-            // Remove the 'input' event listener if it exists
             mpesaPhoneInput.removeEventListener('input', validateMpesaPhone);
         }
 
-        // Function to show M-Pesa input and hide general pay button
+        // Function to show M-Pesa input and disable general pay button
         function showMpesaInput() {
-            mpesaPhoneInputContainer.style.display = 'flex'; // Use flex for column layout
-            // Add the 'input' event listener for real-time validation
+            mpesaPhoneInputContainer.style.display = 'flex';
             mpesaPhoneInput.addEventListener('input', validateMpesaPhone);
             validateMpesaPhone(); // Initial validation check
         }
@@ -464,8 +466,7 @@
         // M-Pesa phone number validation
         function validateMpesaPhone() {
             const phoneNumber = mpesaPhoneInput.value;
-            // Simple regex for Kenyan Safaricom numbers: starts with 07 or 2547, followed by 8 digits
-            const regex = /^(07|2547)\d{8}$/;
+            const regex = /^(07|2547)\d{8}$/; // Kenyan Safaricom numbers
             if (regex.test(phoneNumber)) {
                 initiateMpesaPayBtn.disabled = false;
             } else {
@@ -476,10 +477,9 @@
         initiateMpesaPayBtn.addEventListener('click', () => {
             const phoneNumber = mpesaPhoneInput.value;
             if (phoneNumber && !initiateMpesaPayBtn.disabled) {
-                alert(`Initiating M-Pesa payment of Ksh 4,500.00 to ${phoneNumber}. Please approve the STK Push on your phone.`);
                 // In a real application, you'd send an API request to your backend here
                 // to trigger the M-Pesa STK Push (e.g., Daraja API).
-                // Example: sendMpesaSTKPush(phoneNumber, 4500, 'TECH7531');
+                alert(`Initiating M-Pesa payment of Ksh 4,500.00 to ${phoneNumber}. Please approve the STK Push on your phone.`);
             } else {
                 alert('Please enter a valid M-Pesa phone number.');
             }
@@ -488,8 +488,6 @@
         payNowBtn.addEventListener('click', () => {
             if (selectedMethod && selectedMethod !== 'mpesa-option') {
                 alert(`Proceeding with payment via ${selectedMethod.replace('-option', '')}. (This is a placeholder for actual payment gateway integration)`);
-                // For other payment methods like PayPal, Visa, etc.
-                // You would typically redirect to their payment page or open a secure iframe/modal.
             } else {
                 alert('Please select a payment method.');
             }
