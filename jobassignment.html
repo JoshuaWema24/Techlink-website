@@ -427,7 +427,8 @@
         }
         /* Make textareas span both columns */
         .form-group:nth-of-type(5), /* tldescription */
-        .form-group:nth-of-type(6) { /* customerDescription */
+        .form-group:nth-of-type(6) {
+          /* customerDescription */
           grid-column: span 2;
         }
         .submit-button {
@@ -507,9 +508,7 @@
         </div>
 
         <div class="form-group">
-          <label for="tldescription"
-            >Techlink description</label
-          >
+          <label for="tldescription">Techlink description</label>
           <textarea
             id="tldescription"
             name="tldescription"
@@ -549,8 +548,7 @@
       const messageBoxTitle = document.getElementById("messageBoxTitle");
       const messageBoxMessage = document.getElementById("messageBoxMessage");
       const messageBoxCloseBtn = document.getElementById("messageBoxCloseBtn");
-       const token = localStorage.getItem('token');
-    
+      const token = localStorage.getItem("token");
 
       // Function to show custom message box
       function showMessageBox(title, message) {
@@ -571,126 +569,136 @@
           hideMessageBox();
         }
       });
-       // Function to decode a JWT token (client-side) - DEFINED ONCE AND CORRECTLY
-    function decodeJwt(token) {
+
+      // Function to decode a JWT token
+      function decodeJwt(token) {
         try {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-
-            return JSON.parse(jsonPayload);
+          const base64Url = token.split(".")[1];
+          const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+          const jsonPayload = decodeURIComponent(
+            atob(base64)
+              .split("")
+              .map((c) => {
+                return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+              })
+              .join("")
+          );
+          return JSON.parse(jsonPayload);
         } catch (e) {
-            console.error("Error decoding JWT:", e);
-            return null;
+          console.error("Error decoding JWT:", e);
+          return null;
         }
-    }
+      }
 
-    document.addEventListener('DOMContentLoaded', async () => {
-        // 1. Get the token from local storage using the correct key 'token'.
-       
-        // 2. If no token, the user isn't logged in. Redirect to the sign-in page.
+      // Wait for DOM to load
+      document.addEventListener("DOMContentLoaded", async () => {
         if (!token) {
-            console.log("No token found, redirecting to login.");
-            // Clear any potentially stale data if we're redirecting
-            localStorage.removeItem('user');
-            localStorage.removeItem('role'); // Also clear the 'role' if you store it
-            return (window.location.href = 'signin.html');
+          console.log("No token found, redirecting to login.");
+          localStorage.removeItem("user");
+          localStorage.removeItem("role");
+          return (window.location.href = "signin.html");
         }
-    
-        // 3. Decode the token to get its payload.
-        // This is the ONLY place you should call decodeJwt(token)
+
         const decodedToken = decodeJwt(token);
-    
-        // 4. Validate the decoded token and check for the user ID.
-        // IMPORTANT: Your token payload uses 'id', not 'userId'.
-        if (!decodedToken || !decodedToken.id) { // CORRECTED from !decodedToken.userId
-            console.error("Invalid token or missing user ID in token payload.");
-            alert("Authentication failed. Please log in again.");
-            // Clear all relevant local storage items on authentication failure.
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-            localStorage.removeItem('role'); // Clear role too
-            return (window.location.href = 'signin.html');
+
+        if (!decodedToken || !decodedToken.id) {
+          console.error("Invalid token or missing user ID in token payload.");
+          alert("Authentication failed. Please log in again.");
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          localStorage.removeItem("role");
+          return (window.location.href = "signin.html");
         }
 
-        // Get the user ID from the decoded token.
-        const userId = decodedToken.id; // CORRECTED from decodedToken.userId
-    });
+        // You can use decodedToken.id here if needed
+      });
 
+      // Submit form
       serviceRequestForm.addEventListener("submit", async (event) => {
-        event.preventDefault(); // Prevent default form submission
+        event.preventDefault();
 
-        // Collect form data
         const formData = {
           serviceType: document.getElementById("serviceType").value,
           customerName: document.getElementById("customerName").value.trim(),
-          technicianName: document.getElementById("technicianName").value.trim(),
-          customerNumber: document.getElementById("customerNumber").value.trim(),
+          technicianName: document
+            .getElementById("technicianName")
+            .value.trim(),
+          customerNumber: document
+            .getElementById("customerNumber")
+            .value.trim(),
           location: document.getElementById("location").value.trim(),
           tldescription: document.getElementById("tldescription").value.trim(),
-          customerDescription: document.getElementById("customerDescription").value.trim(),
+          customerDescription: document
+            .getElementById("customerDescription")
+            .value.trim(),
         };
 
-        // Basic client-side validation for required fields
+        // Validate fields
         for (const key in formData) {
           if (!formData[key]) {
-            showMessageBox("Validation Error", `Please fill in the '${key}' field.`);
+            showMessageBox(
+              "Validation Error",
+              `Please fill in the '${key}' field.`
+            );
             return;
           }
         }
 
-        // Validate phone number format
         const phonePattern = /^(07|2547)\d{8}$/;
         if (!phonePattern.test(formData.customerNumber)) {
-          showMessageBox("Validation Error", "Please enter a valid Safaricom number (07xxxxxxxx or 2547xxxxxxxx).");
+          showMessageBox(
+            "Validation Error",
+            "Please enter a valid Safaricom number (07xxxxxxxx or 2547xxxxxxxx)."
+          );
           return;
         }
 
-       
-        const token = localStorage.getItem(token);
-
         try {
-          const response = await fetch("https://techlink-backend.onrender.com/api/createJob", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              // Include the Authorization header with the API key
-              "Authorization": `Bearer` + token // Common practice for API key authentication
-            },
-            body: JSON.stringify(formData),
-          });
-
-         if (!res.ok) {
-                // Handle cases where the server returns an error even with a valid token
-                if (res.status === 401 || res.status === 403) {
-                    alert("Unauthorized access or token expired. Please log in again.");
-                    localStorage.removeItem('token'); // Clear token
-                    localStorage.removeItem('user'); // Clear user data
-                    localStorage.removeItem('role'); // Clear role
-                    return (window.location.href = 'technicianshomepage.html');
-                }
-                throw new Error(`HTTP error! status: ${res.status}`);
+          const response = await fetch(
+            "https://techlink-backend.onrender.com/api/createJob",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify(formData),
             }
+          );
+
+          if (!response.ok) {
+            if (response.status === 401 || response.status === 403) {
+              alert(
+                "Unauthorized access or token expired. Please log in again."
+              );
+              localStorage.removeItem("token");
+              localStorage.removeItem("user");
+              localStorage.removeItem("role");
+              return (window.location.href = "technicianshomepage.html");
+            }
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
 
           const result = await response.json();
           console.log("Job assigned:", result);
-          
+
           showMessageBox(
             "Job Assigned!",
             `A new job for "${formData.serviceType}" has been assigned to ${formData.technicianName}.\n\nDetails:\n` +
-            `Customer: ${formData.customerName}\n` +
-            `Phone: ${formData.customerNumber}\n` +
-            `Location: ${formData.location}\n` +
-            `Tech Lead Notes: ${formData.tldescription}\n` +
-            `Customer Notes: ${formData.customerDescription}`
+              `Customer: ${formData.customerName}\n` +
+              `Phone: ${formData.customerNumber}\n` +
+              `Location: ${formData.location}\n` +
+              `Tech Lead Notes: ${formData.tldescription}\n` +
+              `Customer Notes: ${formData.customerDescription}`
           );
 
-          serviceRequestForm.reset(); // Clear form fields on success
+          serviceRequestForm.reset();
         } catch (error) {
           console.error("Error submitting Job:", error);
-          showMessageBox("Submission Error", "There was an issue assigning the job. Please try again later.");
+          showMessageBox(
+            "Submission Error",
+            "There was an issue assigning the job. Please try again later."
+          );
         }
       });
     </script>
