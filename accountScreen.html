@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Techlink - Receiver Account</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Global Styles & Body Background (reused from payment page) */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Roboto", sans-serif;
+        background: linear-gradient(
+          135deg,
+          #1a0033 0%,
+          #000022 50%,
+          #0a0044 100%
+        );
+        color: white;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow-x: hidden;
+        overflow-y: auto;
+        position: relative;
+      }
+
+      /* Animated Background Elements (reused from payment page) */
+      .background-elements {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: -1;
+      }
+
+      .background-elements span {
+        position: absolute;
+        display: block;
+        list-style: none;
+        width: 20px;
+        height: 20px;
+        background: rgba(100, 0, 255, 0.1);
+        animation: animate 25s linear infinite;
+        bottom: -150px;
+        border-radius: 50%;
+        box-shadow: 0 0 15px rgba(100, 0, 255, 0.4);
+      }
+
+      .background-elements span:nth-child(1) {
+        left: 25%;
+        width: 80px;
+        height: 80px;
+        animation-delay: 0s;
+      }
+      .background-elements span:nth-child(2) {
+        left: 10%;
+        width: 20px;
+        height: 20px;
+        animation-delay: 2s;
+        animation-duration: 12s;
+        background: rgba(0, 100, 255, 0.15);
+        box-shadow: 0 0 15px rgba(0, 100, 255, 0.4);
+      }
+      .background-elements span:nth-child(3) {
+        left: 70%;
+        width: 20px;
+        height: 20px;
+        animation-delay: 4s;
+        background: rgba(100, 0, 255, 0.1);
+      }
+      .background-elements span:nth-child(4) {
+        left: 40%;
+        width: 60px;
+        height: 60px;
+        animation-delay: 0s;
+        animation-duration: 18s;
+        background: rgba(0, 100, 255, 0.1);
+      }
+      .background-elements span:nth-child(5) {
+        left: 65%;
+        width: 20px;
+        height: 20px;
+        animation-delay: 0s;
+        background: rgba(100, 0, 255, 0.15);
+        animation-duration: 10s;
+      }
+      .background-elements span:nth-child(6) {
+        left: 75%;
+        width: 110px;
+        height: 110px;
+        animation-delay: 3s;
+        background: rgba(0, 100, 255, 0.1);
+      }
+      .background-elements span:nth-child(7) {
+        left: 35%;
+        width: 150px;
+        height: 150px;
+        animation-delay: 7s;
+        background: rgba(100, 0, 255, 0.1);
+      }
+      .background-elements span:nth-child(8) {
+        left: 50%;
+        width: 25px;
+        height: 25px;
+        animation-delay: 15s;
+        animation-duration: 45s;
+        background: rgba(0, 100, 255, 0.15);
+      }
+      .background-elements span:nth-child(9) {
+        left: 20%;
+        width: 15px;
+        height: 15px;
+        animation-delay: 2s;
+        animation-duration: 35s;
+        background: rgba(100, 0, 255, 0.1);
+      }
+      .background-elements span:nth-child(10) {
+        left: 85%;
+        width: 150px;
+        height: 150px;
+        animation-delay: 0s;
+        animation-duration: 11s;
+        background: rgba(0, 100, 255, 0.15);
+      }
+
+      @keyframes animate {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 1;
+          border-radius: 0;
+        }
+        100% {
+          transform: translateY(-1000px) rotate(720deg);
+          opacity: 0;
+          border-radius: 50%;
+        }
+      }
+
+      /* Account Container & Card */
+      .account-container {
+        background: linear-gradient(
+          145deg,
+          rgba(30, 0, 60, 0.95) 0%,
+          rgba(0, 0, 40, 0.95) 100%
+        );
+        border: 1px solid rgba(100, 0, 255, 0.3);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+        max-width: 600px; /* Default max-width */
+        width: 90%; /* Responsive width */
+        text-align: center;
+        z-index: 1;
+        animation: fadeInScale 0.7s ease-out forwards;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      @keyframes fadeInScale {
+        from {
+          opacity: 0;
+          transform: translateY(20px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .account-container h1 {
+        font-family: "Orbitron", sans-serif;
+        font-size: 2.5em;
+        color: #8affff;
+        text-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
+        margin-bottom: 25px;
+        letter-spacing: 1px;
+      }
+
+      .account-details {
+        margin-bottom: 30px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 20px;
+        width: 100%;
+      }
+
+      .account-details p {
+        font-size: 1.1em;
+        margin: 10px 0;
+        color: #d0d0d0;
+      }
+
+      .account-details strong {
+        color: #b380ff; /* Purple for key info */
+        font-weight: 700;
+      }
+
+      .account-balance {
+        font-family: "Orbitron", sans-serif;
+        font-size: 2.2em;
+        color: #6aff8a; /* Green for balance */
+        text-shadow: 0 0 10px rgba(106, 255, 138, 0.4);
+        margin-top: 15px;
+      }
+
+      h2 {
+        font-family: "Orbitron", sans-serif;
+        color: #8affff;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        width: 100%;
+      }
+
+      /* Withdrawal Methods Container */
+      .withdrawal-methods {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+      }
+
+      .method-option {
+        background: rgba(40, 45, 70, 0.7);
+        border: 1px solid rgba(108, 99, 255, 0.3);
+        border-radius: 10px;
+        padding: 15px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 15px;
+        cursor: pointer;
+        transition: background 0.3s ease, border-color 0.3s ease,
+          transform 0.2s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        text-align: left;
+        position: relative;
+      }
+
+      .method-option:hover {
+        background: rgba(50, 55, 80, 0.8);
+        border-color: #6c63ff;
+        transform: translateY(-3px);
+      }
+
+      .method-option i {
+        font-size: 2em;
+        color: #8affff;
+        width: 40px;
+        text-align: center;
+        flex-shrink: 0;
+      }
+
+      .method-option .method-name {
+        font-size: 1.1em;
+        font-weight: bold;
+        color: #e0e0e0;
+        flex-grow: 1;
+      }
+
+      .method-option.selected {
+        background: linear-gradient(
+          90deg,
+          rgba(0, 123, 255, 0.6),
+          rgba(111, 66, 193, 0.6)
+        );
+        border-color: #007bff;
+        box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+      }
+
+      .method-option.selected i {
+        color: white;
+      }
+
+      /* M-Pesa specific styling */
+      .method-option .mpesa-icon {
+        font-size: 1.8em;
+        font-weight: bold;
+        color: #2e8b57; /* M-Pesa green */
+        width: 40px;
+        text-align: center;
+      }
+
+      /* Withdrawal Input Containers */
+      .withdrawal-input-container {
+        width: 100%;
+        margin-top: 25px;
+        padding: 20px;
+        background: rgba(20, 25, 45, 0.8);
+        border: 1px solid rgba(46, 139, 87, 0.4); /* M-Pesa green border example */
+        border-radius: 10px;
+        display: none; /* Hidden by default */
+        flex-direction: column;
+        gap: 15px;
+        animation: fadeInSlideDown 0.4s ease-out forwards;
+        box-sizing: border-box;
+      }
+
+      @keyframes fadeInSlideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .withdrawal-input-container label {
+        font-size: 1em;
+        color: #e0e0e0;
+        text-align: left;
+      }
+
+      .withdrawal-input-container input[type="tel"],
+      .withdrawal-input-container input[type="number"],
+      .withdrawal-input-container input[type="text"] {
+        width: calc(100% - 20px); /* Adjust for padding */
+        padding: 12px 10px;
+        border: 1px solid #4a0080; /* Dark purple border */
+        border-radius: 5px;
+        background-color: #0d0d1a; /* Very dark background */
+        color: #8affff; /* Light blue text */
+        font-size: 1.1em;
+        box-shadow: inset 0 0 8px rgba(0, 255, 255, 0.2);
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .withdrawal-input-container input[type="tel"]:focus,
+      .withdrawal-input-container input[type="number"]:focus,
+      .withdrawal-input-container input[type="text"]:focus {
+        border-color: #8affff; /* Light blue on focus */
+        box-shadow: inset 0 0 12px rgba(0, 255, 255, 0.4),
+          0 0 5px rgba(0, 255, 255, 0.3);
+        outline: none;
+      }
+
+      .withdrawal-input-container button {
+        background: linear-gradient(
+          45deg,
+          #007bff,
+          #6f42c1
+        ); /* Primary button gradient */
+        color: white;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1.1em;
+        font-weight: bold;
+        transition: background 0.3s ease, transform 0.2s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .withdrawal-input-container button:hover {
+        background: linear-gradient(45deg, #0056b3, #5a32a0);
+        transform: translateY(-2px);
+      }
+
+      .withdrawal-input-container button:disabled {
+        background: #444;
+        cursor: not-allowed;
+        opacity: 0.7;
+        box-shadow: none;
+      }
+
+      /* Specific button styling for M-Pesa (if desired) */
+      .mpesa-input-container button {
+        background: linear-gradient(45deg, #2e8b57, #1e6c3d);
+      }
+      .mpesa-input-container button:hover {
+        background: linear-gradient(45deg, #1e6c3d, #144f2b);
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 768px) {
+        .account-container {
+          padding: 30px 20px;
+          width: 95%;
+        }
+        .account-container h1 {
+          font-size: 2em;
+        }
+        .account-balance {
+          font-size: 1.8em;
+        }
+        .method-option {
+          padding: 12px 15px;
+        }
+        .method-option i {
+          font-size: 1.8em;
+          width: 30px;
+        }
+        .method-option .mpesa-icon {
+          font-size: 1.5em;
+          width: 30px;
+        }
+        .withdrawal-input-container {
+          padding: 15px;
+        }
+        .withdrawal-input-container input {
+          padding: 10px 8px;
+          font-size: 1em;
+        }
+        .withdrawal-input-container button {
+          padding: 10px 20px;
+          font-size: 1em;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .account-container h1 {
+          font-size: 1.7em;
+        }
+        .account-details p {
+          font-size: 1em;
+        }
+        .account-balance {
+          font-size: 1.5em;
+        }
+      }
+
+      /* Large screens: Apply Grid Layout (for withdrawal methods) */
+      @media (min-width: 769px) {
+        .account-container {
+          max-width: 800px; /* Wider container for grid */
+        }
+        .withdrawal-methods {
+          display: grid;
+          grid-template-columns: repeat(
+            auto-fit,
+            minmax(220px, 1fr)
+          ); /* Adjusted minmax for better fit */
+          gap: 20px; /* Gap between grid items */
+          align-items: start;
+        }
+        .method-option {
+          flex-direction: row; /* Keep icon and name side-by-side in grid */
+          align-items: center;
+          justify-content: flex-start;
+          padding: 20px;
+          height: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background-elements">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="account-container">
+      <h1>Frank Simiyu</h1>
+
+      <div class="account-details">
+        <p>Technician: <strong>verified</strong></p>
+        <p>Current account Balance:</p>
+        <p class="account-balance" id="current-balance">Ksh 12,500.00</p>
+      </div>
+
+      <h2>Withdraw Funds</h2>
+      <div class="withdrawal-methods">
+        <div class="method-option" id="mpesa-withdraw-option">
+          <span class="mpesa-icon">M</span>
+          <span class="method-name">Withdraw to M-Pesa</span>
+        </div>
+
+        <div class="method-option" id="bank-withdraw-option">
+          <i class="fas fa-bank"></i>
+          <span class="method-name">Withdraw to Bank</span>
+        </div>
+      </div>
+
+      <div
+        class="withdrawal-input-container"
+        id="mpesa-withdraw-input-container"
+      >
+        <label for="mpesa-withdraw-phone">M-Pesa Phone Number:</label>
+        <input
+          type="tel"
+          id="mpesa-withdraw-phone"
+          placeholder="e.g., 0712345678"
+          pattern="^(07|2547)\d{8}$"
+          required
+        />
+        <small style="color: #ccc; text-align: left"
+          >(Format: 07xxxxxxxx or 2547xxxxxxxx)</small
+        >
+
+        <label for="mpesa-withdraw-amount">Amount to Withdraw (Ksh):</label>
+        <input
+          type="number"
+          id="mpesa-withdraw-amount"
+          placeholder="e.g., 2000"
+          min="1"
+          required
+        />
+
+        <button id="initiateMpesaWithdrawBtn">Initiate M-Pesa Withdrawal</button>
+      </div>
+
+      <div
+        class="withdrawal-input-container"
+        id="bank-withdraw-input-container"
+      >
+        <label for="bank-account-name">Account Name:</label>
+        <input
+          type="text"
+          id="bank-account-name"
+          placeholder="e.g., John Doe"
+          required
+        />
+
+        <label for="bank-account-number">Account Number:</label>
+        <input
+          type="text"
+          id="bank-account-number"
+          placeholder="e.g., 1234567890"
+          required
+        />
+
+        <label for="bank-name">Bank Name:</label>
+        <input
+          type="text"
+          id="bank-name"
+          placeholder="e.g., KCB Bank"
+          required
+        />
+
+        <label for="bank-withdraw-amount">Amount to Withdraw (Ksh):</label>
+        <input
+          type="number"
+          id="bank-withdraw-amount"
+          placeholder="e.g., 5000"
+          min="1"
+          required
+        />
+
+        <button id="initiateBankWithdrawBtn">Initiate Bank Withdrawal</button>
+      </div>
+      </div>
+
+    <script>
+      const withdrawMethods = document.querySelectorAll(".method-option");
+      const mpesaWithdrawOption = document.getElementById(
+        "mpesa-withdraw-option"
+      );
+      const bankWithdrawOption = document.getElementById("bank-withdraw-option");
+      const mpesaWithdrawInputContainer = document.getElementById(
+        "mpesa-withdraw-input-container"
+      );
+      const bankWithdrawInputContainer = document.getElementById(
+        "bank-withdraw-input-container"
+      );
+      const initiateMpesaWithdrawBtn = document.getElementById(
+        "initiateMpesaWithdrawBtn"
+      );
+      const initiateBankWithdrawBtn = document.getElementById(
+        "initiateBankWithdrawBtn"
+      );
+      const currentBalanceDisplay = document.getElementById("current-balance");
+
+      let currentBalance = 12500.0; // Initial balance in KES (for demonstration)
+
+      // Function to format currency
+      function formatCurrency(amount) {
+        return `Ksh ${amount.toLocaleString(undefined, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}`;
+      }
+
+      // Update balance display
+      function updateBalanceDisplay() {
+        currentBalanceDisplay.textContent = formatCurrency(currentBalance);
+      }
+
+      // Hide all withdrawal input forms
+      function hideAllWithdrawalForms() {
+        mpesaWithdrawInputContainer.style.display = "none";
+        bankWithdrawInputContainer.style.display = "none";
+        // Reset form fields
+        document.querySelectorAll(".withdrawal-input-container input").forEach(input => input.value = '');
+      }
+
+      // Event listeners for withdrawal method selection
+      withdrawMethods.forEach((method) => {
+        method.addEventListener("click", () => {
+          withdrawMethods.forEach((opt) => opt.classList.remove("selected"));
+          method.classList.add("selected");
+          hideAllWithdrawalForms(); // Hide all forms first
+
+          if (method.id === "mpesa-withdraw-option") {
+            mpesaWithdrawInputContainer.style.display = "flex";
+          } else if (method.id === "bank-withdraw-option") {
+            bankWithdrawInputContainer.style.display = "flex";
+          }
+          // Add more conditions for other methods
+        });
+      });
+
+      // M-Pesa Withdrawal Logic
+      initiateMpesaWithdrawBtn.addEventListener("click", () => {
+        const phone = document.getElementById("mpesa-withdraw-phone").value.trim();
+        const amount = parseFloat(document.getElementById("mpesa-withdraw-amount").value);
+
+        if (!/^(07\d{8}|2547\d{8})$/.test(phone)) {
+          alert(
+            "Please enter a valid Safaricom number (07xxxxxxxx or 2547xxxxxxxx)."
+          );
+          return;
+        }
+
+        if (isNaN(amount) || amount <= 0 || amount > currentBalance) {
+          alert("Please enter a valid withdrawal amount, not exceeding your current balance.");
+          return;
+        }
+
+        // Simulate API call for M-Pesa withdrawal
+        // In a real application, you would send this to your backend
+        console.log(`Initiating M-Pesa withdrawal of Ksh ${amount} to ${phone}`);
+        alert(`M-Pesa withdrawal of ${formatCurrency(amount)} to ${phone} initiated. Please wait for confirmation.`);
+
+        // Simulate balance update after successful withdrawal
+        currentBalance -= amount;
+        updateBalanceDisplay();
+        hideAllWithdrawalForms(); // Hide form after initiation
+        withdrawMethods.forEach((opt) => opt.classList.remove("selected")); // Deselect method
+
+        // In a real app, you'd handle success/failure from the backend
+      });
+
+      // Bank Withdrawal Logic
+      initiateBankWithdrawBtn.addEventListener("click", () => {
+        const accountName = document.getElementById("bank-account-name").value.trim();
+        const accountNumber = document.getElementById("bank-account-number").value.trim();
+        const bankName = document.getElementById("bank-name").value.trim();
+        const amount = parseFloat(document.getElementById("bank-withdraw-amount").value);
+
+        if (!accountName || !accountNumber || !bankName) {
+          alert("Please fill in all bank details.");
+          return;
+        }
+
+        if (isNaN(amount) || amount <= 0 || amount > currentBalance) {
+          alert("Please enter a valid withdrawal amount, not exceeding your current balance.");
+          return;
+        }
+
+        // Simulate API call for Bank withdrawal
+        // In a real application, you would send this to your backend
+        console.log(`Initiating Bank withdrawal of Ksh ${amount} to account ${accountNumber} at ${bankName} (${accountName})`);
+        alert(`Bank withdrawal of ${formatCurrency(amount)} to ${bankName} initiated. Funds should reflect within 1-3 business days.`);
+
+        // Simulate balance update after successful withdrawal
+        currentBalance -= amount;
+        updateBalanceDisplay();
+        hideAllWithdrawalForms(); // Hide form after initiation
+        withdrawMethods.forEach((opt) => opt.classList.remove("selected")); // Deselect method
+
+        // In a real app, you'd handle success/failure from the backend
+      });
+
+      // Initial setup when the page loads
+      document.addEventListener("DOMContentLoaded", () => {
+        updateBalanceDisplay(); // Set initial balance text
+        hideAllWithdrawalForms(); // Ensure all forms are hidden initially
+      });
+    </script>
+  </body>
+</html>
