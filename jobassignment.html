@@ -520,7 +520,7 @@
 
         <div class="form-group">
           <label for="customerDescription"
-            >Customer's Description of  the Issue:</label
+            >Customer's Description of the Issue:</label
           >
           <textarea
             id="customerDescription"
@@ -577,7 +577,7 @@
         const formData = {
           serviceType: document.getElementById("serviceType").value,
           customerName: document.getElementById("customerName").value.trim(),
-          technicianName: document.getElementById("technicianName").value.trim(), // Added technicianName
+          technicianName: document.getElementById("technicianName").value.trim(),
           customerNumber: document.getElementById("customerNumber").value.trim(),
           location: document.getElementById("location").value.trim(),
           tldescription: document.getElementById("tldescription").value.trim(),
@@ -599,12 +599,16 @@
           return;
         }
 
-        // Simulate API call (replace with actual fetch to your backend)
+        // Get the API key from the global variable (provided by the Canvas environment)
+        const apiKey = typeof __api_key !== 'undefined' ? __api_key : '';
+
         try {
           const response = await fetch("https://techlink-backend.onrender.com/api/createJob", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              // Include the Authorization header with the API key
+              "Authorization": `Bearer ${apiKey}` // Common practice for API key authentication
             },
             body: JSON.stringify(formData),
           });
@@ -616,10 +620,7 @@
 
           const result = await response.json();
           console.log("Job assigned:", result);
-        
-
-          // For demonstration, just log the data and show success message
-          console.log("Job request submission:", formData);
+          
           showMessageBox(
             "Job Assigned!",
             `A new job for "${formData.serviceType}" has been assigned to ${formData.technicianName}.\n\nDetails:\n` +
