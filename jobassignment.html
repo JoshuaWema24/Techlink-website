@@ -569,6 +569,54 @@
           hideMessageBox();
         }
       });
+       // Function to decode a JWT token (client-side) - DEFINED ONCE AND CORRECTLY
+    function decodeJwt(token) {
+        try {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+
+            return JSON.parse(jsonPayload);
+        } catch (e) {
+            console.error("Error decoding JWT:", e);
+            return null;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        // 1. Get the token from local storage using the correct key 'token'.
+        const token = localStorage.getItem('token');
+    
+        // 2. If no token, the user isn't logged in. Redirect to the sign-in page.
+        if (!token) {
+            console.log("No token found, redirecting to login.");
+            // Clear any potentially stale data if we're redirecting
+            localStorage.removeItem('user');
+            localStorage.removeItem('role'); // Also clear the 'role' if you store it
+            return (window.location.href = 'signin.html');
+        }
+    
+        // 3. Decode the token to get its payload.
+        // This is the ONLY place you should call decodeJwt(token)
+        const decodedToken = decodeJwt(token);
+    
+        // 4. Validate the decoded token and check for the user ID.
+        // IMPORTANT: Your token payload uses 'id', not 'userId'.
+        if (!decodedToken || !decodedToken.id) { // CORRECTED from !decodedToken.userId
+            console.error("Invalid token or missing user ID in token payload.");
+            alert("Authentication failed. Please log in again.");
+            // Clear all relevant local storage items on authentication failure.
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            localStorage.removeItem('role'); // Clear role too
+            return (window.location.href = 'signin.html');
+        }
+
+        // Get the user ID from the decoded token.
+        const userId = decodedToken.id; // CORRECTED from decodedToken.userId
+    });
 
       serviceRequestForm.addEventListener("submit", async (event) => {
         event.preventDefault(); // Prevent default form submission
@@ -599,8 +647,8 @@
           return;
         }
 
-        // Get the API key from the global variable (provided by the Canvas environment)
-        const apiKey = typeof __api_key !== 'undefined' ? __api_key : '';
+       
+        const token = localStorage.getItem(token);
 
         try {
           const response = await fetch("https://techlink-backend.onrender.com/api/createJob", {
@@ -608,15 +656,22 @@
             headers: {
               "Content-Type": "application/json",
               // Include the Authorization header with the API key
-              "Authorization": `Bearer ${apiKey}` // Common practice for API key authentication
+              "Authorization": `Bearer` + token // Common practice for API key authentication
             },
             body: JSON.stringify(formData),
           });
 
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || "Failed to assign Job.");
-          }
+         if (!res.ok) {
+                // Handle cases where the server returns an error even with a valid token
+                if (res.status === 401 || res.status === 403) {
+                    alert("Unauthorized access or token expired. Please log in again.");
+                    localStorage.removeItem('token'); // Clear token
+                    localStorage.removeItem('user'); // Clear user data
+                    localStorage.removeItem('role'); // Clear role
+                    return (window.location.href = 'technicianshomepage.html');
+                }
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
 
           const result = await response.json();
           console.log("Job assigned:", result);
