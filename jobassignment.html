@@ -549,6 +549,8 @@
       const messageBoxTitle = document.getElementById("messageBoxTitle");
       const messageBoxMessage = document.getElementById("messageBoxMessage");
       const messageBoxCloseBtn = document.getElementById("messageBoxCloseBtn");
+       const token = localStorage.getItem('token');
+    
 
       // Function to show custom message box
       function showMessageBox(title, message) {
@@ -587,8 +589,7 @@
 
     document.addEventListener('DOMContentLoaded', async () => {
         // 1. Get the token from local storage using the correct key 'token'.
-        const token = localStorage.getItem('token');
-    
+       
         // 2. If no token, the user isn't logged in. Redirect to the sign-in page.
         if (!token) {
             console.log("No token found, redirecting to login.");
