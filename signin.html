@@ -158,6 +158,86 @@
           padding: 20px;
         }
       }
+      #global-loader {
+        display: none; /* Set to block when needed */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.85);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        animation: fadeIn 0.4s ease-in-out;
+      }
+
+      #global-loader img {
+        width: 100px;
+        max-width: 30vw;
+        height: auto;
+        animation: zoomIn 0.8s ease-in-out infinite alternate;
+        display: block;
+      }
+
+      #global-loader p {
+        color: white;
+        margin-top: 20px;
+        font-size: 1.2rem;
+        text-align: center;
+      }
+
+      .spinner {
+        width: 60px;
+        height: 60px;
+        border: 6px solid #ccc;
+        border-top-color: #4f46e5;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        display: none;
+      }
+
+      /* Show fallback spinner if image fails */
+      .show-spinner {
+        display: block !important;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes zoomIn {
+        0% {
+          transform: scale(1);
+        }
+        100% {
+          transform: scale(1.1);
+        }
+      }
+
+      /* Mobile adjustments */
+      @media (max-width: 600px) {
+        #global-loader img {
+          width: 80px;
+        }
+
+        #global-loader p {
+          font-size: 1rem;
+        }
+      }
     </style>
   </head>
   <body>
@@ -202,6 +282,20 @@
         Don't have an account?
         <a href="signUp.html" style="color: #00ffe1">Sign up</a>
       </div>
+    </div>
+    <div id="global-loader">
+      <!-- Fallback Spinner -->
+      <div class="spinner" id="fallback-spinner"></div>
+
+      <!-- Main Image -->
+      <img
+        src="ChatGPT Image Jul 22, 2025, 04_54_26 AM-Photoroom.png"
+        alt="Loading..."
+        id="loader-image"
+        onerror="handleImageError()"
+      />
+
+      <p>Welcome...</p>
     </div>
 
     <script>
@@ -254,6 +348,17 @@
           errorDiv.textContent = "Something went wrong. Try again later.";
         }
       });
+      function handleImageError() {
+        document.getElementById("loader-image").style.display = "none";
+        document
+          .getElementById("fallback-spinner")
+          .classList.add("show-spinner");
+      }
+      // Show loader
+      document.getElementById("global-loader").style.display = "flex";
+
+      // Hide loader
+      document.getElementById("global-loader").style.display = "none";
     </script>
   </body>
 </html>
