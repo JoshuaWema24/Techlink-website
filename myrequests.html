@@ -121,23 +121,28 @@
         }
 
         data.forEach(req => {
-          const card = document.createElement('div');
-          card.classList.add('card');
+  const card = document.createElement('div');
+  card.classList.add('card');
 
-          card.innerHTML = `
-            <div class="card-header">
-              <i class="fas fa-wrench"></i>
-              <div class="service-type">${req.serviceType}</div>
-            </div>
-            <div class="meta">📍 ${req.location}</div>
-            <div class="meta">⏰ ${req.time || 'Not specified'}</div>
-            <div class="meta">⚡ Urgency: ${req.urgency}</div>
-            <div class="desc">${req.description}</div>
-            ${req.photo ? `<img class="thumbnail" src="${req.photo}" alt="Photo" />` : ""}
-          `;
+  const customerName = req.customerId?.name || "Unknown";
+  const customerPhone = req.customerId?.phonenumber || "Not provided";
 
-          container.appendChild(card);
-        });
+  card.innerHTML = `
+    <div class="card-header">
+      <i class="fas fa-wrench"></i>
+      <div class="service-type">${req.serviceType}</div>
+    </div>
+    <div class="meta">📍 ${req.location}</div>
+    <div class="meta">⏰ ${req.time || 'Not specified'}</div>
+    <div class="meta">⚡ Urgency: ${req.urgency}</div>
+    <div class="desc">${req.description}</div>
+    <div class="meta">👤 Customer: ${customerName}</div>
+    <div class="meta">📞 Phone: ${customerPhone}</div>
+  `;
+
+  container.appendChild(card);
+});
+
       } catch (err) {
         console.error('Error fetching requests:', err);
         document.getElementById('requestsContainer').innerHTML =
