@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Techlink</title>
+  <title>Termyte</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <style>
@@ -251,7 +251,7 @@
         // --- Fetch the latest user data from the backend ---
         try {
             // Use the extracted userId in your fetch request URL
-            const res = await fetch(`https://techlink-backend.onrender.com/profile`, {
+            const res = await fetch(`https://Termyte-backend.onrender.com/profile`, {
                 headers: {
                     'Authorization': 'Bearer ' + token // Send the JWT for authentication
                 }
@@ -362,7 +362,7 @@
 
             // Send the update request to your backend.
             // Using PUT method for updates is generally better for RESTful APIs (idempotent).
-            const res = await fetch("https://techlink-backend.onrender.com/profile/update", {
+            const res = await fetch("https://Termyte-backend.onrender.com/profile/update", {
                 method: "PUT", // Changed to PUT as discussed for updates
                 headers: {
                     Authorization: "Bearer " + currentToken
