@@ -12,6 +12,8 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       rel="stylesheet"
     />
+    <script src="https://www.paypal.com/sdk/js?client-id=AeIxkLzDtxTyFLbP_xPymP4s_N2F_spwcvQOMjmE7GNXgfpKHwzto4yPy3NvZXJToE4SUiGKhp6bH7_h&currency=USD"></script>
+
     <style>
       /* Global Styles & Body Background */
       body {
@@ -557,9 +559,71 @@
       const mpesaPhoneInput = document.getElementById("mpesa-phone");
       const mpesaAmountInput = document.getElementById("mpesa-amount");
       const initiateMpesaPayBtn = document.getElementById(
-        "initiateMpesaPayBtn"
-      );
+        "initiateMpesaPayBtn");
+        const paypal = document.getElementById("paypal-option");
+        const visa = document.getElementById("visa-option");
+        const mastercard = document.getElementById("mastercard-option");
 
+         paypal.Buttons({
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: '45.00' // Or make this dynamic
+          },
+          description: "Electrical Fault Diagnosis by Frank"
+        }]
+      });
+    },
+
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(function(details) {
+        // Notify user
+        alert('Payment completed by ' + details.payer.name.given_name);
+
+        // Prepare data to send to server
+        const paymentData = {
+          orderID: data.orderID,
+          payerID: data.payerID,
+          paymentID: details.id,
+          payerName: details.payer.name.given_name + " " + details.payer.name.surname,
+          payerEmail: details.payer.email_address,
+          amount: details.purchase_units[0].amount.value,
+          currency: details.purchase_units[0].amount.currency_code,
+          status: details.status,
+          description: details.purchase_units[0].description
+        };
+
+        // Send to backend
+        fetch('https://techlink-backend.onrender.com/api/payments/paypal', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(paymentData)
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Failed to post payment to server");
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log("Server response:", data);
+          // Redirect or show success screen if needed
+        })
+        .catch(error => {
+          console.error("Error posting to server:", error);
+          alert("Payment succeeded but we couldn’t notify the server.");
+        });
+      });
+    },
+
+    onError: function(err) {
+      console.error(err);
+      alert("An error occurred during the transaction.");
+    }
+  }).render('#paypal-button-container');
       let selectedMethod = null;
 
       // Hide M-Pesa input

@@ -290,7 +290,7 @@
             requestsContainer.innerHTML = "<p style='text-align:center; width:100%;'>Loading requests...</p>"; // Show loading
 
             try {
-                const res = await fetch('https://techlink-backend.onrender.com/api/getJob', {
+                const res = await fetch('https://techlink-backend.onrender.com/api/jobs/technician/:id', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
