@@ -326,7 +326,8 @@
                         <div class="meta"><strong>Customer:</strong> ${req.customerName || 'N/A'}</div>
                         <div class="meta"><strong>Phone:</strong> <a href="tel:${req.customerNumber}" style="color: #6d9bff;">${req.customerNumber || 'N/A'}</a></div>
                         <div class="meta"><strong>Location:</strong> ${req.location || 'N/A'}</div>
-                        <div class="desc"><strong>Description:</strong> ${req.description || 'No description provided.'}</div>
+                        <div class="desc"><strong>Description:</strong> ${req.tldescription || 'No description provided.'}</div>
+                        <div class="desc"><strong>Customer Description:</strong> ${req.customerDescription || 'No description provided.'}</div>
                         <div class="card-footer">
                             <button onclick="alert('Viewing full details for jobs #${req.id || req._id}')">View Full Details</button>
                         </div>
