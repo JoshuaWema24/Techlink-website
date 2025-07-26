@@ -8,506 +8,13 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-    <style>
-      /* Technician Dashboard - Full Page Styles */
-
-      /* Root Variables */
-      :root {
-        --primary-blue-light: #4a90e2;
-        --primary-blue-dark: #2d6bcb;
-        --accent-purple-light: #a765f7;
-        --accent-purple-dark: #8e4ed9;
-
-        --dark-bg: #1a1a2e;
-        --darker-bg: #16213e;
-
-        --text-light: #e0e0e0;
-        --text-muted: #a0a0a0;
-        --border-color: rgba(255, 255, 255, 0.15);
-        --card-bg: #22223b;
-        --success-green: #28a745;
-        --danger-red: #dc3545;
-        --warning-orange: #ffc107;
-
-        --spacing-xs: 10px;
-        --spacing-sm: 20px;
-        --spacing-md: 30px;
-        --spacing-lg: 50px;
-      }
-
-      body {
-        margin: 0;
-        font-family: "Inter", sans-serif;
-        background-color: var(--dark-bg); /* Solid background for body */
-        color: var(--text-light);
-        font-size: 16px;
-        line-height: 1.6;
-      }
-
-      .app-layout {
-        display: flex;
-        height: 100vh;
-        overflow: hidden;
-      }
-
-      .sidebar-nav {
-        width: 280px;
-        background-color: var(--darker-bg); /* Solid background for sidebar */
-        border-right: 1px solid var(--border-color);
-        padding-top: var(--spacing-md);
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100%;
-        z-index: 1000;
-        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
-        transition: transform 0.3s ease-in-out; /* Added for pop-out effect */
-      }
-
-      .sidebar-brand {
-        font-size: 1.6em;
-        font-weight: 600;
-        /* Linear gradient for brand text (clickable aesthetic) */
-        background: linear-gradient(
-          90deg,
-          var(--primary-blue-light),
-          var(--accent-purple-light)
-        );
-        -webkit-background-clip: text;
-        background-clip: text;
-        background-clip: text;
-        background-clip: text;
-        background-clip: text;
-        background-clip: text;
-        background-clip: text;
-        background-clip: text;
-        background-clip: text;
-        background-clip: text;
-        background-clip: text;
-        background-clip: text;
-        background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        padding: var(--spacing-sm);
-        border-bottom: 1px solid var(--border-color);
-      }
-
-      .nav-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        overflow-y: auto;
-      }
-
-      .nav-item {
-        margin-bottom: var(--spacing-xs);
-      }
-
-      .nav-link {
-        display: block;
-        padding: var(--spacing-xs) var(--spacing-sm);
-        color: var(--text-light);
-        text-decoration: none;
-        border-left: 5px solid transparent;
-        transition: 0.3s;
-        position: relative; /* Needed for pseudo-element gradient */
-        z-index: 1; /* Ensure text is above pseudo-element */
-      }
-
-      .nav-link::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: transparent; /* Default */
-        z-index: -1; /* Behind content */
-        border-radius: 0 6px 6px 0; /* Match nav-link border-radius for visual effect */
-        transition: background 0.3s ease;
-      }
-
-      .nav-link:hover::before,
-      .nav-item.active .nav-link::before {
-        /* Applied linear gradient to the background of clickable sidebar links */
-        background: linear-gradient(
-          90deg,
-          rgba(74, 144, 226, 0.1),
-          rgba(167, 101, 247, 0.15)
-        );
-      }
-      
-      .nav-link:hover,
-      .nav-item.active .nav-link {
-        color: var(--primary-blue-light);
-        border-left-color: var(--primary-blue-light);
-      }
-
-
-      .main-wrapper {
-        flex-grow: 1;
-        margin-left: 280px; /* Adjust for sidebar width on large screens */
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        background-color: var(--dark-bg);
-      }
-
-      .top-bar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: var(--spacing-sm) var(--spacing-md);
-        /* Linear gradient for top bar (clickable aesthetic) */
-        background: linear-gradient(
-          to right,
-          var(--primary-blue-dark),
-          var(--accent-purple-dark)
-        );
-        border-bottom: 1px solid var(--border-color);
-        position: sticky;
-        top: 0;
-        z-index: 900;
-        color: white;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-      }
-
-      .dashboard-content {
-        flex-grow: 1;
-        padding: var(--spacing-lg);
-        background-color: var(--dark-bg); /* Solid background for dashboard content */
-        overflow-y: auto;
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-lg);
-      }
-
-      .dashboard-card {
-        /* Solid background for dashboard cards */
-        background-color: var(--card-bg);
-        border-radius: 12px;
-        padding: var(--spacing-lg);
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        border: 1px solid var(--border-color);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      .dashboard-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
-      }
-
-      .dashboard-card h2 {
-        font-size: 1.6em;
-        /* Linear gradient for heading text (clickable aesthetic) */
-        background: linear-gradient(
-          90deg,
-          var(--primary-blue-light),
-          var(--accent-purple-light)
-        );
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        /* Linear gradient for border-bottom */
-        border-bottom: 2px solid;
-        border-image: linear-gradient(
-            to right,
-            var(--primary-blue-light),
-            var(--accent-purple-light)
-          )
-          1;
-        padding-bottom: var(--spacing-xs);
-        margin-bottom: var(--spacing-sm);
-      }
-
-      /* Technician-Specific Components */
-      .job-list,
-      #Termyte-messages {
-        display: grid;
-        gap: var(--spacing-md);
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      }
-
-      .job-item,
-      .message-item {
-        /* Solid background for job/message items */
-        background-color: rgba(255, 255, 255, 0.05);
-        border-radius: 10px;
-        padding: var(--spacing-sm);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        transition: transform 0.2s ease, border-color 0.2s ease,
-          box-shadow 0.2s ease;
-      }
-
-      .job-item:hover {
-        transform: translateY(-3px);
-        /* Linear gradient for border on hover (clickable aesthetic) */
-        border-image: linear-gradient(
-            to right,
-            var(--primary-blue-light),
-            var(--accent-purple-light)
-          )
-          1;
-        border-image-slice: 1;
-        box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
-        /* Subtle background change on hover */
-        background: linear-gradient(
-          100deg,
-          rgba(255, 255, 255, 0.05),
-          rgba(255, 255, 255, 0.08)
-        );
-      }
-
-      .job-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: var(--spacing-xs);
-      }
-
-      .job-type {
-        font-weight: 600;
-        /* Linear gradient for job type text (clickable aesthetic) */
-        background: linear-gradient(
-          90deg,
-          var(--primary-blue-light),
-          var(--accent-purple-light)
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-size: 1.15em;
-        display: inline-block;
-      }
-
-      .status-badge {
-        padding: 6px 12px;
-        border-radius: 5px;
-        font-size: 0.85em;
-        font-weight: 600;
-        text-transform: uppercase;
-      }
-
-      .status-pending {
-        /* Linear gradient for pending status badge (clickable aesthetic) */
-        background: linear-gradient(45deg, var(--warning-orange), #ffa000);
-        color: var(--dark-bg);
-      }
-
-      .job-customer,
-      .job-location {
-        color: var(--text-muted);
-        font-size: 0.9em;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        margin-bottom: var(--spacing-xs);
-      }
-
-      .job-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: var(--spacing-sm);
-        padding-top: var(--spacing-sm);
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
-      }
-
-      .job-payout {
-        font-weight: 600;
-        /* Linear gradient for job payout text (clickable aesthetic) */
-        background: linear-gradient(90deg, var(--success-green), #6bd684);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-size: 1.1em;
-      }
-
-      .job-actions {
-        display: flex;
-        gap: var(--spacing-xs);
-        flex-wrap: wrap;
-      }
-
-      /* Buttons */
-      .primary-button {
-        padding: 12px 24px;
-        font-weight: 600;
-        border: none;
-        border-radius: 8px;
-        font-size: 1em;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        /* Linear gradient for primary button */
-        background: linear-gradient(
-          45deg,
-          var(--primary-blue-light),
-          var(--accent-purple-light)
-        );
-        color: white;
-        box-shadow: 0 3px 10px rgba(74, 144, 226, 0.4);
-      }
-
-      .primary-button:hover {
-        background: linear-gradient(
-          45deg,
-          var(--primary-blue-dark),
-          var(--accent-purple-dark)
-        );
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(74, 144, 226, 0.6);
-      }
-
-      .secondary-button {
-        padding: 12px 24px;
-        font-weight: 600;
-        border: none;
-        border-radius: 8px;
-        font-size: 1em;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        /* Linear gradient for secondary button */
-        background: linear-gradient(45deg, #6c757d, #495057);
-        color: white;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-      }
-
-      .secondary-button:hover {
-        background: linear-gradient(45deg, #495057, #343a40);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-      }
-
-      /* Messages */
-      #Termyte-messages .message-item p {
-        margin: 0;
-        color: var(--text-light);
-        font-size: 0.95em;
-      }
-
-      /* Earnings */
-      .dashboard-card#earnings-summary p {
-        font-size: 1.1em;
-        color: var(--text-light);
-        margin-bottom: var(--spacing-sm);
-      }
-
-      /* Account Info */
-      .dashboard-card#account-info p {
-        font-size: 1em;
-        color: var(--text-muted);
-        margin-bottom: var(--spacing-xs);
-      }
-
-      /* Tips Section */
-      .tips-section {
-        margin-bottom: var(--spacing-lg);
-      }
-
-      .tips-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: var(--spacing-md);
-      }
-
-      .tip-card {
-        background-color: var(--card-bg);
-        border-radius: 12px;
-        padding: var(--spacing-sm);
-        border: 1px solid var(--border-color);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-        transition: transform 0.2s ease;
-      }
-
-      .tip-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-      }
-
-      .tip-card h3 {
-        font-size: 1.2em;
-        margin-top: 0;
-        margin-bottom: var(--spacing-xs);
-        /* Linear gradient for tip card heading */
-        background: linear-gradient(
-          90deg,
-          var(--primary-blue-light),
-          var(--accent-purple-light)
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-
-      .tip-card p {
-        font-size: 0.9em;
-        color: var(--text-muted);
-      }
-
-
-      /* Small Screen Sidebar Pop-Out */
-      .hamburger-menu {
-        display: none; /* Hidden on large screens */
-        font-size: 1.5em;
-        cursor: pointer;
-        color: white;
-      }
-
-      @media (max-width: 1024px) {
-        .main-wrapper {
-          margin-left: 0; /* No margin on small screens */
-        }
-
-        .sidebar-nav {
-          transform: translateX(-100%); /* Hide sidebar by default */
-        }
-
-        .sidebar-nav.open {
-          transform: translateX(0); /* Slide in sidebar when 'open' class is added */
-        }
-
-        .hamburger-menu {
-          display: block; /* Show hamburger menu on small screens */
-        }
-
-        .app-brand {
-          flex-grow: 1; /* Allow brand to take space */
-          text-align: center; /* Center brand when menu is present */
-        }
-
-        .top-bar {
-          justify-content: flex-start; /* Align items to the start */
-          gap: var(--spacing-sm); /* Add gap between elements */
-        }
-      }
-
-      @media (max-width: 768px) {
-        body {
-          font-size: 14px;
-        }
-
-        .dashboard-content {
-          padding: var(--spacing-md);
-        }
-
-        .dashboard-card h2 {
-          font-size: 1.4em;
-        }
-
-        .job-list,
-        #Termyte-messages {
-          grid-template-columns: 1fr;
-        }
-
-        .tips-grid {
-          grid-template-columns: 1fr;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="technicianhomepagecss.css" class="css" />
   </head>
   <body>
     <div class="app-layout">
       <nav class="sidebar-nav" id="sidebar">
         <div class="sidebar-brand">
-           <i><img src="8806258-Photoroom.png"style="width:50px;"></i>
+          <i><img src="8806258-Photoroom.png" style="width: 50px" /></i>
           Termyte
         </div>
         <ul class="nav-list">
@@ -544,8 +51,12 @@
           <div class="hamburger-menu" id="hamburger-menu">
             <i class="fas fa-bars"></i>
           </div>
-          <div class="app-brand" style="font-size: 30px; font-weight: 900; font-family: sans-serif;">
-           <i><img src="8806258-Photoroom.png"style="width:50px;"></i>Termyte
+          <div
+            class="app-brand"
+            style="font-size: 30px; font-weight: 900; font-family: sans-serif"
+          >
+            <i><img src="8806258-Photoroom.png" style="width: 50px" /></i
+            >Termyte
           </div>
           <div class="user-widgets">
             <div class="tech-availability">
@@ -566,7 +77,10 @@
             <div class="tips-grid">
               <div class="tip-card">
                 <h3>Clear Communication</h3>
-                <p>Always confirm job details and estimated arrival times with the client.</p>
+                <p>
+                  Always confirm job details and estimated arrival times with
+                  the client.
+                </p>
               </div>
               <div class="tip-card">
                 <h3>Professional Appearance</h3>
@@ -574,19 +88,30 @@
               </div>
               <div class="tip-card">
                 <h3>Active Listening</h3>
-                <p>Listen carefully to the client's problem to diagnose accurately.</p>
+                <p>
+                  Listen carefully to the client's problem to diagnose
+                  accurately.
+                </p>
               </div>
               <div class="tip-card">
                 <h3>Respectful Demeanor</h3>
-                <p>Be polite, friendly, and show respect for the client's property.</p>
+                <p>
+                  Be polite, friendly, and show respect for the client's
+                  property.
+                </p>
               </div>
               <div class="tip-card">
                 <h3>Transparent Pricing</h3>
-                <p>Discuss all costs upfront and explain any unexpected changes.</p>
+                <p>
+                  Discuss all costs upfront and explain any unexpected changes.
+                </p>
               </div>
               <div class="tip-card">
                 <h3>Follow-Up</h3>
-                <p>Consider a quick follow-up to ensure client satisfaction after the service.</p>
+                <p>
+                  Consider a quick follow-up to ensure client satisfaction after
+                  the service.
+                </p>
               </div>
             </div>
           </div>
@@ -603,8 +128,8 @@
                   <i class="fas fa-user"></i> Brian Otieno
                 </div>
                 <div class="job-location">
-                  <i class="fas fa-map-marker-alt"></i> Nairobi West
-                {/* Current time is Tuesday, July 15, 2025 at 11:59:59 AM EAT. */}.
+                  <i class="fas fa-map-marker-alt"></i> Nairobi West {/* Current
+                  time is Tuesday, July 15, 2025 at 11:59:59 AM EAT. */}.
                 </div>
                 <p>Screen replacement needed urgently.</p>
                 <div class="job-footer">
@@ -622,11 +147,15 @@
             <h2>Messages from Termyte</h2>
             <div class="job-list" id="Termyte-messages">
               <div class="job-item">
-                <p><strong>Admin:</strong> Kindly update your availability this week.</p>
+                <p>
+                  <strong>Admin:</strong> Kindly update your availability this
+                  week.
+                </p>
               </div>
               <div class="job-item">
                 <p>
-                  <strong>System:</strong> A new update has been pushed to your dashboard UI.
+                  <strong>System:</strong> A new update has been pushed to your
+                  dashboard UI.
                 </p>
               </div>
             </div>
@@ -635,55 +164,27 @@
           <div class="dashboard-card">
             <h2>Earnings Summary</h2>
             <p>
-              Total Earnings: <span class="job-payout" id="total-earnings">Ksh 14,500</span>
+              Total Earnings:
+              <span class="job-payout" id="total-earnings">Ksh 14,500</span>
             </p>
             <button class="primary-button">Withdraw Funds</button>
           </div>
 
           <div class="dashboard-card">
             <h2>Account Details</h2>
-             <strong>Technician</strong>
-            <p>Email: <span id="technician-email">technician@example.com</span></p>
-            <p>Please ensure you are verified or else no job will be assigned to you! <a href="verify.html">Get verified</a></p>
+            <strong>Technician</strong>
+            <p>
+              Email: <span id="technician-email">technician@example.com</span>
+            </p>
+            <p>
+              Please ensure you are verified or else no job will be assigned to
+              you! <a href="verify.html">Get verified</a>
+            </p>
           </div>
         </div>
       </main>
     </div>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const hamburgerMenu = document.getElementById("hamburger-menu");
-        const sidebar = document.getElementById("sidebar");
-
-        if (hamburgerMenu && sidebar) {
-          hamburgerMenu.addEventListener("click", () => {
-            sidebar.classList.toggle("open");
-          });
-
-          // Optional: Close sidebar when a nav link is clicked (for better mobile UX)
-          const navLinks = document.querySelectorAll(".nav-link");
-          navLinks.forEach((link) => {
-            link.addEventListener("click", () => {
-              // Check if the sidebar is open and on a small screen
-              if (window.innerWidth <= 1024 && sidebar.classList.contains("open")) {
-                sidebar.classList.remove("open");
-              }
-            });
-          });
-
-          // Optional: Close sidebar if clicking outside of it on mobile
-          document.addEventListener("click", (event) => {
-            if (
-              window.innerWidth <= 1024 &&
-              !sidebar.contains(event.target) &&
-              !hamburgerMenu.contains(event.target) &&
-              sidebar.classList.contains("open")
-            ) {
-              sidebar.classList.remove("open");
-            }
-          });
-        }
-      });
-    </script>
+    <script src="technicianscript.js"></script>
   </body>
 </html>

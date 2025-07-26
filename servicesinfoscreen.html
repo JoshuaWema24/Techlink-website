@@ -12,436 +12,14 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-    <style>
-      /* RESET & BASE */
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-
-      html {
-        scroll-behavior: smooth;
-      }
-
-      body {
-        font-family: "Poppins", sans-serif;
-        line-height: 1.6;
-        color: #e0e0e0;
-        background: #1a1a2e;
-        overflow-x: hidden;
-      }
-
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-      }
-
-      h1, h2, h3 {
-        color: #ffffff;
-        line-height: 1.2;
-        margin-bottom: 20px;
-        font-weight: 700;
-      }
-
-      h1 { font-size: 3.5em; text-align: center; }
-      h2 { font-size: 2.5em; text-align: center; margin-bottom: 40px; }
-      h3 { font-size: 1.8em; margin-bottom: 15px; color: #00bcd4; }
-
-      p {
-        font-size: 1.1em;
-        margin-bottom: 20px;
-        color: #b0b0b0;
-      }
-
-      .section-description {
-        font-size: 1.2em;
-        text-align: center;
-        max-width: 800px;
-        margin: 0 auto 50px auto;
-        color: #e0e0e0;
-      }
-
-      .section-padded {
-        padding: 80px 0;
-      }
-
-      .text-center {
-        text-align: center;
-      }
-
-      /* NAVBAR */
-      .navbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px 50px;
-        background: rgba(0, 0, 0, 0.2);
-        z-index: 10;
-        position: relative;
-      }
-
-      .logo {
-        font-size: 24px;
-        font-weight: 700;
-        display: flex;
-        align-items: center;
-      }
-
-      .logo i {
-        margin-right: 10px;
-        color: #00ffff;
-      }
-
-      .nav-links ul {
-        list-style: none;
-        display: flex;
-        padding: 0;
-        margin: 0;
-      }
-
-      .nav-links ul li {
-        margin-right: 30px;
-      }
-
-      .nav-links ul li a {
-        text-decoration: none;
-        color: #fff;
-        font-weight: 600;
-        transition: color 0.3s ease;
-      }
-
-      .nav-links ul li a:hover {
-        color: #00ffff;
-      }
-
-      .social-icons i {
-        margin-left: 20px;
-        font-size: 18px;
-        cursor: pointer;
-        transition: color 0.3s ease;
-      }
-
-      .social-icons i:hover {
-        color: #ff00ff;
-      }
-
-      .hamburger {
-        display: none;
-        font-size: 24px;
-        cursor: pointer;
-        color: #00ffff;
-        z-index: 11;
-      }
-
-      .sidebar {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        width: 250px;
-        height: 100vh;
-        background: #1a0033;
-        z-index: 999;
-        padding: 60px 30px 30px;
-        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
-        transition: left 0.3s ease-in-out;
-      }
-
-      .sidebar.active {
-        left: 0;
-      }
-
-      .sidebar .close-btn {
-        position: absolute;
-        top: 15px;
-        right: 20px;
-        font-size: 30px;
-        color: #fff;
-        cursor: pointer;
-      }
-
-      .sidebar ul {
-        list-style: none;
-        padding: 0;
-      }
-
-      .sidebar ul li {
-        margin-bottom: 20px;
-      }
-
-      .sidebar ul li a {
-        color: #fff;
-        text-decoration: none;
-        font-size: 18px;
-        font-weight: 600;
-        display: block;
-        transition: color 0.3s;
-      }
-
-      .sidebar ul li a:hover {
-        color: #00ffff;
-      }
-
-      /* HERO */
-      .hero-services {
-        background: url("https://via.placeholder.com/1920x600/100d20/ffffff?text=Termyte+Services+Hero+Banner") no-repeat center center/cover;
-        padding: 150px 0;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .hero-services::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.6);
-        z-index: 1;
-      }
-
-      .hero-services .container {
-        position: relative;
-        z-index: 2;
-      }
-
-      .hero-services h1 {
-        font-size: 4.5em;
-        margin-bottom: 10px;
-        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
-      }
-
-      .hero-services .tagline {
-        font-size: 1.5em;
-        max-width: 800px;
-        margin: 0 auto;
-        color: #a0a0a0;
-        font-weight: 300;
-      }
-
-      /* SERVICES */
-      .service-categories {
-        background: #1f1f3a;
-      }
-
-      .service-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 30px;
-        margin-top: 50px;
-      }
-
-      .service-card {
-        background: #252540;
-        padding: 30px;
-        border-radius: 10px;
-        text-align: center;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        min-height: 280px;
-      }
-
-      .service-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-      }
-
-      .service-card i {
-        font-size: 3.5em;
-        color: #00bcd4;
-        margin-bottom: 20px;
-      }
-
-      .service-card h3 {
-        color: #ffffff;
-        font-size: 1.5em;
-        margin-bottom: 10px;
-      }
-
-      .service-card p {
-        color: #b0b0b0;
-        flex-grow: 1;
-      }
-
-      /* CTA SECTION */
-      .cta-section {
-        background: linear-gradient(135deg, #0f003a, #3a005f);
-        padding: 100px 0;
-      }
-
-      .cta-section h2 {
-        color: #ffffff;
-        font-size: 3em;
-        margin-bottom: 20px;
-      }
-
-      .cta-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 30px;
-        flex-wrap: wrap;
-        margin-top: 40px;
-      }
-
-      .btn {
-        display: inline-block;
-        padding: 15px 35px;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 1.1em;
-        transition: all 0.3s ease;
-        white-space: nowrap;
-      }
-
-      .btn-primary {
-        background: linear-gradient(90deg, #00bcd4, #ff4081);
-        color: #ffffff;
-        box-shadow: 0 5px 20px rgba(0, 188, 212, 0.4);
-      }
-
-      .btn-primary:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0, 188, 212, 0.6);
-      }
-
-      .btn-secondary {
-        background: none;
-        border: 2px solid #ff4081;
-        color: #ff4081;
-      }
-
-      .btn-secondary:hover {
-        background: #ff4081;
-        color: #ffffff;
-        transform: translateY(-5px);
-        box-shadow: 0 5px 20px rgba(255, 64, 129, 0.4);
-      }
-
-      /* FOOTER */
-      .main-footer {
-        background: #0d0024;
-        padding: 30px 0;
-        color: #a0a0a0;
-        font-size: 0.9em;
-        border-top: 1px solid #2a2a4a;
-      }
-
-      .main-footer .container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-      }
-
-      .footer-links a {
-        color: #a0a0a0;
-        text-decoration: none;
-        margin-left: 25px;
-        transition: color 0.3s ease;
-      }
-
-      .footer-links a:hover {
-        color: #00bcd4;
-      }
-
-      /* RESPONSIVE */
-      @media (max-width: 768px) {
-        .nav-links,
-        .social-icons {
-          display: none;
-        }
-
-        .hamburger {
-          display: block;
-        }
-
-        .hero-services h1 {
-          font-size: 2.8em;
-        }
-
-        .cta-buttons {
-          flex-direction: column;
-          gap: 20px;
-        }
-
-        .main-footer .container {
-          flex-direction: column;
-          text-align: center;
-        }
-
-        .footer-links a {
-          margin: 0 10px;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .hero-services h1 {
-          font-size: 2.2em;
-        }
-        .cta-buttons .btn {
-          width: 100%;
-          text-align: center;
-        }
-      }
-      img{
-        width: 50px;
-      }
-      .button-group button {
-      padding: 14px 32px;
-      border: none;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 600;
-      color: #fff;
-      background: rgba(255, 255, 255, 0.1);
-      -webkit-backdrop-filter: blur(10px);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .button-group button:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
-    }
-
-    .login-btn {
-      color: #00ffcc;
-      border: 1px solid #00ffcc;
-    }
-
-    .signup-btn {
-      color: #ff66cc;
-      border: 1px solid #ff66cc;
-    }
-
-    .login-btn:hover {
-      background-color: rgba(0, 255, 204, 0.1);
-    }
-
-    .signup-btn:hover {
-      background-color: rgba(255, 102, 204, 0.1);
-    }
-    </style>
+    <link rel="stylesheet" href="" class="css" />
   </head>
 
   <body>
     <!-- Navbar -->
     <header class="navbar">
       <div class="logo">
-        <i><img src="8806258-Photoroom.png"></i> Termyte
+        <i><img src="8806258-Photoroom.png" /></i> Termyte
       </div>
       <nav class="nav-links">
         <ul>
@@ -449,11 +27,15 @@
           <li><a href="aboutpage.html">ABOUT</a></li>
           <li><a href="servicesinfoscreen.html">SERVICES</a></li>
           <li><a href="contactpage.html">CONTACT</a></li>
-          
-         <div class="button-group">
-    <button class="login-btn" style=" color: white;"><a href="signin.html" style=" color: white;">Log in</a></button>
-    <button class="signup-btn" style=" color: white;"><a href="signUp.html" style=" color: white;" >Sign up</a></button>
-  </div>
+
+          <div class="button-group">
+            <button class="login-btn" style="color: white">
+              <a href="signin.html" style="color: white">Log in</a>
+            </button>
+            <button class="signup-btn" style="color: white">
+              <a href="signUp.html" style="color: white">Sign up</a>
+            </button>
+          </div>
         </ul>
       </nav>
       <div class="social-icons">
@@ -467,22 +49,25 @@
       </div>
     </header>
 
-     <!-- Sidebar -->
-      <div class="sidebar" id="sidebar">
-        <div class="close-btn" id="closeBtn">&times;</div>
-        <ul>
-          <li><a href="index.html">HOME</a></li>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <div class="close-btn" id="closeBtn">&times;</div>
+      <ul>
+        <li><a href="index.html">HOME</a></li>
         <li><a href="aboutpage.html">ABOUT</a></li>
         <li><a href="servicesinfoscreen.html">SERVICES</a></li>
         <li><a href="contactpage.html">CONTACT</a></li>
 
-         <div class="button-group">
-    <button class="login-btn"><a href="signin.html" style="color: white;">Log in</a></button>
-    <button class="signup-btn" style=" color: white;"><a href="signUp.html" style=" color: white;">Sign up</a></button>
-  </div>
-
-        </ul>
-      </div>
+        <div class="button-group">
+          <button class="login-btn">
+            <a href="signin.html" style="color: white">Log in</a>
+          </button>
+          <button class="signup-btn" style="color: white">
+            <a href="signUp.html" style="color: white">Sign up</a>
+          </button>
+        </div>
+      </ul>
+    </div>
 
     <!-- Main Content -->
     <main>
@@ -517,35 +102,56 @@
               <h3>Graphic Design</h3>
               <p>Creative solutions for stunning logos...</p>
             </div>
-             <div class="service-card">
-                        <i class="fas fa-mobile-screen-button"></i>
-                        <h3>Mobile Phone Repair</h3>
-                        <p>Expert repairs for cracked screens, battery replacements, charging port issues, water damage recovery, and software troubleshooting for all smartphone and tablet models.</p>
-                    </div>
+            <div class="service-card">
+              <i class="fas fa-mobile-screen-button"></i>
+              <h3>Mobile Phone Repair</h3>
+              <p>
+                Expert repairs for cracked screens, battery replacements,
+                charging port issues, water damage recovery, and software
+                troubleshooting for all smartphone and tablet models.
+              </p>
+            </div>
 
-                    <div class="service-card">
-                        <i class="fas fa-laptop"></i>
-                        <h3>Laptop Repair</h3>
-                        <p>Comprehensive solutions for hardware upgrades, virus and malware removal, operating system installations, data recovery, screen replacements, and general diagnostics to keep your laptop running smoothly.</p>
-                    </div>
+            <div class="service-card">
+              <i class="fas fa-laptop"></i>
+              <h3>Laptop Repair</h3>
+              <p>
+                Comprehensive solutions for hardware upgrades, virus and malware
+                removal, operating system installations, data recovery, screen
+                replacements, and general diagnostics to keep your laptop
+                running smoothly.
+              </p>
+            </div>
 
-                    <div class="service-card">
-                        <i class="fas fa-network-wired"></i>
-                        <h3>Networking Solutions</h3>
-                        <p>Professional home and office network setup, Wi-Fi optimization, secure cabling, troubleshooting connectivity issues, and seamless smart device integration for a reliable connection.</p>
-                    </div>
+            <div class="service-card">
+              <i class="fas fa-network-wired"></i>
+              <h3>Networking Solutions</h3>
+              <p>
+                Professional home and office network setup, Wi-Fi optimization,
+                secure cabling, troubleshooting connectivity issues, and
+                seamless smart device integration for a reliable connection.
+              </p>
+            </div>
 
-                    <div class="service-card">
-                        <i class="fas fa-mobile-alt"></i>
-                        <h3>Mobile App Development</h3>
-                        <p>Bring your innovative ideas to life with custom Android and iOS app development. From conceptualization and UI/UX design to coding, launch, and ongoing maintenance.</p>
-                    </div>
+            <div class="service-card">
+              <i class="fas fa-mobile-alt"></i>
+              <h3>Mobile App Development</h3>
+              <p>
+                Bring your innovative ideas to life with custom Android and iOS
+                app development. From conceptualization and UI/UX design to
+                coding, launch, and ongoing maintenance.
+              </p>
+            </div>
 
-                    <div class="service-card">
-                        <i class="fas fa-globe"></i>
-                        <h3>Web Design & Maintenance</h3>
-                        <p>Crafting professional, responsive websites, dynamic e-commerce solutions, content management systems (CMS), and providing ongoing maintenance for optimal performance and security.</p>
-                    </div>  
+            <div class="service-card">
+              <i class="fas fa-globe"></i>
+              <h3>Web Design & Maintenance</h3>
+              <p>
+                Crafting professional, responsive websites, dynamic e-commerce
+                solutions, content management systems (CMS), and providing
+                ongoing maintenance for optimal performance and security.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -577,24 +183,6 @@
     </footer>
 
     <!-- Scripts -->
-    <script>
-      const hamburger = document.getElementById("hamburger");
-      const sidebar = document.getElementById("sidebar");
-      const closeBtn = document.getElementById("closeBtn");
-
-      hamburger.onclick = () => {
-        sidebar.classList.add("active");
-      };
-
-      closeBtn.onclick = () => {
-        sidebar.classList.remove("active");
-      };
-
-      document.querySelectorAll("#sidebar a").forEach((link) => {
-        link.addEventListener("click", () => {
-          sidebar.classList.remove("active");
-        });
-      });
-    </script>
+    <script src="serviceinfoscript.js"></script>
   </body>
 </html>

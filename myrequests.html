@@ -1,180 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Termyte</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-  <style>
-    body {
-      margin: 0;
-      padding: 30px;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #0e0f1c, #14152c);
-      color: white;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <title>Termyte</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="myrequestcss.css" class="css" />
+  </head>
+  <body>
+    <h2>My Service Requests</h2>
 
-    h2 {
-      text-align: center;
-      margin-bottom: 40px;
-      color: #9e8dff;
-    }
-
-    .requests {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: rgba(36, 40, 60, 0.95);
-      padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0 0 15px rgba(108, 99, 255, 0.1);
-      transition: 0.3s ease;
-      border: 1px solid transparent;
-    }
-
-    .card:hover {
-      border-color: #6c63ff;
-      transform: translateY(-4px);
-    }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
-    .card-header i {
-      font-size: 24px;
-      color: #6c63ff;
-    }
-
-    .service-type {
-      font-weight: bold;
-      font-size: 18px;
-    }
-
-    .meta {
-      font-size: 14px;
-      margin: 6px 0;
-      color: #bbb;
-    }
-
-    .desc {
-      font-size: 15px;
-      margin: 12px 0;
-    }
-
-    .thumbnail {
-      max-width: 100%;
-      margin-top: 10px;
-      border-radius: 10px;
-      border: 1px solid #444;
-    }
-  </style>
-</head>
-<body>
-
-  <h2>My Service Requests</h2>
-
-  <div class="requests" id="requestsContainer">
-    <!-- Cards will be inserted here -->
-  </div>
-
-  <script>
-    function decodeJwt(token) {
-      try {
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
-
-        return JSON.parse(jsonPayload);
-      } catch (e) {
-        console.error("Error decoding JWT:", e);
-        return null;
-      }
-    }
-
-    async function fetchRequests(token) {
-      try {
-        const res = await fetch('https://techlink-backend.onrender.com/api/my-requests', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!res.ok) {
-          throw new Error("Failed to fetch service requests");
-        }
-
-        const data = await res.json();
-        const container = document.getElementById('requestsContainer');
-
-        if (!data || data.length === 0) {
-          container.innerHTML = "<p style='text-align:center;'>No requests found.</p>";
-          return;
-        }
-
-        data.forEach(req => {
-  const card = document.createElement('div');
-  card.classList.add('card');
-
-  const customerName = req.customerId?.name || "Unknown";
-  const customerPhone = req.customerId?.phonenumber || "Not provided";
-
-  card.innerHTML = `
-    <div class="card-header">
-      <i class="fas fa-wrench"></i>
-      <div class="service-type">${req.serviceType}</div>
+    <div class="requests" id="requestsContainer">
+      <!-- Cards will be inserted here -->
     </div>
-    <div class="meta">📍 ${req.location}</div>
-    <div class="meta">⏰ ${req.time || 'Not specified'}</div>
-    <div class="meta">⚡ Urgency: ${req.urgency}</div>
-    <div class="desc">${req.description}</div>
-    <div class="meta">👤 Customer: ${customerName}</div>
-    <div class="meta">📞 Phone: ${customerPhone}</div>
-  `;
 
-  container.appendChild(card);
-});
-
-      } catch (err) {
-        console.error('Error fetching requests:', err);
-        document.getElementById('requestsContainer').innerHTML =
-          "<p style='text-align:center;'>Failed to load requests.</p>";
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', async () => {
-      const token = localStorage.getItem('token');
-
-      if (!token) {
-        console.log("No token found, redirecting to login.");
-        localStorage.removeItem('user');
-        localStorage.removeItem('role');
-        return (window.location.href = 'signin.html');
-      }
-
-      const decodedToken = decodeJwt(token);
-
-      if (!decodedToken || !decodedToken.id) {
-        console.error("Invalid token or missing user ID in token payload.");
-        alert("Authentication failed. Please log in again.");
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        localStorage.removeItem('role');
-        return (window.location.href = 'signin.html');
-      }
-
-      // Token is valid, fetch user requests
-      await fetchRequests(token);
-    });
-  </script>
-
-</body>
+    <script src="myrequestscript.js"></script>
+  </body>
 </html>

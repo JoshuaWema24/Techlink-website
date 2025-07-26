@@ -1,401 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Termyte</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-  <style>
-    :root {
-      --bg: #1c1d2e;
-      --card: #2c2e45;
-      --accent: #6c63ff;
-      --input: #1e1f33;
-      --text: #eee;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <title>Termyte</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="profilecss.css" class="css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>User Profile</h2>
+      <div class="form-grid">
+        <div class="input-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" />
+        </div>
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+        <div class="input-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" />
+        </div>
 
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #0f101c, var(--bg));
-      color: var(--text);
-      padding: 20px;
-    }
+        <div class="input-group">
+          <label for="phone">Phone Number</label>
+          <input type="text" id="phone" />
+        </div>
 
-    .container {
-      max-width: 800px;
-      margin: auto;
-      background: var(--card);
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-    }
+        <div class="input-group">
+          <label for="country">Country</label>
+          <input type="text" id="country" />
+        </div>
 
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: var(--accent);
-    }
-
-    .profile-pic {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 25px;
-    }
-
-    .profile-pic img {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid var(--accent);
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-
-    .profile-pic img:hover {
-      opacity: 0.8;
-    }
-
-    .profile-pic label {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #aaa;
-      cursor: pointer;
-    }
-
-    .profile-pic input[type="file"] {
-      display: none;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
-
-    .input-group {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .input-group label {
-      font-size: 14px;
-      margin-bottom: 6px;
-      color: #ccc;
-    }
-
-    .input-group input {
-      padding: 12px;
-      background: var(--input);
-      border: none;
-      border-radius: 10px;
-      color: white;
-      font-size: 14px;
-    }
-
-    .actions {
-      margin-top: 30px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 15px;
-    }
-
-    .actions button {
-      background: var(--accent);
-      border: none;
-      padding: 12px 20px;
-      border-radius: 10px;
-      color: white;
-      font-size: 14px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .actions button:hover {
-      background: #847bff;
-    }
-
-    @media (max-width: 500px) {
-      .container {
-        padding: 20px;
-      }
-
-      .profile-pic img {
-        width: 100px;
-        height: 100px;
-      }
-
-      .actions button {
-        width: 100%;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h2>User Profile</h2>
-    <div class="form-grid">
-      <div class="input-group">
-        <label for="name">Full Name</label>
-        <input type="text" id="name">
+        <div class="input-group">
+          <label for="city">City</label>
+          <input type="text" id="city" />
+        </div>
       </div>
 
-      <div class="input-group">
-        <label for="email">Email</label>
-        <input type="email" id="email">
-      </div>
-
-      <div class="input-group">
-        <label for="phone">Phone Number</label>
-        <input type="text" id="phone">
-      </div>
-
-      <div class="input-group">
-        <label for="country">Country</label>
-        <input type="text" id="country">
-      </div>
-
-      <div class="input-group">
-        <label for="city">City</label>
-        <input type="text" id="city">
+      <div class="actions">
+        <button onclick="editProfile()">Edit</button>
+        <button onclick="saveProfile()">Save</button>
       </div>
     </div>
 
-    <div class="actions">
-      <button onclick="editProfile()">Edit</button>
-      <button onclick="saveProfile()">Save</button>
-    </div>
-  </div>
-
-  
-  <script>
-    // Function to decode a JWT token (client-side) - DEFINED ONCE AND CORRECTLY
-    function decodeJwt(token) {
-        try {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-
-            return JSON.parse(jsonPayload);
-        } catch (e) {
-            console.error("Error decoding JWT:", e);
-            return null;
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', async () => {
-        // 1. Get the token from local storage using the correct key 'token'.
-        const token = localStorage.getItem('token');
-
-        // 2. If no token, the user isn't logged in. Redirect to the sign-in page.
-        if (!token) {
-            console.log("No token found, redirecting to login.");
-            // Clear any potentially stale data if we're redirecting
-            localStorage.removeItem('user');
-            localStorage.removeItem('role'); // Also clear the 'role' if you store it
-            return (window.location.href = 'signin.html');
-        }
-
-        // 3. Decode the token to get its payload.
-        // This is the ONLY place you should call decodeJwt(token)
-        const decodedToken = decodeJwt(token);
-
-        // 4. Validate the decoded token and check for the user ID.
-        // IMPORTANT: Your token payload uses 'id', not 'userId'.
-        if (!decodedToken || !decodedToken.id) { // CORRECTED from !decodedToken.userId
-            console.error("Invalid token or missing user ID in token payload.");
-            alert("Authentication failed. Please log in again.");
-            // Clear all relevant local storage items on authentication failure.
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-            localStorage.removeItem('role'); // Clear role too
-            return (window.location.href = 'signin.html');
-        }
-
-        // Get the user ID from the decoded token.
-        const userId = decodedToken.id; // CORRECTED from decodedToken.userId
-
-        // --- OPTIONAL: Immediately populate from local storage for a faster initial display ---
-        const storedUserDataString = localStorage.getItem('user');
-        if (storedUserDataString) {
-            try {
-                const storedUser = JSON.parse(storedUserDataString);
-                document.getElementById("name").value = storedUser.name || '';
-                document.getElementById("email").value = storedUser.email || '';
-                // Handle potential key difference for phone number ('phonenumber' vs 'phone')
-                document.getElementById("phone").value = storedUser.phonenumber || storedUser.phone || '';
-                document.getElementById("country").value = storedUser.country || '';
-                // Map 'county' from stored data to 'city' input, or use 'city' if available
-                document.getElementById("city").value = storedUser.county || storedUser.city || '';
-                if (storedUser.profilePicture) {
-                    document.getElementById("profilePic").src = storedUser.profilePicture;
-                }
-                console.log("Profile data loaded from local storage (cached).");
-            } catch (e) {
-                console.error("Error parsing stored user data, will attempt to fetch from server:", e);
-                localStorage.removeItem('user'); // Clear corrupted local data
-            }
-        }
-
-
-        // --- Fetch the latest user data from the backend ---
-        try {
-            // Use the extracted userId in your fetch request URL
-            const res = await fetch(`https://techlink-backend.onrender.com/profile`, {
-                headers: {
-                    'Authorization': 'Bearer ' + token // Send the JWT for authentication
-                }
-            });
-
-            if (!res.ok) {
-                // Handle cases where the server returns an error even with a valid token
-                if (res.status === 401 || res.status === 403) {
-                    alert("Unauthorized access or token expired. Please log in again.");
-                    localStorage.removeItem('token'); // Clear token
-                    localStorage.removeItem('user'); // Clear user data
-                    localStorage.removeItem('role'); // Clear role
-                    return (window.location.href = 'signin.html');
-                }
-                throw new Error(`HTTP error! status: ${res.status}`);
-            }
-
-            const userProfileData = await res.json(); // Renamed to userProfileData to avoid confusion with `decodedToken`
-            console.log("User profile data loaded from backend:", userProfileData);
-
-            // Update local storage with the fresh data from the server.
-            localStorage.setItem('user', JSON.stringify(userProfileData));
-
-            // Populate your HTML input fields with the fetched data.
-            document.getElementById("name").value = userProfileData.name || '';
-            document.getElementById("email").value = userProfileData.email || '';
-            document.getElementById("phone").value = userProfileData.phonenumber || userProfileData.phone || ''; // Handle both 'phonenumber' and 'phone'
-            document.getElementById("country").value = userProfileData.country || '';
-            document.getElementById("city").value = userProfileData.county || userProfileData.city || ''; // Map 'county' to 'city'
-            if (userProfileData.profilePicture) {
-                document.getElementById("profilePic").src = userProfileData.profilePicture;
-            }
-
-            // Disable inputs initially after loading data.
-            document.querySelectorAll(".form-grid input").forEach(input => input.setAttribute("disabled", true));
-
-        } catch (err) {
-            console.error("Failed to load profile from backend:", err);
-            // If backend fetch fails and no valid cached data was available, prompt to log in.
-            if (!storedUserDataString || localStorage.getItem('user') === null) {
-                alert("Failed to load profile. Please try again or log in.");
-                window.location.href = 'signin.html';
-            } else {
-                // If cached data exists, inform the user that refresh failed but display cached.
-                alert("Failed to refresh profile data from the server. Displaying cached information.");
-            }
-        }
-    });
-
-    // --- Profile Picture Preview ---
-    function previewImage(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                document.getElementById("profilePic").src = reader.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
-    // --- Edit Profile Functionality ---
-    function editProfile() {
-        document.querySelectorAll(".form-grid input").forEach(input => input.removeAttribute("disabled"));
-    }
-
-    // --- Save Profile Functionality ---
-    async function saveProfile() {
-        // Basic client-side validation
-        const name = document.getElementById("name").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const phone = document.getElementById("phone").value.trim();
-        const country = document.getElementById("country").value.trim();
-        const city = document.getElementById("city").value.trim();
-
-        if (!name || !email || !phone || !country || !city) {
-            alert("All profile fields are required.");
-            return;
-        }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            alert("Please enter a valid email address.");
-            return;
-        }
-
-        const userData = {
-            name: name,
-            email: email,
-            phone: phone, // This maps to the 'phone' input, ensure your backend expects 'phone' or adjust
-            country: country,
-            city: city, // This maps to the 'city' input, ensure your backend expects 'city' or adjust
-        };
-
-        const imageFile = document.getElementById("fileUpload").files[0];
-        const formData = new FormData();
-        formData.append("profileData", JSON.stringify(userData));
-        if (imageFile) {
-            formData.append("profilePicture", imageFile);
-        }
-
-        try {
-            // Retrieve the current token again for the save operation.
-            const currentToken = localStorage.getItem('token'); // Uses the correct 'token' key
-            if (!currentToken) {
-                alert("Authentication token missing. Please log in.");
-                window.location.href = 'signin.html';
-                return;
-            }
-
-            // Send the update request to your backend.
-            // Using PUT method for updates is generally better for RESTful APIs (idempotent).
-            const res = await fetch("https://Termyte-backend.onrender.com/profile/update", {
-                method: "PUT", // Changed to PUT as discussed for updates
-                headers: {
-                    Authorization: "Bearer " + currentToken
-                    // IMPORTANT: Do NOT set 'Content-Type': 'application/json' when using FormData.
-                    // The browser automatically sets 'multipart/form-data' for FormData.
-                },
-                body: formData
-            });
-
-            const result = await res.json();
-            if (res.ok) {
-                alert("Profile updated successfully!");
-                // Reload the page to ensure fresh data is displayed and inputs are disabled again.
-                window.location.reload();
-            } else {
-                // Handle specific error responses from the backend.
-                if (res.status === 401 || res.status === 403) {
-                    alert("Unauthorized to update profile. Your session might have expired. Please log in again.");
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
-                    localStorage.removeItem('role'); // Clear role
-                    window.location.href = 'signin.html';
-                } else if (res.status === 400) {
-                    alert("Invalid data provided: " + (result.message || ""));
-                } else {
-                    alert("Update failed: " + (result.message || "An unexpected error occurred."));
-                }
-            }
-        } catch (err) {
-            console.error("Error saving profile:", err);
-            alert("Error saving profile. Please check your network connection.");
-        }
-    }
-</script>
-</body>
+    <script src="profilescript.js"></script>
+  </body>
 </html>
