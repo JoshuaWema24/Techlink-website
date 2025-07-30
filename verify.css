@@ -1,0 +1,145 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Font and base colors */
+body {
+  background: linear-gradient(135deg, #141627, #1c1640);
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  color: #e0e0ff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  overflow-x: hidden;
+}
+
+/* Main container */
+.container {
+  background: linear-gradient(135deg, rgba(25, 25, 50, 0.95), rgba(35, 30, 80, 0.9));
+  border: 1px solid rgba(130, 100, 255, 0.2);
+  padding: 2rem;
+  border-radius: 16px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 0 25px rgba(128, 90, 255, 0.15);
+  backdrop-filter: blur(12px);
+  animation: fadeIn 0.7s ease-out;
+}
+
+.container h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #89b4ff;
+  background: linear-gradient(to right, #6a5acd, #00bfff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.container p {
+  text-align: center;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  color: #b8baff;
+}
+
+/* Form container */
+.form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Labels */
+label {
+  color: #a9baff;
+  font-weight: 500;
+}
+
+/* File input */
+input[type="file"] {
+  padding: 0.5rem;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #292f48, #1e1e3f);
+  border: 1px solid #6a5acd;
+  color: #f0f0f0;
+  font-size: 0.95rem;
+  transition: border 0.3s ease;
+}
+
+input[type="file"]:hover {
+  border-color: #8f8fff;
+}
+
+/* Custom file upload button */
+input[type="file"]::file-selector-button {
+  background: linear-gradient(90deg, #6a5acd, #00bfff);
+  color: #ffffff;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background: linear-gradient(90deg, #836fff, #1ec2ff);
+}
+
+/* Submit Button with spinner */
+button {
+  position: relative;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: linear-gradient(to right, #5b3cc4, #2196f3);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  overflow: hidden;
+}
+
+button:hover {
+  box-shadow: 0 0 15px #5b3cc4, 0 0 30px #2196f3;
+  transform: translateY(-1px);
+}
+
+/* Spinner animation */
+button.loading::after {
+  content: "";
+  position: absolute;
+  right: 1rem;
+  width: 16px;
+  height: 16px;
+  border: 3px solid #fff;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

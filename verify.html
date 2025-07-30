@@ -1,11 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Technician Verification</title>
+  <link rel="stylesheet" href="verify.css" />
 </head>
 <body>
-    <h1>Get verified by techlink</h1>
+  <div class="container">
+    <h1>Get Verified</h1>
+    <p>
+      If you want to be a verified technician, please submit an image of your ID
+      (front and back), then upload a copy of your certificate in your chosen job type.
+    </p>
+
+    <div class="form-container">
+      <form action="verificationmessage.html" method="post" enctype="multipart/form-data">
+        <label for="id_image">Upload ID Image (Front and Back):</label>
+        <input type="file" id="id_image" name="id_image" accept="image/*" required />
+
+        <label for="certificate_image">Upload Certificate Image:</label>
+        <input type="file" id="certificate_image" name="certificate_image" accept="image/*" required />
+
+        <button type="submit">Submit Verification</button>
+      </form>
+    </div>
+  </div>
+  <script src="verify.js"></script>
 </body>
 </html>
