@@ -380,17 +380,25 @@ img {
   color: #00ffcc;
   border: 1px solid #00ffcc;
   list-style: none;
+  border-radius: 30px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 2px;
 }
 
 .signup-btn {
   color: #ff66cc;
   border: 1px solid #ff66cc;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 2px;
+  border-radius: 30px;
 }
 
 .login-btn:hover {
-  background-color: rgba(0, 255, 204, 0.1);
+  background-color: rgba(19, 35, 219, 0.626);
 }
 
 .signup-btn:hover {
-  background-color: rgba(255, 102, 204, 0.1);
+  background-color: rgba(255, 102, 204, 0.484);
 }
