@@ -24,12 +24,6 @@
           <span class="app-name">Termyte</span>
         </div>
         <ul class="nav-list">
-          <li class="nav-item active">
-            <a href="#" class="nav-link"
-              ><i class="fas fa-home nav-icon"></i> Dashboard</a
-            >
-          </li>
-
           <div class="customer-nav" id="customerNav">
             <li class="nav-item">
               <a href="requestservice.html" class="nav-link primary-cta"
@@ -47,25 +41,6 @@
               >
             </li>
           </div>
-
-          <div class="technician-nav" id="technicianNav" style="display: none">
-            <li class="nav-item">
-              <a href="#" class="nav-link primary-cta"
-                ><i class="fas fa-briefcase nav-icon"></i> Available Jobs</a
-              >
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link"
-                ><i class="fas fa-calendar-alt nav-icon"></i> My Active Jobs</a
-              >
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link"
-                ><i class="fas fa-money-bill-wave nav-icon"></i> Earnings</a
-              >
-            </li>
-          </div>
-
           <li class="nav-item separator"></li>
           <li class="nav-item">
             <a href="profile.html" class="nav-link"
@@ -73,7 +48,7 @@
             >
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link"
+            <a href="contactpage.html" class="nav-link"
               ><i class="fas fa-question-circle nav-icon"></i> Help & Support</a
             >
           </li>
@@ -92,27 +67,11 @@
             <i><img src="8806258-Photoroom.png" style="width: 50px" /></i>
             <span class="app-name">Termyte</span>
           </div>
-          <div class="search-area">
-            <input
-              type="search"
-              placeholder="Search for services or job opportunities..."
-              class="search-input"
-            />
-            <button class="search-button"><i class="fas fa-search"></i></button>
-          </div>
+
           <div class="user-widgets">
             <div class="notifications">
               <i class="fas fa-bell notification-icon"></i>
               <span class="notification-badge">3</span>
-            </div>
-            <div class="user-profile">
-              <img
-                src="https://via.placeholder.com/40/4A90E2/FFFFFF?text=J"
-                alt="User Avatar"
-                class="user-avatar"
-              />
-              <span class="user-name">Hi,</span>
-              <i class="fas fa-caret-down profile-dropdown-icon"></i>
             </div>
             <div class="tech-availability" id="techAvailabilityToggle">
               <span class="availability-label">Offline</span>
@@ -133,30 +92,8 @@
               Welcome, Joshua!
             </h1>
 
-            <div class="dashboard-card quick-request-card">
-              <h2>Need a Hand?</h2>
-              <button class="primary-button large-button">
-                <i class="fas fa-wrench"></i> Request New Service
-              </button>
-              <div class="service-categories">
-                <button class="category-button">
-                  <i class="fas fa-lightbulb"></i> Electrical
-                </button>
-                <button class="category-button">
-                  <i class="fas fa-faucet"></i> Plumbing
-                </button>
-                <button class="category-button">
-                  <i class="fas fa-laptop-code"></i> IT Support
-                </button>
-                <button class="category-button">
-                  <i class="fas fa-washer"></i> Appliance Repair
-                </button>
-                <button class="category-button">
-                  <i class="fas fa-car-side"></i> Automotive
-                </button>
-              </div>
+            <div class="service-grid" id="serviceGrid">
             </div>
-
             <div class="dashboard-card active-requests-card">
               <h2>Your Active Requests</h2>
               <div class="request-list">
@@ -215,115 +152,9 @@
               </div>
             </div>
           </section>
-
-          <section
-            class="dashboard-section technician-dashboard"
-            id="technicianDashboard"
-            style="display: none"
-          >
-            <h1 class="welcome-message" id="welcomeMessageTechnician">
-              Hello, John Doe! You are currently
-              <span class="online-status" id="techOnlineStatus">OFFLINE</span>.
-            </h1>
-
-            <div class="dashboard-card availability-card">
-              <h2>Your Availability</h2>
-              <p>Control when you receive new job requests.</p>
-              <div class="availability-control">
-                <button class="primary-button" id="toggleRoleButton">
-                  Switch to Technician Role
-                </button>
-              </div>
-            </div>
-            <div class="dashboard-card active-jobs-card">
-              <h2>Your Active Jobs</h2>
-              <div class="job-list">
-                <div class="job-item">
-                  <div class="job-header">
-                    <span class="job-type">Washing Machine Repair</span>
-                    <span class="status-badge status-enroute">Assigned</span>
-                  </div>
-                  <p class="job-customer">
-                    <i class="fas fa-user"></i> Customer: Jane Smith
-                  </p>
-                  <p class="job-location">
-                    <i class="fas fa-map-marker-alt"></i> Location: 123 Main St,
-                    Anytown
-                  </p>
-                  <p>
-                    Description: Washing machine making loud noise during spin
-                    cycle.
-                  </p>
-                  <div class="job-footer">
-                    <span class="job-payout">$75.00</span>
-                    <div class="job-actions">
-                      <button class="primary-button">View Details</button>
-                      <button class="secondary-button">
-                        Mark as Completed
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="dashboard-card available-jobs-card">
-              <h2>Available Jobs</h2>
-              <div class="job-list">
-                <div class="job-item">
-                  <div class="job-header">
-                    <span class="job-type">Electrical Outlet Fix</span>
-                    <span class="status-badge status-pending">New</span>
-                  </div>
-                  <p class="job-customer">
-                    <i class="fas fa-user"></i> Customer: Bob Johnson
-                  </p>
-                  <p class="job-location">
-                    <i class="fas fa-map-marker-alt"></i> Location: 456 Oak Ave,
-                    Anytown
-                  </p>
-                  <p>
-                    Description: One electrical outlet not working in the living
-                    room.
-                  </p>
-                  <div class="job-footer">
-                    <span class="job-payout">$50.00</span>
-                    <div class="job-actions">
-                      <button class="primary-button">Accept Job</button>
-                      <button class="secondary-button">Decline</button>
-                    </div>
-                  </div>
-                </div>
-                <div class="job-item">
-                  <div class="job-header">
-                    <span class="job-type">Computer Virus Removal</span>
-                    <span class="status-badge status-pending">New</span>
-                  </div>
-                  <p class="job-customer">
-                    <i class="fas fa-user"></i> Customer: Alice Williams
-                  </p>
-                  <p class="job-location">
-                    <i class="fas fa-map-marker-alt"></i> Location: 789 Pine Ln,
-                    Anytown
-                  </p>
-                  <p>
-                    Description: Computer running very slow, suspecting a virus.
-                  </p>
-                  <div class="job-footer">
-                    <span class="job-payout">$120.00</span>
-                    <div class="job-actions">
-                      <button class="primary-button">Accept Job</button>
-                      <button class="secondary-button">Decline</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
         </main>
       </div>
     </div>
-
     <script src="homepagescript.js"></script>
   </body>
 </html>
