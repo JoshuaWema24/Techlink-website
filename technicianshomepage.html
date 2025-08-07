@@ -1,175 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Termyte</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
-    <link rel="stylesheet" href="technicianhomepagecss.css" class="css" />
-  </head>
-  <body>
-    <div class="app-layout">
-      <nav class="sidebar-nav" id="sidebar">
-        <div class="sidebar-brand">
-          <i><img src="8806258-Photoroom.png" style="width: 50px" /></i>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Termyte</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="technicianhomepagecss.css" />
+</head>
+<body>
+  <div class="app-layout">
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar-nav" id="sidebar">
+      <div class="sidebar-brand">
+        <img src="8806258-Photoroom.png" alt="Termyte Logo" style="width: 50px" />
+        Termyte
+      </div>
+      <ul class="nav-list">
+        <li class="nav-item active">
+          <a href="technicianshomepage.html" class="nav-link">
+            <i class="fas fa-home nav-icon"></i> Dashboard
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="jobsscreen.html" class="nav-link">
+            <i class="fas fa-briefcase nav-icon"></i> My Jobs
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="accountScreen.html" class="nav-link">
+            <i class="fas fa-wallet nav-icon"></i> Account
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="profile.html" class="nav-link">
+            <i class="fas fa-user-circle nav-icon"></i> Profile
+          </a>
+        </li>
+        <li class="nav-item logout">
+          <a href="index.html" class="nav-link">
+            <i class="fas fa-sign-out-alt nav-icon"></i> Logout
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-wrapper">
+      <!-- Top Bar -->
+      <header class="top-bar">
+        <div class="hamburger-menu" id="hamburger-menu">
+          <i class="fas fa-bars"></i>
+        </div>
+        <div class="app-brand" style="font-size: 30px; font-weight: 900; font-family: sans-serif">
+          <img src="8806258-Photoroom.png" alt="Termyte Logo" style="width: 50px" />
           Termyte
         </div>
-        <ul class="nav-list">
-          <li class="nav-item active">
-            <a href="technicianshomepage.html" class="nav-link">
-              <i class="fas fa-home nav-icon"></i> Dashboard
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="jobsscreen.html" class="nav-link">
-              <i class="fas fa-briefcase nav-icon"></i> My Jobs
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="accountScreen.html" class="nav-link">
-              <i class="fas fa-wallet nav-icon"></i> Account
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="profile.html" class="nav-link">
-              <i class="fas fa-user-circle nav-icon"></i> Profile
-            </a>
-          </li>
-          <li class="nav-item logout">
-            <a href="index.html" class="nav-link">
-              <i class="fas fa-sign-out-alt nav-icon"></i> Logout
-            </a>
-          </li>
-        </ul>
-      </nav>
-
-      <main class="main-wrapper">
-        <header class="top-bar">
-          <div class="hamburger-menu" id="hamburger-menu">
-            <i class="fas fa-bars"></i>
-          </div>
-          <div
-            class="app-brand"
-            style="font-size: 30px; font-weight: 900; font-family: sans-serif"
-          >
-            <i><img src="8806258-Photoroom.png" style="width: 50px" /></i
-            >Termyte
-          </div>
-          <div class="user-widgets">
-            <div class="tech-availability">
-              <label class="availability-label">Available</label>
-              <label class="switch">
-                <input type="checkbox" checked />
-                <span class="slider"></span>
-              </label>
-            </div>
-          </div>
-        </header>
-
-        <div class="dashboard-content">
-          <div class="welcome-message">Welcome back 👨‍🔧</div>
-
-          <div class="tips-section dashboard-card">
-            <h2>Tips for Excellent Service</h2>
-            <div class="tips-grid">
-              <div class="tip-card">
-                <h3>Clear Communication</h3>
-                <p>
-                  Always confirm job details and estimated arrival times with
-                  the client.
-                </p>
-              </div>
-              <div class="tip-card">
-                <h3>Professional Appearance</h3>
-                <p>Dress neatly and ensure your tools are organized.</p>
-              </div>
-              <div class="tip-card">
-                <h3>Active Listening</h3>
-                <p>
-                  Listen carefully to the client's problem to diagnose
-                  accurately.
-                </p>
-              </div>
-              <div class="tip-card">
-                <h3>Respectful Demeanor</h3>
-                <p>
-                  Be polite, friendly, and show respect for the client's
-                  property.
-                </p>
-              </div>
-              <div class="tip-card">
-                <h3>Transparent Pricing</h3>
-                <p>
-                  Discuss all costs upfront and explain any unexpected changes.
-                </p>
-              </div>
-              <div class="tip-card">
-                <h3>Follow-Up</h3>
-                <p>
-                  Consider a quick follow-up to ensure client satisfaction after
-                  the service.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="dashboard-card">
-            <h2>Incoming Jobs</h2>
-            <div class="job-list" id="incoming-jobs">
-              <div class="job-item">
-                <div class="job-header">
-                  <div class="job-type">You have 2 new jobs</div>
-                </div>             
-                    <button class="primary-button">Job Details</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="dashboard-card">
-            <h2>Messages from Termyte</h2>
-            <div class="job-list" id="Termyte-messages">
-              <div class="job-item">
-                <p>
-                  <strong>Admin:</strong> Kindly update your availability this
-                  week.
-                </p>
-              </div>
-              <div class="job-item">
-                <p>
-                  <strong>System:</strong> Ensure you are verified, 
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="dashboard-card">
-            <h2>Earnings Summary</h2>
-            <p>
-              Total Earnings:
-              <span class="job-payout" id="total-earnings">Ksh 14,500</span>
-            </p>
-            <button class="primary-button">Withdraw Funds</button>
-          </div>
-
-          <div class="dashboard-card">
-            <h2>Account Details</h2>
-            <strong>Technician</strong>
-            <p>
-              Email: <span id="technician-email">technician@example.com</span>
-            </p>
-            <p>
-              Please ensure you are verified or else no job will be assigned to
-              you! <a href="verify.html">Get verified</a>
-            </p>
+        <div class="user-widgets">
+          <div class="tech-availability">
+            <label class="availability-label">Available</label>
+            <label class="switch">
+              <input type="checkbox" checked />
+              <span class="slider"></span>
+            </label>
           </div>
         </div>
-      </main>
-    </div>
+      </header>
 
-    <script src="technicianscript.js"></script>
-  </body>
+      <!-- Dashboard Content -->
+      <div class="dashboard-content">
+        <!-- Welcome Message -->
+        <div class="welcome-message">Welcome back 👨‍🔧</div>
+
+        <!-- Tips Section -->
+        <div class="tips-section dashboard-card">
+          <h2>Tips for Excellent Service</h2>
+          <div class="tips-grid">
+            <div class="tip-card">
+              <h3>Clear Communication</h3>
+              <p>Always confirm job details and estimated arrival times with the client.</p>
+            </div>
+            <div class="tip-card">
+              <h3>Professional Appearance</h3>
+              <p>Dress neatly and ensure your tools are organized.</p>
+            </div>
+            <div class="tip-card">
+              <h3>Active Listening</h3>
+              <p>Listen carefully to the client's problem to diagnose accurately.</p>
+            </div>
+            <div class="tip-card">
+              <h3>Respectful Demeanor</h3>
+              <p>Be polite, friendly, and show respect for the client's property.</p>
+            </div>
+            <div class="tip-card">
+              <h3>Transparent Pricing</h3>
+              <p>Discuss all costs upfront and explain any unexpected changes.</p>
+            </div>
+            <div class="tip-card">
+              <h3>Follow-Up</h3>
+              <p>Consider a quick follow-up to ensure client satisfaction after the service.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Incoming Jobs -->
+        <div class="dashboard-card">
+          <h2>Incoming Jobs</h2>
+          <div class="job-list" id="incoming-jobs">
+            <div class="job-item">
+              <div class="job-header">
+                <div class="job-type">You have 2 new jobs</div>
+              </div>
+              <button class="primary-button">Job Details</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="dashboard-card">
+          <h2>Messages from Termyte</h2>
+          <div class="job-list" id="Termyte-messages">
+            <div class="job-item">
+              <p><strong>Admin:</strong> Kindly update your availability this week.</p>
+            </div>
+            <div class="job-item">
+              <p><strong>System:</strong> Ensure you are verified.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Earnings Summary -->
+        <div class="dashboard-card">
+          <h2>Earnings Summary</h2>
+          <p>Total Earnings: <span class="job-payout" id="total-earnings">Ksh 14,500</span></p>
+          <button class="primary-button">Withdraw Funds</button>
+        </div>
+
+        <!-- Account Details -->
+        <div class="dashboard-card">
+          <h2>Account Details</h2>
+          <strong>Technician</strong>
+          <p>Email: <span id="technician-email">technician@example.com</span></p>
+          <p>
+            Please ensure you are verified or else no job will be assigned to you!
+            <a href="verify.html">Get verified</a>
+          </p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="technicianscript.js"></script>
+</body>
 </html>
