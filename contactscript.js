@@ -1,5 +1,7 @@
-const { send } = require("process");
+// ❌ remove this line - not for frontend
+// const { send } = require("process");
 
+// Sidebar toggle
 const hamburger = document.getElementById("hamburger");
 const sidebar = document.getElementById("sidebar");
 const closeBtn = document.getElementById("closeBtn");
@@ -9,6 +11,8 @@ closeBtn.onclick = () => sidebar.classList.remove("active");
 document.querySelectorAll("#sidebar a").forEach((link) => {
   link.addEventListener("click", () => sidebar.classList.remove("active"));
 });
+
+// Feedback form
 const sendMessageBtn = document.getElementById("sendMessage");
 
 sendMessageBtn.addEventListener("click", async (e) => {
@@ -19,10 +23,10 @@ sendMessageBtn.addEventListener("click", async (e) => {
 async function sendFeedback() {
   // Collect form values INSIDE the function so they’re fresh on each click
   const payload = {
-    email: document.getElementById('email').value,
-    name: document.getElementById('name').value,
-    subject: document.getElementById('subject').value,
-    userMessage: document.getElementById('user_message').value,
+    email: document.getElementById("email").value,
+    name: document.getElementById("name").value,
+    subject: document.getElementById("subject").value,
+    userMessage: document.getElementById("user_message").value,
   };
 
   try {
@@ -41,10 +45,10 @@ async function sendFeedback() {
       alert("Feedback sent successfully ✅");
 
       // Clear form after success
-      document.getElementById('email').value = "";
-      document.getElementById('name').value = "";
-      document.getElementById('subject').value = "";
-      document.getElementById('user_message').value = "";
+      document.getElementById("email").value = "";
+      document.getElementById("name").value = "";
+      document.getElementById("subject").value = "";
+      document.getElementById("user_message").value = "";
     } else {
       alert(result.message || "❌ Failed to send feedback");
     }
