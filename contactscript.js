@@ -14,46 +14,48 @@ document.querySelectorAll("#sidebar a").forEach((link) => {
 
 // Feedback form
 const sendMessageBtn = document.getElementById("sendMessage");
+  const feedbackForm = document.getElementById("feedbackForm");
 
-sendMessageBtn.addEventListener("click", async (e) => {
-  e.preventDefault();
-  await sendFeedback();
-});
+  feedbackForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    await sendFeedback();
+  });
 
-async function sendFeedback() {
-  // Collect form values INSIDE the function so they’re fresh on each click
-  const payload = {
-    email: document.getElementById("email").value,
-    name: document.getElementById("name").value,
-    subject: document.getElementById("subject").value,
-    userMessage: document.getElementById("user_message").value,
-  };
+  async function sendFeedback() {
+    // Collect form values fresh each time
+    const payload = {
+      email: document.getElementById("email").value.trim(),
+      name: document.getElementById("name").value.trim(),
+      subject: document.getElementById("subject").value.trim(),
+      userMessage: document.getElementById("user_message").value.trim(),
+    };
 
-  try {
-    const baseUrl = "https://techlink-backend.onrender.com";
-    const endpoint = `${baseUrl}/api/feedback`;
+    try {
+      sendMessageBtn.disabled = true;
+      sendMessageBtn.textContent = "Sending...";
 
-    const res = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+      const baseUrl = "https://techlink-backend.onrender.com";
+      const endpoint = `${baseUrl}/api/feedback`;
 
-    const result = await res.json();
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-    if (res.ok) {
-      alert("Feedback sent successfully ✅");
+      const result = await res.json();
 
-      // Clear form after success
-      document.getElementById("email").value = "";
-      document.getElementById("name").value = "";
-      document.getElementById("subject").value = "";
-      document.getElementById("user_message").value = "";
-    } else {
-      alert(result.message || "❌ Failed to send feedback");
+      if (res.ok) {
+        alert("✅ Feedback sent successfully!");
+        feedbackForm.reset(); // clear all inputs
+      } else {
+        alert(result.message || "❌ Failed to send feedback");
+      }
+    } catch (error) {
+      console.error("Feedback error:", error);
+      alert("⚠️ Server error. Please try again later.");
+    } finally {
+      sendMessageBtn.disabled = false;
+      sendMessageBtn.textContent = "Send Message";
     }
-  } catch (error) {
-    console.error("Feedback error:", error);
-    alert("⚠️ Server error. Please try again later.");
   }
-}
