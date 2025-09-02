@@ -100,10 +100,10 @@ document
 
         if (selectedRole === "customer") {
           alert("Welcome to Termyte, we are here to bring the service to you!");
-          window.location.href = "homepage.html";
+          window.location.href = "signin.html";
         } else {
           alert("Welcome to Termyte, let's put a price to your skill");
-          window.location.href = "technicianshomepage.html";
+          window.location.href = "signin.html";
         }
       } else {
         alert("Error: " + (result.message || "Unknown error occurred"));
