@@ -98,25 +98,21 @@
                   <div class="logo">Termyte</div>
                 </div>
                 <div class="header-right">
-                  <button class="create-button" onclick="openAddServiceModal()">
-                    <i class="fas fa-plus-circle"></i> Add New Service
-                  </button>
                 </div>
               </header>
 
               <section class="welcome-section">
-                <h2>Service Offerings</h2>
+                <h2>Our Services</h2>
                 <div class="ad-card">
                   <div class="ad-content">
                     <span class="status-pill">
                       <i class="fas fa-handshake"></i> Our Core Services
                     </span>
-                    <h3>Manage All Services Provided by Your Technicians</h3>
+                    <h3>Your Trusted Service Marketplace</h3>
                     <p>
-                      Define, organize, and update the range of services
-                      offered. Easily track which services are actively provided
-                      and their details.
-                    </p>
+                      Explore a wide range of professional services tailored to
+                      meet your needs. From home repairs to personal coaching,
+                      find the right expert for every task.
                     <button class="watch-now-btn">
                       <i class="fas fa-search"></i> Browse Services
                       <i class="fas fa-chevron-right"></i>
@@ -151,35 +147,6 @@
                   <i class="fas fa-redo"></i> Load More Services
                 </button>
               </section>
-            </div>
-
-            <!-- Add Service Modal -->
-            <div id="addServiceModal" class="modal-overlay">
-              <div class="modal-content">
-                <h3>Add New Service</h3>
-                <form id="addServiceForm" class="modal-form">
-                  <div class="form-group">
-                    <label for="serviceNameInput">Service Name</label>
-                    <input type="text" id="serviceNameInput" required />
-                  </div>
-                  <div class="form-group">
-                    <label for="serviceInfoInput">Service Description</label>
-                    <textarea id="serviceInfoInput" required></textarea>
-                  </div>
-                  <div class="modal-actions">
-                    <button
-                      type="button"
-                      class="btn btn-cancel"
-                      onclick="closeAddServiceModal()"
-                    >
-                      Cancel
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                      Add Service
-                    </button>
-                  </div>
-                </form>
-              </div>
             </div>
           </section>
         </main>
