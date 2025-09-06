@@ -92,65 +92,12 @@
               Welcome, Joshua!
             </h1>
 
-            <div class="service-grid" id="serviceGrid">
-            </div>
-            <div class="dashboard-card active-requests-card">
-              <h2>Your Active Requests</h2>
-              <div class="request-list">
-                <div class="request-item">
-                  <div class="request-header">
-                    <span class="service-type">Water Heater Repair</span>
-                    <span class="status-badge status-enroute"
-                      >Technician En Route</span
-                    >
-                  </div>
-                  <p>Assigned To: **John Doe** (Tech ID #123)</p>
-                  <p>ETA: **15 mins**</p>
-                  <div class="request-actions">
-                    <button class="secondary-button">View Details</button>
-                    <button class="secondary-button">
-                      <i class="fas fa-comment-dots"></i> Message John
-                    </button>
-                  </div>
-                </div>
-                <div class="request-item">
-                  <div class="request-header">
-                    <span class="service-type">Wi-Fi Troubleshooting</span>
-                    <span class="status-badge status-pending"
-                      >Pending Acceptance</span
-                    >
-                  </div>
-                  <p>No technician assigned yet.</p>
-                  <div class="request-actions">
-                    <button class="secondary-button">View Details</button>
-                    <button class="danger-button">Cancel Request</button>
-                  </div>
-                </div>
-              </div>
+            <div class="service-header-row">
+              <h2>Our Services</h2>
+              <span class="service-count-badge" id="serviceCountBadge">0</span>
             </div>
 
-            <div class="dashboard-card completed-services-card">
-              <h2>Recently Completed Services</h2>
-              <div class="completed-list">
-                <div class="completed-item">
-                  <span class="service-type">Leaky Faucet Fix</span>
-                  <span class="service-date">2025-06-28</span>
-                  <span class="technician-name">Technician: Sarah Green</span>
-                  <div class="user-rating">
-                    <i class="fas fa-star filled"></i
-                    ><i class="fas fa-star filled"></i
-                    ><i class="fas fa-star filled"></i
-                    ><i class="fas fa-star filled"></i
-                    ><i class="fas fa-star filled"></i>
-                  </div>
-                  <div class="item-actions">
-                    <button class="secondary-button">
-                      Re-request this service
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div class="service-grid" id="serviceGrid"></div>
           </section>
         </main>
       </div>
