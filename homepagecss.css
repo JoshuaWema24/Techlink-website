@@ -1,8 +1,10 @@
 /* ================================
-   Unified Dashboard + Services Theme
+   Unified Dashboard + Services CSS
+   (All sections included, no overrides)
 =================================== */
 
 :root {
+  /* Shared colors */
   --primary-blue-light: #4a90e2;
   --primary-blue-dark: #2d6bcb;
   --accent-purple-light: #a765f7;
@@ -21,9 +23,11 @@
   --danger-red: #dc3545;
   --warning-orange: #ffc107;
 
+  /* Gradient for hover states */
   --gradient-start: #4fc3f7;
   --gradient-end: #7c4dff;
 
+  /* Spacing */
   --spacing-xs: 10px;
   --spacing-sm: 20px;
   --spacing-md: 30px;
@@ -100,7 +104,7 @@ body {
 }
 
 /* ================================
-   Main Dashboard Area
+   Main Dashboard
 =================================== */
 .main-dashboard {
   flex-grow: 1;
@@ -108,7 +112,6 @@ body {
   flex-direction: column;
 }
 
-/* Top Bar */
 .top-bar {
   background-color: var(--darker-bg);
   padding: var(--spacing-xs) var(--spacing-sm);
