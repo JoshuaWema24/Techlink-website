@@ -33,24 +33,6 @@ overlay.addEventListener("click", () => {
   overlay.classList.remove("active");
 });
 
-// Function to handle availability switch for technicians
-availabilitySwitch.addEventListener("change", function () {
-  if (this.checked) {
-    availabilityLabel.textContent = "Online";
-    availabilityLabel.style.color = "var(--success-green)";
-    if (isTechnician) {
-      techOnlineStatus.textContent = "ONLINE";
-      techOnlineStatus.style.color = "var(--success-green)";
-    }
-  } else {
-    availabilityLabel.textContent = "Offline";
-    availabilityLabel.style.color = "var(--text-muted)";
-    if (isTechnician) {
-      techOnlineStatus.textContent = "OFFLINE";
-      techOnlineStatus.style.color = "var(--text-muted)";
-    }
-  }
-});
 
 // Function to toggle user role (Customer/Technician)
 function toggleUserRole() {
@@ -65,7 +47,7 @@ function toggleUserRole() {
   technicianDashboard.style.display = isTechnician ? "block" : "none";
 
   // Update top bar availability toggle visibility
-  techAvailabilityToggle.style.display = isTechnician ? "flex" : "none";
+  
 
   // Update welcome message and role toggle button text
   if (isTechnician) {
@@ -93,7 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Ensure technician elements are hidden initially if default is customer
   technicianNav.style.display = "none";
   technicianDashboard.style.display = "none";
-  techAvailabilityToggle.style.display = "none"; // Hide availability toggle initially for customer
   welcomeMessageTechnician.style.display = "none";
 });
 
