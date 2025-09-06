@@ -102,25 +102,22 @@ const exampleServices = [
   {
     _id: "6543210001",
     serviceName: "Mobile Phone Repair",
-    serviceInfo:
-      "Experiencing issues with your smartphone, from cracked screens to battery problems? With Termyte, simply submit a detailed repair request through the app, specifying your device model and the issue.",
+    serviceInfo: "Fix issues with smartphones, from cracked screens to battery problems.",
     isAvailable: true,
   },
   {
     _id: "6543210002",
     serviceName: "Laptop Repair",
-    serviceInfo:
-      "Is your laptop running slow, not turning on, or facing software glitches? Termyte connects you with expert technicians for all laptop repair needs.",
+    serviceInfo: "Get expert help for laptops that are slow, won’t start, or have software glitches.",
     isAvailable: true,
   },
   {
     _id: "6543210003",
     serviceName: "TV Repair",
-    serviceInfo:
-      "Having trouble with your television's display, sound, or connectivity? Termyte's TV repair specialists are here to help.",
+    serviceInfo: "Repair display, sound, or connectivity issues on your television.",
     isAvailable: true,
   },
-  // ... keep your other services here
+  // ... keep your other services
 ];
 
 // DOM elements
@@ -130,10 +127,7 @@ const serviceCountBadge = document.getElementById("serviceCountBadge");
 // Get correct icon based on service name
 function getServiceIcon(serviceName) {
   const lowerCaseName = serviceName.toLowerCase();
-  if (
-    lowerCaseName.includes("phone repair") ||
-    lowerCaseName.includes("mobile")
-  ) {
+  if (lowerCaseName.includes("phone repair") || lowerCaseName.includes("mobile")) {
     return "fas fa-mobile-alt";
   }
   if (lowerCaseName.includes("laptop repair")) {
@@ -148,16 +142,10 @@ function getServiceIcon(serviceName) {
   if (lowerCaseName.includes("home appliance")) {
     return "fas fa-blender";
   }
-  if (
-    lowerCaseName.includes("web design") ||
-    lowerCaseName.includes("website")
-  ) {
+  if (lowerCaseName.includes("web design") || lowerCaseName.includes("website")) {
     return "fas fa-globe";
   }
-  if (
-    lowerCaseName.includes("mobile app design") ||
-    lowerCaseName.includes("app development")
-  ) {
+  if (lowerCaseName.includes("mobile app design") || lowerCaseName.includes("app development")) {
     return "fas fa-mobile-alt";
   }
   if (lowerCaseName.includes("electrical work")) {
@@ -166,10 +154,7 @@ function getServiceIcon(serviceName) {
   if (lowerCaseName.includes("graphic design")) {
     return "fas fa-paint-brush";
   }
-  if (
-    lowerCaseName.includes("cctv installation") ||
-    lowerCaseName.includes("security")
-  ) {
+  if (lowerCaseName.includes("cctv installation") || lowerCaseName.includes("security")) {
     return "fas fa-video";
   }
   return "fas fa-tools"; // Default icon
@@ -178,26 +163,37 @@ function getServiceIcon(serviceName) {
 // Fetch services from backend or fallback
 async function fetchServices() {
   try {
-    const response = await fetch(
-      "https://techlink-backend.onrender.com/api/getServices"
-    );
+    const response = await fetch("https://techlink-backend.onrender.com/api/getServices");
+    console.log("Fetch response status:", response.status);
+
     if (!response.ok) {
-      console.warn(
-        `Backend fetch failed with status: ${response.status}. Falling back to example data.`
-      );
+      console.warn("Backend fetch failed, using exampleServices");
       renderServices(exampleServices);
       return;
     }
-    const servicesData = await response.json();
+
+    const data = await response.json();
+    console.log("Fetched raw data:", data);
+
+    // Handle both array response and { services: [...] } object
+    const servicesData = Array.isArray(data) ? data : data.services;
+    if (!servicesData || !Array.isArray(servicesData)) {
+      console.warn("Invalid data format, falling back to exampleServices");
+      renderServices(exampleServices);
+      return;
+    }
+
     renderServices(servicesData);
   } catch (error) {
-    console.error("Error fetching services from backend:", error);
+    console.error("Error fetching services:", error);
     renderServices(exampleServices);
   }
 }
 
 // Render all services
 function renderServices(servicesData) {
+  console.log("Rendering services:", servicesData);
+
   serviceGrid.innerHTML = ""; // Clear existing
   if (servicesData && servicesData.length > 0) {
     servicesData.forEach((service, index) => {
@@ -207,12 +203,8 @@ function renderServices(servicesData) {
 
       const serviceIconClass = getServiceIcon(service.serviceName);
       const availabilityClass = service.isAvailable ? "active" : "inactive";
-      const availabilityText = service.isAvailable
-        ? "Available"
-        : "Unavailable";
-      const availabilityIcon = service.isAvailable
-        ? "fas fa-check-circle"
-        : "fas fa-times-circle";
+      const availabilityText = service.isAvailable ? "Available" : "Unavailable";
+      const availabilityIcon = service.isAvailable ? "fas fa-check-circle" : "fas fa-times-circle";
 
       serviceCard.innerHTML = `
         <div class="service-header">
@@ -232,28 +224,26 @@ function renderServices(servicesData) {
         </div>
       `;
 
-      // Add event listeners
-      serviceCard
-        .querySelector(".toggle-capability")
-        .addEventListener("click", (e) => {
-          const id = e.target.closest("button").dataset.id;
-          const currentAvailable =
-            e.target.closest("button").dataset.available === "true";
-          toggleTechnicianCapability(id, currentAvailable);
-        });
+      // Toggle availability
+      serviceCard.querySelector(".toggle-capability").addEventListener("click", (e) => {
+        const btn = e.target.closest("button");
+        const id = btn.dataset.id;
+        const currentAvailable = btn.dataset.available === "true";
+        toggleTechnicianCapability(id, currentAvailable);
+      });
 
-      serviceCard
-        .querySelector(".delete-btn")
-        .addEventListener("click", (e) => {
-          const id = e.target.closest("button").dataset.id;
-          deleteService(id);
-        });
+      // Delete service
+      serviceCard.querySelector(".delete-btn").addEventListener("click", (e) => {
+        const id = e.target.closest("button").dataset.id;
+        deleteService(id);
+      });
 
       serviceGrid.appendChild(serviceCard);
     });
   } else {
     serviceGrid.innerHTML = "<p>No services found.</p>";
   }
+
   serviceCountBadge.textContent = servicesData.length;
 }
 
@@ -261,19 +251,15 @@ function renderServices(servicesData) {
 async function toggleTechnicianCapability(serviceId, isAvailable) {
   const newStatus = !isAvailable;
   try {
-    const response = await fetch(
-      `https://techlink-backend.onrender.com/api/updateService/${serviceId}`,
-      {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ isAvailable: newStatus }),
-      }
-    );
+    const response = await fetch(`https://techlink-backend.onrender.com/api/updateService/${serviceId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ isAvailable: newStatus }),
+    });
 
     if (!response.ok) throw new Error(`Failed with status ${response.status}`);
     console.log(`Service ${serviceId} availability updated to ${newStatus}`);
 
-    // Refresh services after update
     fetchServices();
   } catch (error) {
     console.error("Error updating service availability:", error);
@@ -284,22 +270,18 @@ async function toggleTechnicianCapability(serviceId, isAvailable) {
 async function deleteService(serviceId) {
   if (!confirm("Are you sure you want to delete this service?")) return;
   try {
-    const response = await fetch(
-      `https://techlink-backend.onrender.com/api/deleteService/${serviceId}`,
-      {
-        method: "DELETE",
-      }
-    );
+    const response = await fetch(`https://techlink-backend.onrender.com/api/deleteService/${serviceId}`, {
+      method: "DELETE",
+    });
 
     if (!response.ok) throw new Error(`Failed with status ${response.status}`);
     console.log(`Service ${serviceId} deleted successfully`);
 
-    // Refresh services after delete
     fetchServices();
   } catch (error) {
     console.error("Error deleting service:", error);
   }
 }
 
-// Load services on page load
-fetchServices();
+// Ensure it runs after DOM loads
+document.addEventListener("DOMContentLoaded", fetchServices);
