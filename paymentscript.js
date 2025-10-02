@@ -1,37 +1,29 @@
 const payMethods = document.querySelectorAll(".method-option");
 const payNowBtn = document.getElementById("payNowBtn");
-const mpesaOptionCard = document.getElementById("mpesa-option");
 const mpesaPhoneInputContainer = document.getElementById(
   "mpesa-phone-input-container"
 );
 const mpesaPhoneInput = document.getElementById("mpesa-phone");
 const mpesaAmountInput = document.getElementById("mpesa-amount");
 const initiateMpesaPayBtn = document.getElementById("initiateMpesaPayBtn");
-const paypal = document.getElementById("paypal-option");
-const visa = document.getElementById("visa-option");
-const mastercard = document.getElementById("mastercard-option");
 
+// ================== PAYPAL ==================
 paypal
   .Buttons({
     createOrder: function (data, actions) {
       return actions.order.create({
         purchase_units: [
           {
-            amount: {
-              value: "45.00", // Or make this dynamic
-            },
+            amount: { value: "45.00" }, // TODO: make this dynamic
             description: "Electrical Fault Diagnosis by Frank",
           },
         ],
       });
     },
-
     onApprove: function (data, actions) {
       return actions.order.capture().then(function (details) {
-        // Notify user
         alert("Payment completed by " + details.payer.name.given_name);
 
-        // Prepare data to send to server
         const paymentData = {
           orderID: data.orderID,
           payerID: data.payerID,
@@ -45,40 +37,31 @@ paypal
           description: details.purchase_units[0].description,
         };
 
-        // Send to backend
         fetch("https://techlink-backend.onrender.com/api/payments/paypal", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(paymentData),
         })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Failed to post payment to server");
-            }
-            return response.json();
-          })
+          .then((res) => res.json())
           .then((data) => {
             console.log("Server response:", data);
-            // Redirect or show success screen if needed
           })
-          .catch((error) => {
-            console.error("Error posting to server:", error);
+          .catch((err) => {
+            console.error("Error posting PayPal payment:", err);
             alert("Payment succeeded but we couldn’t notify the server.");
           });
       });
     },
-
     onError: function (err) {
       console.error(err);
-      alert("An error occurred during the transaction.");
+      alert("An error occurred during the PayPal transaction.");
     },
   })
   .render("#paypal-button-container");
+
+// ================== GENERAL PAYMENT ==================
 let selectedMethod = null;
 
-// Hide M-Pesa input
 function hideMpesaInput() {
   mpesaPhoneInputContainer.style.display = "none";
   mpesaPhoneInput.value = "";
@@ -86,12 +69,10 @@ function hideMpesaInput() {
   payNowBtn.disabled = true;
 }
 
-// Show M-Pesa input
 function showMpesaInput() {
   mpesaPhoneInputContainer.style.display = "flex";
 }
 
-// Payment method selection
 payMethods.forEach((method) => {
   method.addEventListener("click", () => {
     payMethods.forEach((opt) => opt.classList.remove("selected"));
@@ -109,7 +90,30 @@ payMethods.forEach((method) => {
   });
 });
 
-// Initiate M-Pesa STK Push
+// ================== POLLING FUNCTION ==================
+async function checkPaymentStatus(reference) {
+  try {
+    const response = await fetch(
+      `https://techlink-backend.onrender.com/payment-status/${reference}`
+    );
+    const result = await response.json();
+
+    if (result.status === "SUCCESS") {
+      clearInterval(window.paymentStatusInterval);
+      alert("✅ Payment successful! Thank you.");
+      // Optional: redirect to success page
+      window.location.href = "/payment-success.html";
+    } else if (result.status === "FAILED") {
+      clearInterval(window.paymentStatusInterval);
+      alert("❌ Payment failed. Please try again.");
+    }
+    // If still pending, keep polling
+  } catch (err) {
+    console.error("Error checking payment status:", err);
+  }
+}
+
+// ================== M-PESA STK PUSH ==================
 initiateMpesaPayBtn.addEventListener("click", async () => {
   const phone = mpesaPhoneInput.value.trim();
   const amount = mpesaAmountInput.value.trim();
@@ -138,18 +142,26 @@ initiateMpesaPayBtn.addEventListener("click", async () => {
 
     const result = await response.json();
 
-    if (response.ok) {
-      alert("STK Push sent. Please complete the payment on your phone.");
+    if (response.ok && result.success) {
+      const reference = result.data.reference; // Backend should send this
+      alert("📲 STK Push sent! Enter PIN on your phone to complete payment.");
+
+      // Start polling every 5 seconds
+      window.paymentStatusInterval = setInterval(() => {
+        checkPaymentStatus(reference);
+      }, 5000);
     } else {
-      alert("Payment failed: " + (result.message || "Unknown error."));
+      alert(
+        "❌ Payment initiation failed: " + (result.message || "Unknown error.")
+      );
     }
   } catch (error) {
     console.error("Error:", error);
-    alert("Network error: Could not contact server.");
+    alert("⚠️ Network error: Could not contact payment server.");
   }
 });
 
-// General Pay Now (non-MPesa)
+// ================== PAY NOW BUTTON (NON-MPESA) ==================
 payNowBtn.addEventListener("click", () => {
   if (selectedMethod && selectedMethod !== "mpesa-option") {
     alert(
@@ -160,6 +172,7 @@ payNowBtn.addEventListener("click", () => {
   }
 });
 
+// ================== INIT ==================
 document.addEventListener("DOMContentLoaded", () => {
   hideMpesaInput();
   payNowBtn.style.display = "block";
