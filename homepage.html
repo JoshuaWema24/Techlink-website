@@ -8,547 +8,1048 @@
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-<body class="bg-gray-900 min-h-screen text-white">
-
+  <body class="bg-gray-900 min-h-screen text-white">
     <!-- Container for App Layout (No flex on large screen needed, as sidebar is an overlay) -->
     <div class="app-layout min-h-screen">
-        
-        <!-- Hamburger Menu Button (FIXED POSITION, always visible) -->
-        <button class="hamburger-menu" id="hamburgerMenu" aria-label="Toggle Navigation Menu">
-            <i class="fas fa-bars" aria-hidden="true">Menu</i>
-        </button>
-
-        <!-- 2. Overlay (Always visible when menu is open) -->
-        <div class="overlay" id="overlay" aria-hidden="true"></div>
-
-        <!-- 3. Sidebar Navigation (Always FIXED and hidden) -->
-        <nav class="sidebar-nav" id="sidebar" aria-label="Primary Dashboard Navigation">
-            <div class="sidebar-brand">
-                <a href="#" class="brand-link">
-                    <div class="brand-logo" aria-label="Termyte Logo Placeholder"></div>
-                    <span class="app-name">Afribyt</span>
-                </a>
-            </div>
-            <ul class="nav-list" role="menu">
-                <div class="customer-nav" id="customerNav">
-                    <li class="nav-item" role="none">
-                        <a href="requestservice.html" class="nav-link primary-cta" role="menuitem">
-                            <i class="fas fa-plus-circle nav-icon" aria-hidden="true"></i> 
-                            Request Service
-                        </a>
-                    </li>
-                    <li class="nav-item" role="none">
-                        <a href="myrequests.html" class="nav-link" role="menuitem">
-                            <i class="fas fa-clipboard-list nav-icon" aria-hidden="true"></i> 
-                            My Requests
-                        </a>
-                    </li>
-                    <li class="nav-item" role="none">
-                        <a href="paymentsScreen.html" class="nav-link" role="menuitem">
-                            <i class="fas fa-money-bill-wave nav-icon" aria-hidden="true"></i> 
-                            Pay
-                        </a>
-                    </li>
-                </div>
-                <li class="nav-item-separator" role="separator"></li> 
-                <li class="nav-item" role="none">
-                    <a href="profile.html" class="nav-link" role="menuitem">
-                        <i class="fas fa-user-cog nav-icon" aria-hidden="true"></i> 
-                        Profile
-                    </a>
-                </li>
-                <li class="nav-item" role="none">
-                    <a href="contactpage.html" class="nav-link" role="menuitem">
-                        <i class="fas fa-question-circle nav-icon" aria-hidden="true"></i> 
-                        Help & Support
-                    </a>
-                </li>
-                <li class="nav-item logout" role="none">
-                    <a href="index.html" class="nav-link" role="menuitem">
-                        <i class="fas fa-sign-out-alt nav-icon" aria-hidden="true"></i> 
-                        Logout
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        <!-- End Sidebar -->
-
-        <!-- Main Application Content Wrapper -->
-        <!-- pt-20 is necessary to clear the space occupied by the fixed hamburger menu -->
-        <div class="p-4 sm:p-8 lg:p-12 pt-20">
-            
-            <!-- 1. Afribyt Hero Section -->
-            <header class="mb-12 lg:mb-16 bg-gray-800 p-6 sm:p-10 rounded-3xl shadow-2xl relative overflow-hidden">
-                
-                <!-- Image Placeholder Area -->
-                <div class="absolute inset-0 z-0 opacity-20">
-                    <img 
-                        src="IDC predicts two of the most important IT developments will be as-a-service products and proc___.jpeg" 
-                        alt="Afribyt Digital Landscape" 
-                        class="w-full h-full object-cover"
-                        onerror="this.onerror=null; this.src='https://placehold.co/1200x400/1f2937/ffffff?text=Afribyt+Marketplace+Hero';"
-                    >
-                    <div class="absolute inset-0 bg-gray-900 opacity-70"></div>
-                </div>
-                
-                <div class="relative z-10 text-center">
-                    <h1 class="text-5xl sm:text-7xl font-extrabold tracking-tight pt-8 sm:pt-0"> 
-                        <span class="title-gradient">Afribyt </span>
-                    </h1>
-                    <p class="mt-4 text-2xl font-medium text-indigo-200 max-w-4xl mx-auto">
-                        Powering Africa's Digital Future, Service by Service.
-                    </p>
-                    <p class="mt-2 text-xl text-indigo-300 max-w-3xl mx-auto">
-                        Find the exact service you need with clear, itemized pricing in Kenyan Shillings.
-                    </p>
-                </div>
-            </header>
-            <!-- End Header/Hero Section -->
-
-            <!-- Main Content Layout -->
-            <main class="max-w-7xl mx-auto">
-                <div>
-                    <h2 id="current-category-title" class="text-3xl font-bold mb-8 text-white/90 lg:text-left text-center">All Featured Solutions</h2>
-                    
-                    <!-- Category Tabs - Overflow-x-auto allows horizontal scrolling, custom CSS hides the scrollbar -->
-                    <div id="category-tabs" class="mb-6 overflow-x-auto whitespace-nowrap py-2 flex gap-2">
-                        <!-- Links will be dynamically inserted here by JS -->
-                    </div>
-
-                    <div id="services-grid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-
-                        <!-- SERVICE CARDS (ITEMIZED) - ALL CATEGORIES RETAINED -->
-
-                        <!-- 1. Device Repair: Screen Replacement -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="repair-device">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">📱</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Screen Replacement (Std)</h3>
-                                <p class="text-gray-400 text-sm mb-4">Fixes cracks on modern smartphone displays. Includes premium protective film and 90-day warranty.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 7,500</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Book Now</a>
-                            </div>
-                        </div>
-
-                        <!-- 2. Device Repair: Battery Replacement -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="repair-device">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">🔋</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Battery Replacement</h3>
-                                <p class="text-gray-400 text-sm mb-4">Replace old battery with a new OEM-quality cell. Restores battery health and lifespan. Quick service.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 4,500</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Book Now</a>
-                            </div>
-                        </div>
-
-                        <!-- 3. Device Repair: Charging Port -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="repair-device">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">🔌</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Charging Port Repair</h3>
-                                <p class="text-gray-400 text-sm mb-4">Repair or replace faulty charging ports (Lightning, USB-C) to ensure reliable power delivery.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 3,800</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Book Repair</a>
-                            </div>
-                        </div>
-
-                        <!-- 4. Appliances: Diagnostic Callout -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="repair-appliances">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">🏠</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Appliance Diagnostic Fee (On-Site)</h3>
-                                <p class="text-gray-400 text-sm mb-4">Initial visit fee for on-site assessment of any major appliance (fridge, oven, washer) failure in Nairobi area.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 3,500</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Book Visit</a>
-                            </div>
-                        </div>
-                        
-                        <!-- 5. Appliances: Refrigerator/Freezer Repair -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="repair-appliances">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">🧊</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Refrigerator/Freezer Repair</h3>
-                                <p class="text-gray-400 text-sm mb-4">Full service and repair for cooling issues, compressor problems, and electrical faults in fridges and freezers.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 7,000+</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Book Repair</a>
-                            </div>
-                        </div>
-
-                        <!-- 6. Appliances: Oven & Cooker Repair -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="repair-appliances">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">🍳</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Oven & Electric Cooker Repair</h3>
-                                <p class="text-gray-400 text-sm mb-4">Repair services for faulty heating elements, thermostats, timers, and electrical faults in ovens/cookers.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 5,500+</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Book Repair</a>
-                            </div>
-                        </div>
-
-                        <!-- 7. Appliances: Small Appliance Repair -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="repair-appliances">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">⚙️</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Small Appliance Repair (Microwave, Blender)</h3>
-                                <p class="text-gray-400 text-sm mb-4">Repair service for small household electronics like microwaves, blenders, fans, and vacuum cleaners.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 3,000+</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Book Repair</a>
-                            </div>
-                        </div>
-
-                        <!-- 8. Appliances: TV Backlight Repair -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="repair-appliances">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">💡</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Smart TV Backlight Repair</h3>
-                                <p class="text-gray-400 text-sm mb-4">On-site repair for common LED/LCD Smart TV backlight issues, restoring full picture clarity.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 12,000+</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Book Repair</a>
-                            </div>
-                        </div>
-
-                        <!-- 9. Appliances: Smart Home Setup -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="repair-appliances">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">📡</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Home Network & Wi-Fi Setup</h3>
-                                <p class="text-gray-400 text-sm mb-4">Installation and configuration of secure, high-speed mesh Wi-Fi and up to three smart devices.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 6,000</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Book Setup</a>
-                            </div>
-                        </div>
-                        
-                        <!-- 10. Plumbing: Standard Leak Fix/Tap Repair -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="plumbing">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">💧</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Standard Leak Fix / Tap Repair</h3>
-                                <p class="text-gray-400 text-sm mb-4">Fixing minor pipe leaks, replacing worn-out washers, or repairing a single dripping tap. (Excludes parts cost).</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 3,500</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Book Service</a>
-                            </div>
-                        </div>
-
-                        <!-- 11. Plumbing: Drain Unclogging -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="plumbing">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">🚽</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Major Drain Unclogging Service</h3>
-                                <p class="text-gray-400 text-sm mb-4">Clearing blockages in kitchen sinks, main drains, or toilet systems using specialist equipment.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 6,000+</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Book Service</a>
-                            </div>
-                        </div>
-                        
-                        <!-- 12. Plumbing: Water Heater/Geyser Installation -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="plumbing">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">🔥</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Geyser/Water Heater Installation</h3>
-                                <p class="text-gray-400 text-sm mb-4">Professional installation of new electric water heaters and connection to existing plumbing.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 10,000+</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Get Quote</a>
-                            </div>
-                        </div>
-                        
-                        <!-- 13. Electrical: Fault Diagnosis -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="electrical">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">⚡</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Electrical Fault Diagnosis & Minor Repair</h3>
-                                <p class="text-gray-400 text-sm mb-4">On-site troubleshooting for common issues: persistent tripping, short circuits, or localized power loss.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 4,000</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Book Visit</a>
-                            </div>
-                        </div>
-
-                        <!-- 14. Electrical: Socket/Switch Installation -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="electrical">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">🔌</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">New Socket/Switch Installation (Per Point)</h3>
-                                <p class="text-gray-400 text-sm mb-4">Installation of a new electrical point (socket or switch) or replacement of a faulty unit. (Excludes materials).</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 3,000</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Book Service</a>
-                            </div>
-                        </div>
-
-                        <!-- 15. Electrical: Light Fixture Repair -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="electrical">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">💡</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Light Fixture & Bulb Holder Repair/Install</h3>
-                                <p class="text-gray-400 text-sm mb-4">Servicing or replacement of ceiling/wall light fixtures, fittings, and faulty bulb holders. (Per fixture).</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 2,500</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Book Repair</a>
-                            </div>
-                        </div>
-                        
-                        <!-- 16. Electrical: Wiring Audit -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="electrical">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">🏗️</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Residential Wiring Safety Audit</h3>
-                                <p class="text-gray-400 text-sm mb-4">Comprehensive inspection, testing, and safety report for existing home electrical systems.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 18,000+</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Get Quote</a>
-                            </div>
-                        </div>
-
-                        <!-- 17. Design: Logo & Brand Pack -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="design-graphic">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">🖋️</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Logo & Brand Identity Pack</h3>
-                                <p class="text-gray-400 text-sm mb-4">Full branding package including custom logo, color palette, typography, and vector files.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 35,000+</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Get Quote</a>
-                            </div>
-                        </div>
-
-                        <!-- 18. Design: Social Media Assets -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="design-graphic">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">📢</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Social Media Asset Design (10)</h3>
-                                <p class="text-gray-400 text-sm mb-4">Creation of 10 customized graphics optimized for platforms like Instagram, Facebook, and Twitter.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 8,000</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Book Service</a>
-                            </div>
-                        </div>
-                        
-                        <!-- 19. Design: Custom Infographic -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="design-graphic">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">📊</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Custom Infographic Design</h3>
-                                <p class="text-gray-400 text-sm mb-4">Design of one professional, data-driven infographic for marketing or internal communication.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 15,000</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Book Service</a>
-                            </div>
-                        </div>
-
-                        <!-- 20. Web Dev: Basic Informational Site -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="web-dev">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">🌐</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Basic Informational Site (5 Pages)</h3>
-                                <p class="text-gray-400 text-sm mb-4">Responsive website for business presence (includes SEO setup and simple contact form).</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 45,000+</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Start Project</a>
-                            </div>
-                        </div>
-
-                        <!-- 21. Web Dev: E-commerce Setup -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="web-dev">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">🛒</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">E-commerce Platform Setup (Basic)</h3>
-                                <p class="text-gray-400 text-sm mb-4">Full setup of an online store with local payment gateway integration (e.g., M-Pesa, card).</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 85,000+</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Start Project</a>
-                            </div>
-                        </div>
-                        
-                        <!-- 22. Web Dev: Performance Audit -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="web-dev">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">🛠️</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Website Performance Audit</h3>
-                                <p class="text-gray-400 text-sm mb-4">Detailed analysis of site speed, security, and SEO, including a prioritized fix list.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 15,000</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Book Audit</a>
-                            </div>
-                        </div>
-                        
-                        <!-- 23. Mobile Dev: Basic App Prototype -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="mobile-dev">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">📱</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Basic App Prototype (Android/iOS)</h3>
-                                <p class="text-gray-400 text-sm mb-4">Develop a fundamental 3-screen prototype with core functionality for testing and pitch.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 90,000+</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Start Prototype</a>
-                            </div>
-                        </div>
-                        
-                        <!-- 24. Mobile Dev: Feature Addition -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="mobile-dev">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">➕</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Feature Addition (Per Module)</h3>
-                                <p class="text-gray-400 text-sm mb-4">Integration of new single features (e.g., chat function, specific payment link) into an existing app.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 30,000+</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Get Estimate</a>
-                            </div>
-                        </div>
-                        
-                        <!-- 25. Mobile Dev: App Store Submission -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="mobile-dev">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">📤</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">App Store Submission Service</h3>
-                                <p class="text-gray-400 text-sm mb-4">Full management of the submission process for Google Play and/or Apple App Store.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 15,000</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Book Service</a>
-                            </div>
-                        </div>
-
-                        <!-- 26. IT Security: Virus & Malware Removal -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="it-security">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">🛡️</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Virus & Malware Removal</h3>
-                                <p class="text-gray-400 text-sm mb-4">Deep clean and secure single PC or Mac infected by malicious software. Includes system tune-up.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 5,500</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Book Service</a>
-                            </div>
-                        </div>
-
-                        <!-- 27. IT Security: Basic Remote IT Support -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="it-security">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">📞</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Basic Remote IT Support (30 Mins)</h3>
-                                <p class="text-gray-400 text-sm mb-4">Quick remote assistance for minor software, printer, or connectivity troubleshooting.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 2,500</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Book Session</a>
-                            </div>
-                        </div>
-                        
-                        <!-- 28. IT Security: Managed IT Plan -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="it-security">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">💼</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Basic Managed IT Plan</h3>
-                                <p class="text-gray-400 text-sm mb-4">Monthly subscription for proactive maintenance, system updates, and priority remote support.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 3,500/mo</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Subscribe</a>
-                            </div>
-                        </div>
-
-                        <!-- 29. Custom Software: MVP Development -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="custom-software">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">🚀</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">MVP Development (Estimate)</h3>
-                                <p class="text-gray-400 text-sm mb-4">Develop a Minimum Viable Product (MVP) for a new web or mobile application to test market fit.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 120,000+</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Start Quote</a>
-                            </div>
-                        </div>
-                        
-                        <!-- 30. Custom Software: Automation Script -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="custom-software">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">🤖</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Data Automation Script</h3>
-                                <p class="text-gray-400 text-sm mb-4">Custom script to automate repetitive tasks like data scraping, reporting, or system integration.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 25,000+</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Get Quote</a>
-                            </div>
-                        </div>
-                        
-                        <!-- 31. Custom Software: Initial Consultation -->
-                        <div class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30" data-category="custom-software">
-                            <div>
-                                <div class="text-3xl mb-3 text-indigo-400">💬</div>
-                                <h3 class="text-xl font-semibold mb-2 text-indigo-300">Project Consultation (90 Mins)</h3>
-                                <p class="text-gray-400 text-sm mb-4">In-depth session to define project scope, technical requirements, and estimated costs for custom work.</p>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center">
-                                <p class="text-3xl font-extrabold text-sky-400">KSh 7,000</p>
-                                <a href="#" class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition">Schedule Call</a>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-                <!-- End Main Services Display -->
-
-                <!-- General Contact CTA Section -->
-                <div class="text-center mt-12 pt-8 border-t border-indigo-700/50">
-                    <p class="text-xl text-gray-300 mb-6">Didn't find what you need? Reach out for a specialized consultation.</p>
-                    <a href="#" 
-                        class="inline-block px-8 py-3 rounded-full font-bold text-lg 
-                            bg-gradient-to-r from-indigo-500 to-fuchsia-600/70 
-                            shadow-md hover:from-indigo-600 hover:to-fuchsia-700/80 
-                            transition duration-300 ease-in-out">
-                        Contact Our Solutions Team
-                    </a>
-                </div>
-            </main>
-            
-            <!-- Footer for simple copyright -->
-            <footer class="mt-16 text-center text-gray-500 text-sm">
-                <p>&copy; 2024 Afribyt. All rights reserved.</p>
-            </footer>
+      <!-- Hamburger Menu Button (FIXED POSITION, always visible) -->
+      <button
+        class="hamburger-menu"
+        id="hamburgerMenu"
+        aria-label="Toggle Navigation Menu"
+      >
+        <i class="fas fa-bars" aria-hidden="true">Menu</i>
+      </button>
+      <!-- 🔔 Notification Bell -->
+      <div class="notification-container">
+        <div class="notification-bell" id="notificationBell">
+          <i class="fas fa-bell"></i>
+          <span class="notification-count" id="notificationCount">0</span>
         </div>
-        <!-- End Main Content Wrapper -->
+
+        <div class="notification-dropdown" id="notificationDropdown">
+          <h4>Notifications</h4>
+          <ul id="notificationList"></ul>
+          <p class="no-notifications" id="noNotifications">
+            No notifications yet.
+          </p>
+        </div>
+      </div>
+
+      <!-- 2. Overlay (Always visible when menu is open) -->
+      <div class="overlay" id="overlay" aria-hidden="true"></div>
+
+      <!-- 3. Sidebar Navigation (Always FIXED and hidden) -->
+      <nav
+        class="sidebar-nav"
+        id="sidebar"
+        aria-label="Primary Dashboard Navigation"
+      >
+        <div class="sidebar-brand">
+          <a href="#" class="brand-link">
+            <div class="brand-logo" aria-label="Termyte Logo Placeholder"></div>
+            <span class="app-name">Afribyt</span>
+          </a>
+        </div>
+        <ul class="nav-list" role="menu">
+          <div class="customer-nav" id="customerNav">
+            <li class="nav-item" role="none">
+              <a
+                href="requestservice.html"
+                class="nav-link primary-cta"
+                role="menuitem"
+              >
+                <i class="fas fa-plus-circle nav-icon" aria-hidden="true"></i>
+                Request Service
+              </a>
+            </li>
+            <li class="nav-item" role="none">
+              <a href="myrequests.html" class="nav-link" role="menuitem">
+                <i
+                  class="fas fa-clipboard-list nav-icon"
+                  aria-hidden="true"
+                ></i>
+                My Requests
+              </a>
+            </li>
+            <li class="nav-item" role="none">
+              <a href="paymentsScreen.html" class="nav-link" role="menuitem">
+                <i
+                  class="fas fa-money-bill-wave nav-icon"
+                  aria-hidden="true"
+                ></i>
+                Pay
+              </a>
+            </li>
+          </div>
+          <li class="nav-item-separator" role="separator"></li>
+          <li class="nav-item" role="none">
+            <a href="profile.html" class="nav-link" role="menuitem">
+              <i class="fas fa-user-cog nav-icon" aria-hidden="true"></i>
+              Profile
+            </a>
+          </li>
+          <li class="nav-item" role="none">
+            <a href="contactpage.html" class="nav-link" role="menuitem">
+              <i class="fas fa-question-circle nav-icon" aria-hidden="true"></i>
+              Help & Support
+            </a>
+          </li>
+          <li class="nav-item logout" role="none">
+            <a href="index.html" class="nav-link" role="menuitem">
+              <i class="fas fa-sign-out-alt nav-icon" aria-hidden="true"></i>
+              Logout
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- End Sidebar -->
+
+      <!-- Main Application Content Wrapper -->
+      <!-- pt-20 is necessary to clear the space occupied by the fixed hamburger menu -->
+      <div class="p-4 sm:p-8 lg:p-12 pt-20">
+        <!-- 1. Afribyt Hero Section -->
+        <header
+          class="mb-12 lg:mb-16 bg-gray-800 p-6 sm:p-10 rounded-3xl shadow-2xl relative overflow-hidden"
+        >
+          <!-- Image Placeholder Area -->
+          <div class="absolute inset-0 z-0 opacity-20">
+            <img
+              src="IDC predicts two of the most important IT developments will be as-a-service products and proc___.jpeg"
+              alt="Afribyt Digital Landscape"
+              class="w-full h-full object-cover"
+              onerror="this.onerror=null; this.src='https://placehold.co/1200x400/1f2937/ffffff?text=Afribyt+Marketplace+Hero';"
+            />
+            <div class="absolute inset-0 bg-gray-900 opacity-70"></div>
+          </div>
+
+          <div class="relative z-10 text-center">
+            <h1
+              class="text-5xl sm:text-7xl font-extrabold tracking-tight pt-8 sm:pt-0"
+            >
+              <span class="title-gradient">Afribyt </span>
+            </h1>
+            <p
+              class="mt-4 text-2xl font-medium text-indigo-200 max-w-4xl mx-auto"
+            >
+              Powering Africa's Digital Future, Service by Service.
+            </p>
+            <p class="mt-2 text-xl text-indigo-300 max-w-3xl mx-auto">
+              Find the exact service you need with clear, itemized pricing in
+              Kenyan Shillings.
+            </p>
+          </div>
+        </header>
+        <!-- End Header/Hero Section -->
+
+        <!-- Main Content Layout -->
+        <main class="max-w-7xl mx-auto">
+          <div>
+            <h2
+              id="current-category-title"
+              class="text-3xl font-bold mb-8 text-white/90 lg:text-left text-center"
+            >
+              All Featured Solutions
+            </h2>
+
+            <!-- Category Tabs - Overflow-x-auto allows horizontal scrolling, custom CSS hides the scrollbar -->
+            <div
+              id="category-tabs"
+              class="mb-6 overflow-x-auto whitespace-nowrap py-2 flex gap-2"
+            >
+              <!-- Links will be dynamically inserted here by JS -->
+            </div>
+
+            <div
+              id="services-grid"
+              class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            >
+              <!-- SERVICE CARDS (ITEMIZED) - ALL CATEGORIES RETAINED -->
+
+              <!-- 1. Device Repair: Screen Replacement -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="repair-device"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">📱</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Screen Replacement (Std)
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Fixes cracks on modern smartphone displays. Includes premium
+                    protective film and 90-day warranty.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">KSh 7,500</p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Book Now</a
+                  >
+                </div>
+              </div>
+
+              <!-- 2. Device Repair: Battery Replacement -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="repair-device"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">🔋</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Battery Replacement
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Replace old battery with a new OEM-quality cell. Restores
+                    battery health and lifespan. Quick service.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">KSh 4,500</p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Book Now</a
+                  >
+                </div>
+              </div>
+
+              <!-- 3. Device Repair: Charging Port -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="repair-device"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">🔌</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Charging Port Repair
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Repair or replace faulty charging ports (Lightning, USB-C)
+                    to ensure reliable power delivery.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">KSh 3,800</p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Book Repair</a
+                  >
+                </div>
+              </div>
+
+              <!-- 4. Appliances: Diagnostic Callout -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="repair-appliances"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">🏠</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Appliance Diagnostic Fee (On-Site)
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Initial visit fee for on-site assessment of any major
+                    appliance (fridge, oven, washer) failure in Nairobi area.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">KSh 3,500</p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Book Visit</a
+                  >
+                </div>
+              </div>
+
+              <!-- 5. Appliances: Refrigerator/Freezer Repair -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="repair-appliances"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">🧊</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Refrigerator/Freezer Repair
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Full service and repair for cooling issues, compressor
+                    problems, and electrical faults in fridges and freezers.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">KSh 7,000+</p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Book Repair</a
+                  >
+                </div>
+              </div>
+
+              <!-- 6. Appliances: Oven & Cooker Repair -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="repair-appliances"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">🍳</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Oven & Electric Cooker Repair
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Repair services for faulty heating elements, thermostats,
+                    timers, and electrical faults in ovens/cookers.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">KSh 5,500+</p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Book Repair</a
+                  >
+                </div>
+              </div>
+
+              <!-- 7. Appliances: Small Appliance Repair -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="repair-appliances"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">⚙️</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Small Appliance Repair (Microwave, Blender)
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Repair service for small household electronics like
+                    microwaves, blenders, fans, and vacuum cleaners.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">KSh 3,000+</p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Book Repair</a
+                  >
+                </div>
+              </div>
+
+              <!-- 8. Appliances: TV Backlight Repair -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="repair-appliances"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">💡</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Smart TV Backlight Repair
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    On-site repair for common LED/LCD Smart TV backlight issues,
+                    restoring full picture clarity.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">
+                    KSh 12,000+
+                  </p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Book Repair</a
+                  >
+                </div>
+              </div>
+
+              <!-- 9. Appliances: Smart Home Setup -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="repair-appliances"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">📡</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Home Network & Wi-Fi Setup
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Installation and configuration of secure, high-speed mesh
+                    Wi-Fi and up to three smart devices.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">KSh 6,000</p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Book Setup</a
+                  >
+                </div>
+              </div>
+
+              <!-- 10. Plumbing: Standard Leak Fix/Tap Repair -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="plumbing"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">💧</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Standard Leak Fix / Tap Repair
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Fixing minor pipe leaks, replacing worn-out washers, or
+                    repairing a single dripping tap. (Excludes parts cost).
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">KSh 3,500</p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Book Service</a
+                  >
+                </div>
+              </div>
+
+              <!-- 11. Plumbing: Drain Unclogging -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="plumbing"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">🚽</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Major Drain Unclogging Service
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Clearing blockages in kitchen sinks, main drains, or toilet
+                    systems using specialist equipment.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">KSh 6,000+</p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Book Service</a
+                  >
+                </div>
+              </div>
+
+              <!-- 12. Plumbing: Water Heater/Geyser Installation -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="plumbing"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">🔥</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Geyser/Water Heater Installation
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Professional installation of new electric water heaters and
+                    connection to existing plumbing.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">
+                    KSh 10,000+
+                  </p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Get Quote</a
+                  >
+                </div>
+              </div>
+
+              <!-- 13. Electrical: Fault Diagnosis -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="electrical"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">⚡</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Electrical Fault Diagnosis & Minor Repair
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    On-site troubleshooting for common issues: persistent
+                    tripping, short circuits, or localized power loss.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">KSh 4,000</p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Book Visit</a
+                  >
+                </div>
+              </div>
+
+              <!-- 14. Electrical: Socket/Switch Installation -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="electrical"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">🔌</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    New Socket/Switch Installation (Per Point)
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Installation of a new electrical point (socket or switch) or
+                    replacement of a faulty unit. (Excludes materials).
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">KSh 3,000</p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Book Service</a
+                  >
+                </div>
+              </div>
+
+              <!-- 15. Electrical: Light Fixture Repair -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="electrical"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">💡</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Light Fixture & Bulb Holder Repair/Install
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Servicing or replacement of ceiling/wall light fixtures,
+                    fittings, and faulty bulb holders. (Per fixture).
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">KSh 2,500</p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Book Repair</a
+                  >
+                </div>
+              </div>
+
+              <!-- 16. Electrical: Wiring Audit -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="electrical"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">🏗️</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Residential Wiring Safety Audit
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Comprehensive inspection, testing, and safety report for
+                    existing home electrical systems.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">
+                    KSh 18,000+
+                  </p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Get Quote</a
+                  >
+                </div>
+              </div>
+
+              <!-- 17. Design: Logo & Brand Pack -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="design-graphic"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">🖋️</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Logo & Brand Identity Pack
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Full branding package including custom logo, color palette,
+                    typography, and vector files.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">
+                    KSh 35,000+
+                  </p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Get Quote</a
+                  >
+                </div>
+              </div>
+
+              <!-- 18. Design: Social Media Assets -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="design-graphic"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">📢</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Social Media Asset Design (10)
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Creation of 10 customized graphics optimized for platforms
+                    like Instagram, Facebook, and Twitter.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">KSh 8,000</p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Book Service</a
+                  >
+                </div>
+              </div>
+
+              <!-- 19. Design: Custom Infographic -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="design-graphic"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">📊</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Custom Infographic Design
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Design of one professional, data-driven infographic for
+                    marketing or internal communication.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">KSh 15,000</p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Book Service</a
+                  >
+                </div>
+              </div>
+
+              <!-- 20. Web Dev: Basic Informational Site -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="web-dev"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">🌐</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Basic Informational Site (5 Pages)
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Responsive website for business presence (includes SEO setup
+                    and simple contact form).
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">
+                    KSh 45,000+
+                  </p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Start Project</a
+                  >
+                </div>
+              </div>
+
+              <!-- 21. Web Dev: E-commerce Setup -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="web-dev"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">🛒</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    E-commerce Platform Setup (Basic)
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Full setup of an online store with local payment gateway
+                    integration (e.g., M-Pesa, card).
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">
+                    KSh 85,000+
+                  </p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Start Project</a
+                  >
+                </div>
+              </div>
+
+              <!-- 22. Web Dev: Performance Audit -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="web-dev"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">🛠️</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Website Performance Audit
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Detailed analysis of site speed, security, and SEO,
+                    including a prioritized fix list.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">KSh 15,000</p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Book Audit</a
+                  >
+                </div>
+              </div>
+
+              <!-- 23. Mobile Dev: Basic App Prototype -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="mobile-dev"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">📱</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Basic App Prototype (Android/iOS)
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Develop a fundamental 3-screen prototype with core
+                    functionality for testing and pitch.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">
+                    KSh 90,000+
+                  </p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Start Prototype</a
+                  >
+                </div>
+              </div>
+
+              <!-- 24. Mobile Dev: Feature Addition -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="mobile-dev"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">➕</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Feature Addition (Per Module)
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Integration of new single features (e.g., chat function,
+                    specific payment link) into an existing app.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">
+                    KSh 30,000+
+                  </p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Get Estimate</a
+                  >
+                </div>
+              </div>
+
+              <!-- 25. Mobile Dev: App Store Submission -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="mobile-dev"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">📤</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    App Store Submission Service
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Full management of the submission process for Google Play
+                    and/or Apple App Store.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">KSh 15,000</p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Book Service</a
+                  >
+                </div>
+              </div>
+
+              <!-- 26. IT Security: Virus & Malware Removal -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="it-security"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">🛡️</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Virus & Malware Removal
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Deep clean and secure single PC or Mac infected by malicious
+                    software. Includes system tune-up.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">KSh 5,500</p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Book Service</a
+                  >
+                </div>
+              </div>
+
+              <!-- 27. IT Security: Basic Remote IT Support -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="it-security"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">📞</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Basic Remote IT Support (30 Mins)
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Quick remote assistance for minor software, printer, or
+                    connectivity troubleshooting.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">KSh 2,500</p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Book Session</a
+                  >
+                </div>
+              </div>
+
+              <!-- 28. IT Security: Managed IT Plan -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="it-security"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">💼</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Basic Managed IT Plan
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Monthly subscription for proactive maintenance, system
+                    updates, and priority remote support.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">
+                    KSh 3,500/mo
+                  </p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Subscribe</a
+                  >
+                </div>
+              </div>
+
+              <!-- 29. Custom Software: MVP Development -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="custom-software"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">🚀</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    MVP Development (Estimate)
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Develop a Minimum Viable Product (MVP) for a new web or
+                    mobile application to test market fit.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">
+                    KSh 120,000+
+                  </p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Start Quote</a
+                  >
+                </div>
+              </div>
+
+              <!-- 30. Custom Software: Automation Script -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="custom-software"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">🤖</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Data Automation Script
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    Custom script to automate repetitive tasks like data
+                    scraping, reporting, or system integration.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">
+                    KSh 25,000+
+                  </p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Get Quote</a
+                  >
+                </div>
+              </div>
+
+              <!-- 31. Custom Software: Initial Consultation -->
+              <div
+                class="tech-card p-5 rounded-xl shadow-xl border border-indigo-700/30"
+                data-category="custom-software"
+              >
+                <div>
+                  <div class="text-3xl mb-3 text-indigo-400">💬</div>
+                  <h3 class="text-xl font-semibold mb-2 text-indigo-300">
+                    Project Consultation (90 Mins)
+                  </h3>
+                  <p class="text-gray-400 text-sm mb-4">
+                    In-depth session to define project scope, technical
+                    requirements, and estimated costs for custom work.
+                  </p>
+                </div>
+                <div
+                  class="mt-4 pt-4 border-t border-gray-700/50 flex justify-between items-center"
+                >
+                  <p class="text-3xl font-extrabold text-sky-400">KSh 7,000</p>
+                  <a
+                    href="requestservice.html"
+                    class="px-5 py-2 text-sm font-semibold rounded-full text-white book-btn-gradient transition"
+                    >Schedule Call</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Main Services Display -->
+
+          <!-- General Contact CTA Section -->
+          <div class="text-center mt-12 pt-8 border-t border-indigo-700/50">
+            <p class="text-xl text-gray-300 mb-6">
+              Didn't find what you need? Reach out for a specialized
+              consultation.
+            </p>
+            <a
+              href="requestservice.html"
+              class="inline-block px-8 py-3 rounded-full font-bold text-lg bg-gradient-to-r from-indigo-500 to-fuchsia-600/70 shadow-md hover:from-indigo-600 hover:to-fuchsia-700/80 transition duration-300 ease-in-out"
+            >
+              Contact Our Solutions Team
+            </a>
+          </div>
+        </main>
+
+        <!-- Footer for simple copyright -->
+        <footer class="mt-16 text-center text-gray-500 text-sm">
+          <p>&copy; 2024 Afribyt. All rights reserved.</p>
+        </footer>
+      </div>
+      <!-- End Main Content Wrapper -->
     </div>
     <!-- End App Layout -->
-
 
     <script src="homepage1script.js"></script>
   </body>

@@ -1,128 +1,288 @@
- /* Set Inter font */
-        html { font-family: 'Inter', sans-serif; }
+/* Set Inter font */
+html {
+  font-family: "Inter", sans-serif;
+}
 
-        /* --- Custom Styles for Theme & Sidebar --- */
-        
-        /* Gradient for the main title (Indigo to Fuchsia) */
-        .title-gradient {
-            background-image: linear-gradient(45deg, #6366F1, #C026D3); 
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        
-        /* Gradient for the 'Book Now' buttons (Indigo to Purple) */
-        .book-btn-gradient {
-            background-image: linear-gradient(to right, #6366F1, #9333EA);
-            box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.4);
-        }
-        .book-btn-gradient:hover {
-            opacity: 0.9;
-            box-shadow: 0 6px 8px -1px rgba(99, 102, 241, 0.6);
-        }
+/* --- Custom Styles for Theme & Sidebar --- */
 
-        /* --- Service Card Styles (Retained) --- */
-        .tech-card {
-            background: linear-gradient(145deg, rgba(30, 41, 59, 1) 0%, rgba(15, 23, 42, 1) 100%);
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 280px; 
-        }
-        .tech-card::before {
-            content: '';
-            position: absolute;
-            top: -2px; right: -2px; bottom: -2px; left: -2px;
-            background: linear-gradient(135deg, #6366F1, #9333EA); 
-            z-index: -1;
-            border-radius: 1rem;
-            opacity: 0;
-            filter: blur(8px);
-            transition: opacity 0.3s ease;
-        }
-        .tech-card:hover::before { opacity: 0.5; }
-        .tech-card:hover { transform: translateY(-4px); box-shadow: 0 15px 20px rgba(100, 116, 139, 0.2); }
-        
-        /* --- Sidebar Styles (Unified for all screens) --- */
+/* Gradient for the main title (Indigo to Fuchsia) */
+.title-gradient {
+  background-image: linear-gradient(45deg, #6366f1, #c026d3);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 
-        /* Default State: Fixed, full height, and off-screen to the left, high Z-index for overlay */
-        .sidebar-nav {
-            position: fixed;
-            top: 0;
-            left: 0; 
-            width: 280px;
-            height: 100vh;
-            transform: translateX(-100%); /* Hidden by default */
-            transition: transform 0.3s ease-in-out;
-            z-index: 50; 
-            background-color: #1f2937; /* Gray-800 */
-            padding: 1.5rem 1rem;
-            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5);
-        }
-        /* Toggled State */
-        .sidebar-nav.toggled {
-            transform: translateX(0); /* Visible when toggled */
-        }
+/* Gradient for the 'Book Now' buttons (Indigo to Purple) */
+.book-btn-gradient {
+  background-image: linear-gradient(to right, #6366f1, #9333ea);
+  box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.4);
+}
+.book-btn-gradient:hover {
+  opacity: 0.9;
+  box-shadow: 0 6px 8px -1px rgba(99, 102, 241, 0.6);
+}
 
-        /* Overlay (Covers main content when sidebar is open) */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 40;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease-in-out, visibility 0.3s;
-        }
-        .overlay.toggled {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        /* Hamburger Button - Fixed and always visible */
-        .hamburger-menu {
-            position: fixed; 
-            top: 1.5rem; 
-            left: 1.5rem; 
-            z-index: 60; 
-            background: #4F46E5; 
-            color: white;
-            padding: 0.75rem;
-            border-radius: 9999px;
-            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.5);
-            transition: background 0.2s;
-        }
-        .hamburger-menu:hover { background: #6366F1; }
-        
-        /* Scrollbar Hide for Category Tabs */
-        #category-tabs::-webkit-scrollbar {
-            display: none;
-        }
-        #category-tabs {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+/* --- Service Card Styles (Retained) --- */
+.tech-card {
+  background: linear-gradient(
+    145deg,
+    rgba(30, 41, 59, 1) 0%,
+    rgba(15, 23, 42, 1) 100%
+  );
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 280px;
+}
+.tech-card::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  bottom: -2px;
+  left: -2px;
+  background: linear-gradient(135deg, #6366f1, #9333ea);
+  z-index: -1;
+  border-radius: 1rem;
+  opacity: 0;
+  filter: blur(8px);
+  transition: opacity 0.3s ease;
+}
+.tech-card:hover::before {
+  opacity: 0.5;
+}
+.tech-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 20px rgba(100, 116, 139, 0.2);
+}
 
+/* --- Sidebar Styles (Unified for all screens) --- */
 
-        /* Other Sidebar Styles (Retained) */
-        .sidebar-brand { padding-bottom: 1.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid #374151; }
-        .brand-link { display: flex; align-items: center; text-decoration: none; color: white; }
-        .brand-logo { width: 40px; height: 40px; margin-right: 10px; border-radius: 0.5rem; background-color: #9333EA; content: url(https://placehold.co/40x40/9333EA/ffffff?text=T); }
-        .app-name { font-size: 1.5rem; font-weight: 700; color: #9333EA; }
-        .nav-link { display: flex; align-items: center; padding: 0.75rem 1rem; margin-bottom: 0.5rem; color: #D1D5DB; text-decoration: none; border-radius: 0.5rem; transition: background-color 0.2s, color 0.2s; }
-        .nav-link:hover { background-color: #374151; color: white; }
-        .nav-icon { width: 20px; margin-right: 0.75rem; color: #A78BFA; }
-        .nav-item-separator { height: 1px; background-color: #4B5563; margin: 1rem 0; }
-        .primary-cta { background-image: linear-gradient(to right, #6366F1, #9333EA); font-weight: 600; color: white; box-shadow: 0 2px 4px rgba(99, 102, 241, 0.5); }
-        .primary-cta:hover { opacity: 0.9; box-shadow: 0 4px 8px rgba(99, 102, 241, 0.6); }
-        .logout .nav-link { color: #F87171; }
-        .logout .nav-link:hover { background-color: #EF4444; color: white; }
-        .logout .nav-icon { color: #F87171; }
-        .category-tab.active { background-color: #4F46E5; color: white; box-shadow: 0 2px 4px rgba(79, 70, 229, 0.4); }
-        .category-tab:not(.active):hover { background-color: #374151; }
+/* Default State: Fixed, full height, and off-screen to the left, high Z-index for overlay */
+.sidebar-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100vh;
+  transform: translateX(-100%); /* Hidden by default */
+  transition: transform 0.3s ease-in-out;
+  z-index: 50;
+  background-color: #1f2937; /* Gray-800 */
+  padding: 1.5rem 1rem;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5);
+}
+/* Toggled State */
+.sidebar-nav.toggled {
+  transform: translateX(0); /* Visible when toggled */
+}
+
+/* Overlay (Covers main content when sidebar is open) */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 40;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s;
+}
+.overlay.toggled {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Hamburger Button - Fixed and always visible */
+.hamburger-menu {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 60;
+  background: #4f46e5;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 9999px;
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.5);
+  transition: background 0.2s;
+}
+.hamburger-menu:hover {
+  background: #6366f1;
+}
+
+/* Scrollbar Hide for Category Tabs */
+#category-tabs::-webkit-scrollbar {
+  display: none;
+}
+#category-tabs {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Other Sidebar Styles (Retained) */
+.sidebar-brand {
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #374151;
+}
+.brand-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+}
+.brand-logo {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 0.5rem;
+  background-color: #9333ea;
+  content: url(https://placehold.co/40x40/9333EA/ffffff?text=T);
+}
+.app-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #9333ea;
+}
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  color: #d1d5db;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s, color 0.2s;
+}
+.nav-link:hover {
+  background-color: #374151;
+  color: white;
+}
+.nav-icon {
+  width: 20px;
+  margin-right: 0.75rem;
+  color: #a78bfa;
+}
+.nav-item-separator {
+  height: 1px;
+  background-color: #4b5563;
+  margin: 1rem 0;
+}
+.primary-cta {
+  background-image: linear-gradient(to right, #6366f1, #9333ea);
+  font-weight: 600;
+  color: white;
+  box-shadow: 0 2px 4px rgba(99, 102, 241, 0.5);
+}
+.primary-cta:hover {
+  opacity: 0.9;
+  box-shadow: 0 4px 8px rgba(99, 102, 241, 0.6);
+}
+.logout .nav-link {
+  color: #f87171;
+}
+.logout .nav-link:hover {
+  background-color: #ef4444;
+  color: white;
+}
+.logout .nav-icon {
+  color: #f87171;
+}
+.category-tab.active {
+  background-color: #4f46e5;
+  color: white;
+  box-shadow: 0 2px 4px rgba(79, 70, 229, 0.4);
+}
+.category-tab:not(.active):hover {
+  background-color: #374151;
+}
+
+/* === 🔔 Notification Styles === */
+.notification-container {
+  position: fixed;
+  top: 15px;
+  right: 25px;
+  z-index: 2000;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+}
+
+.notification-bell {
+  position: relative;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #fff;
+  transition: transform 0.2s ease;
+}
+
+.notification-bell:hover {
+  transform: scale(1.15);
+  color: #00b4d8;
+}
+
+.notification-count {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background: #ff4444;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 3px 7px;
+  display: none;
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background: #1e1e2f;
+  color: #fff;
+  border-radius: 10px;
+  width: 280px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border: 1px solid #333;
+  overflow: hidden;
+  display: none;
+}
+
+.notification-dropdown h4 {
+  background: #252542;
+  margin: 0;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border-bottom: 1px solid #333;
+}
+
+.notification-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.notification-dropdown li {
+  padding: 10px 12px;
+  border-bottom: 1px solid #333;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.notification-dropdown li:hover {
+  background: #2d2d46;
+}
+
+.notification-dropdown .no-notifications {
+  text-align: center;
+  color: #aaa;
+  padding: 15px;
+  font-size: 0.9rem;
+}
