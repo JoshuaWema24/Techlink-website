@@ -31,3 +31,76 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+ document.addEventListener("DOMContentLoaded", () => {
+  const bell = document.getElementById("notificationBell");
+  const dropdown = document.getElementById("notificationDropdown");
+  const countElem = document.getElementById("notificationCount");
+  const listElem = document.getElementById("notificationList");
+  const noNotif = document.getElementById("noNotifications");
+
+  let notifications = [];
+
+  // 🔘 Toggle dropdown visibility
+  bell.addEventListener("click", () => {
+    dropdown.style.display =
+      dropdown.style.display === "block" ? "none" : "block";
+    countElem.style.display = "none";
+  });
+
+  // ❌ Close dropdown when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!bell.contains(e.target) && !dropdown.contains(e.target)) {
+      dropdown.style.display = "none";
+    }
+  });
+
+  // 📨 Add new notification
+  function addNotification(message) {
+    notifications.unshift({
+      message,
+      time: new Date().toLocaleTimeString(),
+    });
+    updateNotificationUI();
+  }
+
+  // 🔄 Update dropdown + badge
+  function updateNotificationUI() {
+    listElem.innerHTML = "";
+    if (notifications.length === 0) {
+      noNotif.style.display = "block";
+    } else {
+      noNotif.style.display = "none";
+      notifications.forEach((n) => {
+        const li = document.createElement("li");
+        li.textContent = `📢 ${n.message} (${n.time})`;
+        listElem.appendChild(li);
+      });
+      countElem.style.display = "flex";
+      countElem.textContent = notifications.length;
+    }
+  }
+
+  // 🔌 SOCKET.IO connection
+  const socket = io("https://techlink-backend.onrender.com", {
+    transports: ["websocket"],
+  });
+
+  socket.on("connect", () => {
+    console.log("✅ Connected to Socket.IO for announcements");
+  });
+
+  socket.on("disconnect", () => {
+    console.warn("⚠️ Disconnected from Socket.IO server");
+  });
+
+  // 🆕 Receive announcement from backend
+  socket.on("announcementCreated", (announcement) => {
+    console.log("📢 New announcement received:", announcement);
+
+    // Add to dropdown in real-time
+    const title = announcement.title || "New Announcement";
+    const message = announcement.message || "Check the latest update.";
+
+    addNotification(`${title}: ${message}`);
+  });
+});

@@ -57,15 +57,25 @@
           <img src="8806258-Photoroom.png" alt="Termyte Logo" style="width: 50px" />
           Termyte
         </div>
-        <div class="user-widgets">
-          <div class="tech-availability">
-            <label class="availability-label">Available</label>
-            <label class="switch">
-              <input type="checkbox" checked />
-              <span class="slider"></span>
-            </label>
-          </div>
-        </div>
+        <!-- 🔔 Notification Bell -->
+<div class="notification-container">
+  <div class="notification-bell" id="notificationBell">
+    <i class="fas fa-bell"></i>
+    <span id="notificationCount" class="notification-count">0</span>
+  </div>
+
+  <!-- Dropdown -->
+  <div class="notification-dropdown" id="notificationDropdown">
+    <div class="dropdown-header">🔔notifications</div>
+    <ul id="notificationList"></ul>
+    <div id="noNotifications" class="no-notifications">No new notification</div>
+  </div>
+</div>
+
+<!-- FontAwesome & Socket.IO -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
       </header>
 
       <!-- Dashboard Content -->
