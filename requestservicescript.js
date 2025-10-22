@@ -55,7 +55,7 @@ document.getElementById("requestForm").addEventListener("submit", async (e) => {
       }
     );
     console.log(formData);
-    const data = await res.json();
+    const data = await res.json(); 
 
     if (!res.ok) {
       alert("Failed to submit request: " + (data.message || "Unknown error"));
