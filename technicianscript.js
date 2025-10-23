@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   // ===== Sidebar Toggle =====
   const hamburgerMenu = document.getElementById("hamburger-menu");
   const sidebar = document.getElementById("sidebar");
@@ -28,6 +28,37 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+  // ===== Get Technician Info =====
+  const token = localStorage.getItem("token");
+  const welcomeElem = document.getElementById("welcomeMessage");
+
+  if (token) {
+    try {
+      const decoded = JSON.parse(atob(token.split(".")[1]));
+      const technicianId = decoded.id;
+
+      // Fetch technician details from backend
+      const response = await fetch(`https://techlink-backend.onrender.com/api/technicians/${technicianId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const tech = await response.json();
+        const name = tech.name || "Technician";
+        welcomeElem.textContent = `Welcome back, ${name} 👨‍🔧`;
+      } else {
+        console.error("Failed to fetch technician details");
+      }
+
+    } catch (err) {
+      console.error("Error decoding token or fetching technician info:", err);
+    }
+  } else {
+    welcomeElem.textContent = "Welcome back 👨‍🔧";
+  }
+
 
   // ===== Notification Elements =====
   const bell = document.getElementById("notificationBell");
@@ -93,7 +124,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ===== SOCKET.IO Connection =====
-  const token = localStorage.getItem("token");
   let technicianId = null;
 
   if (token) {
