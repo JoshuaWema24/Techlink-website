@@ -136,9 +136,47 @@ document.addEventListener("DOMContentLoaded", () => {
     jobBadge.textContent = jobCount;
     jobBadge.style.display = "inline-block";
 
-    // Optional: popup alert
-    alert(
-      `🔧 New Job Assigned!\nService: ${job.serviceType}\nLocation: ${job.location}`
+    // ✨ Show custom popup instead of alert
+    showPopupMessage(
+      `🔧 New Job Assigned!`,
+      `Service: ${job.serviceType || "Unknown"}<br>Location: ${
+        job.location || "N/A"
+      }`
     );
   });
+
+  // ===== Popup Message Function =====
+  function showPopupMessage(title, message) {
+    // Create popup container
+    const popup = document.createElement("div");
+    popup.className = "custom-popup";
+
+    // Inner content
+    popup.innerHTML = `
+    <div class="popup-content">
+      <h3>${title}</h3>
+      <p>${message}</p>
+      <button id="closePopup">OK</button>
+    </div>
+  `;
+
+    document.body.appendChild(popup);
+
+    // Add fade-in
+    setTimeout(() => popup.classList.add("show"), 10);
+
+    // Close handler
+    popup.querySelector("#closePopup").addEventListener("click", () => {
+      popup.classList.remove("show");
+      setTimeout(() => popup.remove(), 300);
+    });
+
+    // Auto-remove after 6 seconds
+    setTimeout(() => {
+      if (popup.parentNode) {
+        popup.classList.remove("show");
+        setTimeout(() => popup.remove(), 300);
+      }
+    }, 6000);
+  }
 });
