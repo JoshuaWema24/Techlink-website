@@ -177,6 +177,6 @@ document.addEventListener("DOMContentLoaded", () => {
         popup.classList.remove("show");
         setTimeout(() => popup.remove(), 300);
       }
-    }, 15000);
+    }, 20000);
   }
 });
