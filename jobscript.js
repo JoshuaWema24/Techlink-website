@@ -65,14 +65,14 @@ function getServiceIcon(serviceType) {
   }
 }
 
-async function fetchAndDisplayRequests(token) {
+async function fetchAndDisplayRequests(token, technicianId) {
   const requestsContainer = document.getElementById("requestsContainer");
   requestsContainer.innerHTML =
-    "<p style='text-align:center; width:100%;'>Loading requests...</p>"; // Show loading
+    "<p style='text-align:center; width:100%;'>Loading requests...</p>";
 
   try {
     const res = await fetch(
-      "https://techlink-backend.onrender.com/api/jobs/technician/:id",
+      `https://techlink-backend.onrender.com/api/jobs/technician/${technicianId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -86,7 +86,7 @@ async function fetchAndDisplayRequests(token) {
 
     const data = await res.json();
 
-    requestsContainer.innerHTML = ""; // Clear loading message
+    requestsContainer.innerHTML = "";
 
     if (!data || data.length === 0) {
       requestsContainer.innerHTML =
@@ -97,40 +97,38 @@ async function fetchAndDisplayRequests(token) {
     data.forEach((req, index) => {
       const card = document.createElement("div");
       card.classList.add("card");
-      // Add a delay for each card to create a staggered fade-in effect
       card.style.animationDelay = `${index * 0.1}s`;
 
       const iconClass = getServiceIcon(req.serviceType);
 
-      // Display only the requested fields
       card.innerHTML = `
-                        <div class="card-header">
-                            <i class="${iconClass}"></i>
-                            <div class="service-type">${req.serviceType}</div>
-                        </div>
-                        <div class="meta"><strong>Customer:</strong> ${
-                          req.customerName || "N/A"
-                        }</div>
-                        <div class="meta"><strong>Phone:</strong> <a href="tel:${
-                          req.customerNumber
-                        }" style="color: #6d9bff;">${
-        req.customerNumber || "N/A"
-      }</a></div>
-                        <div class="meta"><strong>Location:</strong> ${
-                          req.location || "N/A"
-                        }</div>
-                        <div class="desc"><strong>Description:</strong> ${
-                          req.tldescription || "No description provided."
-                        }</div>
-                        <div class="desc"><strong>Customer Description:</strong> ${
-                          req.customerDescription || "No description provided."
-                        }</div>
-                        <div class="card-footer">
-                            <button onclick="alert('Viewing full details for jobs #${
-                              req.id || req._id
-                            }')">View Full Details</button>
-                        </div>
-                    `;
+        <div class="card-header">
+          <i class="${iconClass}"></i>
+          <div class="service-type">${req.serviceType}</div>
+        </div>
+        <div class="meta"><strong>Customer:</strong> ${
+          req.customerName || "N/A"
+        }</div>
+        <div class="meta"><strong>Phone:</strong> 
+          <a href="tel:${req.customerNumber}" style="color: #6d9bff;">
+            ${req.customerNumber || "N/A"}
+          </a>
+        </div>
+        <div class="meta"><strong>Location:</strong> ${
+          req.location || "N/A"
+        }</div>
+        <div class="desc"><strong>Description:</strong> ${
+          req.tldescription || "No description provided."
+        }</div>
+        <div class="desc"><strong>Customer Description:</strong> ${
+          req.customerDescription || "No description provided."
+        }</div>
+        <div class="card-footer">
+          <button onclick="alert('Viewing full details for job #${req._id}')">
+            View Full Details
+          </button>
+        </div>
+      `;
       requestsContainer.appendChild(card);
     });
   } catch (err) {
@@ -161,21 +159,39 @@ document.addEventListener("DOMContentLoaded", async () => {
     return (window.location.href = "signin.html");
   }
 
-  // Token is valid, fetch user requests
-  await fetchAndDisplayRequests(token);
+  const technicianId = decodedToken.id;
+  console.log("Technician ID from JWT:", technicianId);
 
-  const socket = io("https://techlink-backend.onrender.com"); // Change if hosted on a different domain
+  // Fetch technician's assigned jobs
+  await fetchAndDisplayRequests(token, technicianId);
 
-  const technicianId = "decodedToken"; // Replace with logged-in technician's ID
+  // Connect to Socket.IO
+  const socket = io("https://techlink-backend.onrender.com", {
+    transports: ["websocket"],
+    reconnection: true,
+    reconnectionAttempts: 5,
+    reconnectionDelay: 2000,
+  });
 
   // Register this technician
   socket.emit("register", technicianId);
+  console.log("Registered technician on socket:", technicianId);
 
-  // Listen for job notifications
+  // Listen for new job notifications
   socket.on("new-job", (job) => {
     console.log("New job assigned:", job);
 
-    // Show popup or update the job list
-    alert(`New Job Assigned:\n${job.description}`);
+    // Show a visible alert or toast
+    alert(
+      `🆕 New Job Assigned:\nService: ${job.serviceType}\nLocation: ${job.location}`
+    );
+
+    // Optionally refresh job list
+    fetchAndDisplayRequests(token, technicianId);
+  });
+
+  // Handle connection loss gracefully
+  socket.on("disconnect", () => {
+    console.warn("Socket disconnected, attempting to reconnect...");
   });
 });
