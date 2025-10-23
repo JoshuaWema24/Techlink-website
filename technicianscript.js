@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // ===== Sidebar Toggle =====
   const hamburgerMenu = document.getElementById("hamburger-menu");
   const sidebar = document.getElementById("sidebar");
 
@@ -7,18 +8,15 @@ document.addEventListener("DOMContentLoaded", () => {
       sidebar.classList.toggle("open");
     });
 
-    // Optional: Close sidebar when a nav link is clicked (for better mobile UX)
     const navLinks = document.querySelectorAll(".nav-link");
     navLinks.forEach((link) => {
       link.addEventListener("click", () => {
-        // Check if the sidebar is open and on a small screen
         if (window.innerWidth <= 1024 && sidebar.classList.contains("open")) {
           sidebar.classList.remove("open");
         }
       });
     });
 
-    // Optional: Close sidebar if clicking outside of it on mobile
     document.addEventListener("click", (event) => {
       if (
         window.innerWidth <= 1024 &&
@@ -30,31 +28,46 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-});
- document.addEventListener("DOMContentLoaded", () => {
+
+  // ===== Notification Elements =====
   const bell = document.getElementById("notificationBell");
   const dropdown = document.getElementById("notificationDropdown");
   const countElem = document.getElementById("notificationCount");
   const listElem = document.getElementById("notificationList");
   const noNotif = document.getElementById("noNotifications");
 
-  let notifications = [];
+  // Sidebar "My Jobs" badge
+  const myJobsLink = document.querySelector('a[href="jobsscreen.html"]');
+  const jobBadge = document.createElement("span");
+  jobBadge.id = "jobCountBadge";
+  jobBadge.style.cssText = `
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 8px;
+    display: none;
+  `;
+  myJobsLink.appendChild(jobBadge);
 
-  // 🔘 Toggle dropdown visibility
+  let notifications = [];
+  let jobCount = 0;
+
+  // ===== Dropdown Behavior =====
   bell.addEventListener("click", () => {
     dropdown.style.display =
       dropdown.style.display === "block" ? "none" : "block";
     countElem.style.display = "none";
   });
 
-  // ❌ Close dropdown when clicking outside
   document.addEventListener("click", (e) => {
     if (!bell.contains(e.target) && !dropdown.contains(e.target)) {
       dropdown.style.display = "none";
     }
   });
 
-  // 📨 Add new notification
+  // ===== Notification UI Management =====
   function addNotification(message) {
     notifications.unshift({
       message,
@@ -63,7 +76,6 @@ document.addEventListener("DOMContentLoaded", () => {
     updateNotificationUI();
   }
 
-  // 🔄 Update dropdown + badge
   function updateNotificationUI() {
     listElem.innerHTML = "";
     if (notifications.length === 0) {
@@ -80,27 +92,53 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // 🔌 SOCKET.IO connection
+  // ===== SOCKET.IO Connection =====
+  const token = localStorage.getItem("token");
+  let technicianId = null;
+
+  if (token) {
+    try {
+      const decoded = JSON.parse(atob(token.split(".")[1]));
+      technicianId = decoded.id;
+    } catch (err) {
+      console.error("Error decoding JWT:", err);
+    }
+  }
+
   const socket = io("https://techlink-backend.onrender.com", {
     transports: ["websocket"],
   });
 
   socket.on("connect", () => {
-    console.log("✅ Connected to Socket.IO for announcements");
+    console.log("✅ Connected to Socket.IO server");
+    if (technicianId) socket.emit("register", technicianId);
   });
 
   socket.on("disconnect", () => {
     console.warn("⚠️ Disconnected from Socket.IO server");
   });
 
-  // 🆕 Receive announcement from backend
+  // ===== Listen for Announcements =====
   socket.on("announcementCreated", (announcement) => {
-    console.log("📢 New announcement received:", announcement);
-
-    // Add to dropdown in real-time
     const title = announcement.title || "New Announcement";
     const message = announcement.message || "Check the latest update.";
-
     addNotification(`${title}: ${message}`);
+  });
+
+  // ===== Listen for New Job Assignments =====
+  socket.on("new-job", (job) => {
+    console.log("🧰 New job assigned:", job);
+
+    jobCount++;
+    addNotification(`New Job Assigned: ${job.serviceType || "Job"}`);
+
+    // Update the "My Jobs" badge
+    jobBadge.textContent = jobCount;
+    jobBadge.style.display = "inline-block";
+
+    // Optional: popup alert
+    alert(
+      `🔧 New Job Assigned!\nService: ${job.serviceType}\nLocation: ${job.location}`
+    );
   });
 });

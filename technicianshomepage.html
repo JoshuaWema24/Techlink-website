@@ -23,9 +23,18 @@
             <i class="fas fa-home nav-icon"></i> Dashboard
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" id="myJobsLink">
           <a href="jobsscreen.html" class="nav-link">
             <i class="fas fa-briefcase nav-icon"></i> My Jobs
+            <span id="jobCountBadge" class="badge" style="
+              background: red; 
+              color: white; 
+              border-radius: 50%; 
+              padding: 3px 7px; 
+              font-size: 12px; 
+              margin-left: 5px; 
+              display: none;">
+            </span>
           </a>
         </li>
         <li class="nav-item">
@@ -57,86 +66,52 @@
           <img src="8806258-Photoroom.png" alt="Termyte Logo" style="width: 50px" />
           Termyte
         </div>
+
         <!-- 🔔 Notification Bell -->
-<div class="notification-container">
-  <div class="notification-bell" id="notificationBell">
-    <i class="fas fa-bell"></i>
-    <span id="notificationCount" class="notification-count">0</span>
-  </div>
+        <div class="notification-container">
+          <div class="notification-bell" id="notificationBell">
+            <i class="fas fa-bell"></i>
+            <span id="notificationCount" class="notification-count">0</span>
+          </div>
 
-  <!-- Dropdown -->
-  <div class="notification-dropdown" id="notificationDropdown">
-    <div class="dropdown-header">🔔notifications</div>
-    <ul id="notificationList"></ul>
-    <div id="noNotifications" class="no-notifications">No new notification</div>
-  </div>
-</div>
-
-<!-- FontAwesome & Socket.IO -->
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-
+          <!-- Dropdown -->
+          <div class="notification-dropdown" id="notificationDropdown">
+            <div class="dropdown-header">🔔 Notifications</div>
+            <ul id="notificationList"></ul>
+            <div id="noNotifications" class="no-notifications">No new notifications</div>
+          </div>
+        </div>
       </header>
 
       <!-- Dashboard Content -->
       <div class="dashboard-content">
-        <!-- Welcome Message -->
         <div class="welcome-message">Welcome back 👨‍🔧</div>
 
         <!-- Tips Section -->
         <div class="tips-section dashboard-card">
           <h2>Tips for Excellent Service</h2>
           <div class="tips-grid">
-            <div class="tip-card">
-              <h3>Clear Communication</h3>
-              <p>Always confirm job details and estimated arrival times with the client.</p>
-            </div>
-            <div class="tip-card">
-              <h3>Professional Appearance</h3>
-              <p>Dress neatly and ensure your tools are organized.</p>
-            </div>
-            <div class="tip-card">
-              <h3>Active Listening</h3>
-              <p>Listen carefully to the client's problem to diagnose accurately.</p>
-            </div>
-            <div class="tip-card">
-              <h3>Respectful Demeanor</h3>
-              <p>Be polite, friendly, and show respect for the client's property.</p>
-            </div>
-            <div class="tip-card">
-              <h3>Transparent Pricing</h3>
-              <p>Discuss all costs upfront and explain any unexpected changes.</p>
-            </div>
-            <div class="tip-card">
-              <h3>Follow-Up</h3>
-              <p>Consider a quick follow-up to ensure client satisfaction after the service.</p>
-            </div>
+            <div class="tip-card"><h3>Clear Communication</h3><p>Always confirm job details and estimated arrival times with the client.</p></div>
+            <div class="tip-card"><h3>Professional Appearance</h3><p>Dress neatly and ensure your tools are organized.</p></div>
+            <div class="tip-card"><h3>Active Listening</h3><p>Listen carefully to the client's problem to diagnose accurately.</p></div>
+            <div class="tip-card"><h3>Respectful Demeanor</h3><p>Be polite and show respect for the client's property.</p></div>
+            <div class="tip-card"><h3>Transparent Pricing</h3><p>Discuss all costs upfront and explain any changes.</p></div>
+            <div class="tip-card"><h3>Follow-Up</h3><p>Consider a quick follow-up to ensure satisfaction.</p></div>
           </div>
         </div>
 
         <!-- Incoming Jobs -->
         <div class="dashboard-card">
           <h2>Incoming Jobs</h2>
-          <div class="job-list" id="incoming-jobs">
-            <div class="job-item">
-              <div class="job-header">
-                <div class="job-type">You have 2 new jobs</div>
-              </div>
-              <button class="primary-button">Job Details</button>
-            </div>
-          </div>
+          <div class="job-list" id="incoming-jobs"></div>
         </div>
 
         <!-- Messages -->
         <div class="dashboard-card">
           <h2>Messages from Termyte</h2>
           <div class="job-list" id="Termyte-messages">
-            <div class="job-item">
-              <p><strong>Admin:</strong> Kindly update your availability this week.</p>
-            </div>
-            <div class="job-item">
-              <p><strong>System:</strong> Ensure you are verified.</p>
-            </div>
+            <div class="job-item"><p><strong>Admin:</strong> Kindly update your availability this week.</p></div>
+            <div class="job-item"><p><strong>System:</strong> Ensure you are verified.</p></div>
           </div>
         </div>
 
@@ -152,8 +127,7 @@
           <h2>Account Details</h2>
           <strong>Technician</strong>
           <p>Email: <span id="technician-email">technician@example.com</span></p>
-          <p>
-            Please ensure you are verified or else no job will be assigned to you!
+          <p>Please ensure you are verified or else no job will be assigned to you!
             <a href="verify.html">Get verified</a>
           </p>
         </div>
@@ -161,6 +135,8 @@
     </main>
   </div>
 
+  <!-- Socket.IO + Script -->
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
   <script src="technicianscript.js"></script>
 </body>
 </html>
