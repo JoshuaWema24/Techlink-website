@@ -132,9 +132,11 @@
             <i class="fas fa-list-check text-violet-400 mr-2"></i> My Service Requests
         </h1>
 
-        <div class="requests grid grid-cols-1 lg:grid-cols-2 gap-6" id="requestsContainer">
+        <!-- Updated to lg:grid-cols-3 -->
+        <div class="requests grid grid-cols-1 lg:grid-cols-3 gap-6" id="requestsContainer">
             <!-- Service Request Cards will be inserted here -->
-            <div class='text-center py-12 lg:col-span-2'>
+            <!-- Updated to lg:col-span-3 to keep loading state centered -->
+            <div class='text-center py-12 lg:col-span-3'> 
                 <i class="fas fa-spinner fa-spin text-4xl text-violet-400"></i>
                 <p class="text-gray-400 mt-4">Loading requests...</p>
             </div>
@@ -222,7 +224,7 @@
         async function fetchRequests(token) {
             const container = document.getElementById("requestsContainer");
             container.innerHTML = `
-                <div class='text-center py-12 lg:col-span-2' id="loadingState">
+                <div class='text-center py-12 lg:col-span-3' id="loadingState">
                     <i class="fas fa-spinner fa-spin text-4xl text-violet-400"></i>
                     <p class="text-gray-400 mt-4">Loading requests...</p>
                 </div>
@@ -242,8 +244,9 @@
                 container.innerHTML = ""; // Clear loading state
 
                 if (!data || data.length === 0) {
+                    // Updated to lg:col-span-3
                     container.innerHTML =
-                        "<p class='text-center text-gray-400 py-12 text-lg lg:col-span-2'>✅ You have no service requests at the moment.</p>";
+                        "<p class='text-center text-gray-400 py-12 text-lg lg:col-span-3'>✅ You have no service requests at the moment.</p>";
                     return;
                 }
                 
@@ -318,8 +321,9 @@
                 });
             } catch (err) {
                 console.error("Error fetching requests:", err);
+                // Updated to lg:col-span-3
                 container.innerHTML =
-                    "<p class='text-center text-red-400 py-12 text-lg lg:col-span-2'>❌ Failed to load service requests. Please check your connection.</p>";
+                    "<p class='text-center text-red-400 py-12 text-lg lg:col-span-3'>❌ Failed to load service requests. Please check your connection.</p>";
             }
         }
 
@@ -398,8 +402,9 @@
                 // Note: Redirect is commented out to allow testing in the immersive environment. 
                 // In production, uncomment the line below:
                 // window.location.href = "signin.html"; 
+                // Updated to lg:col-span-3
                 document.getElementById("requestsContainer").innerHTML = 
-                    "<p class='text-center text-red-400 py-12 text-lg lg:col-span-2'>Authentication required. Please log in.</p>";
+                    "<p class='text-center text-red-400 py-12 text-lg lg:col-span-3'>Authentication required. Please log in.</p>";
                 return;
             }
 
