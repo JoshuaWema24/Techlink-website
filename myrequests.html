@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <title>Termyte | Service Requests</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,419 +8,492 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Load Font Awesome Icons -->
     <link
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
     />
     <style>
-        /* Custom styles for the Modal and main body */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #171725; /* Dark Purple/Blue Background */
-            min-height: 100vh;
-        }
-        
-        /* Modal Backdrop */
-        #summaryFormModal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8); /* Darker backdrop */
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
+      /* Custom styles for the Modal and main body */
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #171725; /* Dark Purple/Blue Background */
+        min-height: 100vh;
+      }
 
-        #summaryFormModal.active {
-            display: flex;
-        }
-        
-        /* Modal Content Styling */
-        .modal-content {
-            background-color: #22223b; /* Dark card color */
-            padding: 2.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-            max-width: 90%;
-            width: 500px;
-            animation: fadeInScale 0.3s ease-out;
-        }
+      /* Modal Backdrop */
+      #summaryFormModal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8); /* Darker backdrop */
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
 
-        /* Form Group Styling */
-        .modal-content label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: #d1d5db; /* Light label text */
-        }
+      #summaryFormModal.active {
+        display: flex;
+      }
 
-        .modal-content input, .modal-content select {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            margin-bottom: 1.25rem;
-            border: 1px solid #4a4a6b; /* Darker border */
-            border-radius: 0.5rem;
-            background-color: #333350; /* Dark input background */
-            color: #f3f4f6; /* Light input text */
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
+      /* Modal Content Styling */
+      .modal-content {
+        background-color: #22223b; /* Dark card color */
+        padding: 2.5rem;
+        border-radius: 1rem;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        max-width: 90%;
+        width: 500px;
+        animation: fadeInScale 0.3s ease-out;
+      }
 
-        .modal-content input:focus, .modal-content select:focus {
-            border-color: #8b5cf6; /* Violet-500 focus color */
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.4);
-        }
-        
-        /* Placeholder styling for dark inputs */
-        .modal-content input::placeholder {
-            color: #9ca3af;
-        }
+      /* Form Group Styling */
+      .modal-content label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #d1d5db; /* Light label text */
+      }
 
-        /* Modal Actions */
-        .modal-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        
-        /* Message Box Styling */
-        #messageBox {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            padding: 15px 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-            z-index: 1001;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            font-weight: 600;
-            min-width: 250px;
-            text-align: center;
-            display: none;
-        }
-        
-        #messageBox.success { background-color: #34d399; } /* Bright Green */
-        #messageBox.error { background-color: #f87171; } /* Bright Red */
-        
-        #messageBox.fade-in { opacity: 1; }
-        
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        
-        /* Utility Classes for Button and Inputs */
-        .btn-violet {
-            @apply text-white font-semibold rounded-lg transition duration-200;
-        }
-        .btn-cancel {
-            @apply bg-gray-600 text-white hover:bg-gray-500 font-semibold rounded-lg transition duration-200;
-        }
+      .modal-content input,
+      .modal-content select {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        margin-bottom: 1.25rem;
+        border: 1px solid #4a4a6b; /* Darker border */
+        border-radius: 0.5rem;
+        background-color: #333350; /* Dark input background */
+        color: #f3f4f6; /* Light input text */
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
 
+      .modal-content input:focus,
+      .modal-content select:focus {
+        border-color: #8b5cf6; /* Violet-500 focus color */
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.4);
+      }
+
+      /* Placeholder styling for dark inputs */
+      .modal-content input::placeholder {
+        color: #9ca3af;
+      }
+
+      /* Modal Actions */
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      /* Message Box Styling */
+      #messageBox {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: white;
+        padding: 15px 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        z-index: 1001;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        font-weight: 600;
+        min-width: 250px;
+        text-align: center;
+        display: none;
+      }
+
+      #messageBox.success {
+        background-color: #34d399;
+      } /* Bright Green */
+      #messageBox.error {
+        background-color: #f87171;
+      } /* Bright Red */
+
+      #messageBox.fade-in {
+        opacity: 1;
+      }
+
+      @keyframes fadeInScale {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      /* Utility Classes for Button and Inputs */
+      .btn-violet {
+        @apply text-white font-semibold rounded-lg transition duration-200;
+      }
+      .btn-cancel {
+        @apply bg-gray-600 text-white hover:bg-gray-500 font-semibold rounded-lg transition duration-200;
+      }
     </style>
-</head>
-<body class="bg-gray-900">
-    
-    <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
-        <h1 class="text-3xl font-bold text-white mb-8 text-center sm:text-left">
-            <i class="fas fa-list-check text-violet-400 mr-2"></i> My Service Requests
-        </h1>
+  </head>
+  <body class="bg-gray-900">
+    <!-- Changed max-w-4xl to w-full and adjusted padding for full screen fill -->
+    <div class="w-full mx-auto px-4 sm:px-8 lg:px-16 py-4 lg:py-12">
+      <h1 class="text-3xl font-bold text-white mb-8 text-center sm:text-left">
+        <i class="fas fa-list-check text-violet-400 mr-2"></i> My Service
+        Requests
+      </h1>
 
-        <!-- Updated to lg:grid-cols-3 -->
-        <div class="requests grid grid-cols-1 lg:grid-cols-3 gap-6" id="requestsContainer">
-            <!-- Service Request Cards will be inserted here -->
-            <!-- Updated to lg:col-span-3 to keep loading state centered -->
-            <div class='text-center py-12 lg:col-span-3'> 
-                <i class="fas fa-spinner fa-spin text-4xl text-violet-400"></i>
-                <p class="text-gray-400 mt-4">Loading requests...</p>
-            </div>
+      <!-- Updated to lg:grid-cols-3 -->
+      <div
+        class="requests grid grid-cols-1 lg:grid-cols-3 gap-6"
+        id="requestsContainer"
+      >
+        <!-- Service Request Cards will be inserted here -->
+        <!-- Updated to lg:col-span-3 to keep loading state centered -->
+        <div class="text-center py-12 lg:col-span-3">
+          <i class="fas fa-spinner fa-spin text-4xl text-violet-400"></i>
+          <p class="text-gray-400 mt-4">Loading requests...</p>
         </div>
+      </div>
     </div>
 
     <!-- Summary Form Modal -->
     <div id="summaryFormModal">
-        <div class="modal-content">
-            <h2 class="text-2xl font-bold text-gray-100 mb-6">Add Service Summary</h2>
-            <form id="summaryForm">
-                <div>
-                    <label for="technicianName">Technician Name</label>
-                    <input type="text" id="technicianName" name="technicianName" placeholder="Enter technician's name" required />
-                </div>
+      <div class="modal-content">
+        <h2 class="text-2xl font-bold text-gray-100 mb-6">
+          Add Service Summary
+        </h2>
+        <form id="summaryForm">
+          <div>
+            <label for="technicianName">Technician Name</label>
+            <input
+              type="text"
+              id="technicianName"
+              name="technicianName"
+              placeholder="Enter technician's name"
+              required
+            />
+          </div>
 
-                <div>
-                    <label for="serviceDone">Service Done</label>
-                    <input type="text" id="serviceDone" name="serviceDone" placeholder="Brief description of service provided" required />
-                </div>
+          <div>
+            <label for="serviceDone">Service Done</label>
+            <input
+              type="text"
+              id="serviceDone"
+              name="serviceDone"
+              placeholder="Brief description of service provided"
+              required
+            />
+          </div>
 
-                <div>
-                    <label for="amount">Amount (KES)</label>
-                    <input type="number" id="amount" name="amount" placeholder="e.g., 4500" required />
-                </div>
+          <div>
+            <label for="amount">Amount (KES)</label>
+            <input
+              type="number"
+              id="amount"
+              name="amount"
+              placeholder="e.g., 4500"
+              required
+            />
+          </div>
 
-                <div>
-                    <label for="status">Status</label>
-                    <select id="status" name="status" required>
-                        <option value="Completed">Completed</option>
-                        <option value="Pending">Pending</option>
-                    </select>
-                </div>
+          <div>
+            <label for="status">Status</label>
+            <select id="status" name="status" required>
+              <option value="Completed">Completed</option>
+              <option value="Pending">Pending</option>
+            </select>
+          </div>
 
-                <div class="modal-actions">
-                    <button type="button" id="closeModalBtn" class="btn-cancel px-5 py-2">Cancel</button>
-                    <button type="submit" class="btn-violet bg-violet-600 hover:bg-violet-700 px-5 py-2">Save Summary</button>
-                </div>
-            </form>
-        </div>
+          <div class="modal-actions">
+            <button
+              type="button"
+              id="closeModalBtn"
+              class="btn-cancel px-5 py-2"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="btn-violet bg-violet-600 hover:bg-violet-700 px-5 py-2"
+            >
+              Save Summary
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-    
+
     <!-- Message Box for notifications (replaces alert()) -->
     <div id="messageBox" role="alert"></div>
 
     <script>
-        // --- Message Box Utility (Replaces alert()) ---
-        function showMessage(message, type = 'success') {
-            const messageBox = document.getElementById('messageBox');
-            messageBox.textContent = message;
-            messageBox.className = ''; // Clear existing classes
-            
-            messageBox.classList.remove('hidden');
-            messageBox.classList.add(type, 'fade-in');
-            messageBox.style.display = 'block';
+      // --- Message Box Utility (Replaces alert()) ---
+      function showMessage(message, type = "success") {
+        const messageBox = document.getElementById("messageBox");
+        messageBox.textContent = message;
+        messageBox.className = ""; // Clear existing classes
 
-            setTimeout(() => {
-                messageBox.classList.remove('fade-in');
-                // Wait for fade-out transition before hiding completely
-                setTimeout(() => {
-                    messageBox.style.display = 'none';
-                }, 500); 
-            }, 5000); // Message visible for 5 seconds
+        messageBox.classList.remove("hidden");
+        messageBox.classList.add(type, "fade-in");
+        messageBox.style.display = "block";
+
+        setTimeout(() => {
+          messageBox.classList.remove("fade-in");
+          // Wait for fade-out transition before hiding completely
+          setTimeout(() => {
+            messageBox.style.display = "none";
+          }, 500);
+        }, 5000); // Message visible for 5 seconds
+      }
+
+      // ====== JWT Decoder ======
+      function decodeJwt(token) {
+        try {
+          const base64Url = token.split(".")[1];
+          const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+          const jsonPayload = decodeURIComponent(
+            atob(base64)
+              .split("")
+              .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+              .join("")
+          );
+          return JSON.parse(jsonPayload);
+        } catch (e) {
+          console.error("Error decoding JWT:", e);
+          return null;
         }
+      }
 
-        // ====== JWT Decoder ======
-        function decodeJwt(token) {
-            try {
-                const base64Url = token.split(".")[1];
-                const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-                const jsonPayload = decodeURIComponent(
-                    atob(base64)
-                        .split("")
-                        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-                        .join("")
-                );
-                return JSON.parse(jsonPayload);
-            } catch (e) {
-                console.error("Error decoding JWT:", e);
-                return null;
-            }
-        }
-
-        // ====== Fetch and Display Requests ======
-        async function fetchRequests(token) {
-            const container = document.getElementById("requestsContainer");
-            container.innerHTML = `
+      // ====== Fetch and Display Requests ======
+      async function fetchRequests(token) {
+        const container = document.getElementById("requestsContainer");
+        container.innerHTML = `
                 <div class='text-center py-12 lg:col-span-3' id="loadingState">
                     <i class="fas fa-spinner fa-spin text-4xl text-violet-400"></i>
                     <p class="text-gray-400 mt-4">Loading requests...</p>
                 </div>
             `;
-            
-            try {
-                const res = await fetch(
-                    "https://techlink-backend.onrender.com/api/my-requests",
-                    {
-                        headers: { Authorization: `Bearer ${token}` },
-                    }
-                );
 
-                if (!res.ok) throw new Error("Failed to fetch service requests");
+        try {
+          const res = await fetch(
+            "https://techlink-backend.onrender.com/api/my-requests",
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
 
-                const data = await res.json();
-                container.innerHTML = ""; // Clear loading state
+          if (!res.ok) throw new Error("Failed to fetch service requests");
 
-                if (!data || data.length === 0) {
-                    // Updated to lg:col-span-3
-                    container.innerHTML =
-                        "<p class='text-center text-gray-400 py-12 text-lg lg:col-span-3'>✅ You have no service requests at the moment.</p>";
-                    return;
-                }
-                
-                const urgencyClassMap = {
-                    'High': 'bg-red-900 text-red-300',      /* Dark Red Badge */
-                    'Medium': 'bg-yellow-900 text-yellow-300',  /* Dark Yellow Badge */
-                    'Low': 'bg-green-900 text-green-300',       /* Dark Green Badge */
-                };
+          const data = await res.json();
+          container.innerHTML = ""; // Clear loading state
 
-                data.forEach((req) => {
-                    const card = document.createElement("div");
-                    
-                    const customerName = req.customerId?.name || "Unknown";
-                    const customerPhone = req.customerId?.phonenumber || "Not provided";
-                    const urgencyBadgeClass = urgencyClassMap[req.urgency] || 'bg-gray-700 text-gray-300';
-                    const timeDisplay = req.time ? new Date(req.time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : "Not specified";
-                    
-                    const statusText = req.summary ? req.summary.status : 'Awaiting Summary';
-                    const statusBadgeClass = req.summary ? (req.summary.status === 'Completed' ? 'bg-green-700 text-green-200' : 'bg-yellow-700 text-yellow-200') : 'bg-gray-700 text-gray-300';
+          if (!data || data.length === 0) {
+            // Updated to lg:col-span-3
+            container.innerHTML =
+              "<p class='text-center text-gray-400 py-12 text-lg lg:col-span-3'>✅ You have no service requests at the moment.</p>";
+            return;
+          }
 
-                    const summaryHTML = req.summary
-                        ? `
+          const urgencyClassMap = {
+            High: "bg-red-900 text-red-300" /* Dark Red Badge */,
+            Medium: "bg-yellow-900 text-yellow-300" /* Dark Yellow Badge */,
+            Low: "bg-green-900 text-green-300" /* Dark Green Badge */,
+          };
+
+          data.forEach((req) => {
+            const card = document.createElement("div");
+
+            const customerName = req.customerId?.name || "Unknown";
+            const customerPhone = req.customerId?.phonenumber || "Not provided";
+            const urgencyBadgeClass =
+              urgencyClassMap[req.urgency] || "bg-gray-700 text-gray-300";
+            const timeDisplay = req.time
+              ? new Date(req.time).toLocaleTimeString("en-US", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })
+              : "Not specified";
+
+            const statusText = req.summary
+              ? req.summary.status
+              : "Awaiting Summary";
+            const statusBadgeClass = req.summary
+              ? req.summary.status === "Completed"
+                ? "bg-green-700 text-green-200"
+                : "bg-yellow-700 text-yellow-200"
+              : "bg-gray-700 text-gray-300";
+
+            const summaryHTML = req.summary
+              ? `
                             <div class="mt-4 pt-4 border-t border-gray-700">
                                 <h4 class="text-sm font-semibold text-violet-400 mb-3">Service Summary</h4>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-3 text-sm text-gray-400">
-                                    <p class="col-span-2">👷 <strong>Technician:</strong> ${req.summary.technicianName}</p>
-                                    <p class="col-span-2">🧰 <strong>Service Done:</strong> ${req.summary.serviceDone}</p>
+                                    <p class="col-span-2">👷 <strong>Technician:</strong> ${
+                                      req.summary.technicianName
+                                    }</p>
+                                    <p class="col-span-2">🧰 <strong>Service Done:</strong> ${
+                                      req.summary.serviceDone
+                                    }</p>
                                     <p>💰 <strong>Amount:</strong> KES ${req.summary.amount.toLocaleString()}</p>
                                     <p>📊 <strong>Status:</strong> <span class="px-2 py-0.5 rounded-full text-xs font-medium ${statusBadgeClass}">${statusText}</span></p>
                                 </div>
                             </div>
                         `
-                        : `<p class="text-gray-400 mt-2 text-sm italic py-2">No summary added yet. Click the button to update the record.</p>`;
+              : `<p class="text-gray-400 mt-2 text-sm italic py-2">No summary added yet. Click the button to update the record.</p>`;
 
-                    card.className =
-                        "bg-[#22223b] rounded-xl shadow-2xl hover:shadow-violet-900/50 transition duration-300 p-6 border-t-4 border-violet-500";
+            card.className =
+              "bg-[#22223b] rounded-xl shadow-2xl hover:shadow-violet-900/50 transition duration-300 p-6 border-t-4 border-violet-500";
 
-                    card.innerHTML = `
+            card.innerHTML = `
                         <div class="flex justify-between items-start mb-4 pb-2 border-b border-gray-700">
                             <div>
                                 <div class="flex items-center text-xl font-bold text-gray-100">
                                     <i class="fas fa-tools text-violet-400 mr-3"></i>
                                     ${req.serviceType}
                                 </div>
-                                <p class="text-xs text-gray-400 mt-1">Request ID: ${req._id.slice(-8)}</p>
+                                <p class="text-xs text-gray-400 mt-1">Request ID: ${req._id.slice(
+                                  -8
+                                )}</p>
                             </div>
                             <div class="text-right space-y-1 pt-1">
-                                <span class="inline-block px-3 py-1 text-xs font-medium rounded-full ${urgencyBadgeClass}">${req.urgency} Urgency</span>
+                                <span class="inline-block px-3 py-1 text-xs font-medium rounded-full ${urgencyBadgeClass}">${
+              req.urgency
+            } Urgency</span>
                             </div>
                         </div>
                         
                         <!-- Request Details -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6 text-sm text-gray-300">
-                            <p><i class="fas fa-map-marker-alt text-gray-500 mr-2"></i> <strong>Location:</strong> ${req.location}</p>
+                            <p><i class="fas fa-map-marker-alt text-gray-500 mr-2"></i> <strong>Location:</strong> ${
+                              req.location
+                            }</p>
                             <p><i class="fas fa-user text-gray-500 mr-2"></i> <strong>Customer:</strong> ${customerName}</p>
                             <p><i class="fas fa-clock text-gray-500 mr-2"></i> <strong>Time:</strong> ${timeDisplay}</p>
                             <p><i class="fas fa-phone-alt text-gray-500 mr-2"></i> <strong>Phone:</strong> ${customerPhone}</p>
-                            <p class="col-span-1 sm:col-span-2 text-gray-400 mt-2"><strong>Description:</strong> ${req.description}</p>
+                            <p class="col-span-1 sm:col-span-2 text-gray-400 mt-2"><strong>Description:</strong> ${
+                              req.description
+                            }</p>
                         </div>
 
                         ${summaryHTML}
                         
-                        <button data-request-id="${req._id}" class="mt-6 w-full bg-violet-600 hover:bg-violet-700 text-white font-semibold py-2 rounded-lg transition duration-200 summary-btn">
+                        <button data-request-id="${
+                          req._id
+                        }" class="mt-6 w-full bg-violet-600 hover:bg-violet-700 text-white font-semibold py-2 rounded-lg transition duration-200 summary-btn">
                             📝 Add/Edit Summary
                         </button>
                     `;
 
-                    const btn = card.querySelector(".summary-btn");
-                    btn.addEventListener("click", () => openSummaryForm(req._id));
+            const btn = card.querySelector(".summary-btn");
+            btn.addEventListener("click", () => openSummaryForm(req._id));
 
-                    container.appendChild(card);
-                });
-            } catch (err) {
-                console.error("Error fetching requests:", err);
-                // Updated to lg:col-span-3
-                container.innerHTML =
-                    "<p class='text-center text-red-400 py-12 text-lg lg:col-span-3'>❌ Failed to load service requests. Please check your connection.</p>";
+            container.appendChild(card);
+          });
+        } catch (err) {
+          console.error("Error fetching requests:", err);
+          // Updated to lg:col-span-3
+          container.innerHTML =
+            "<p class='text-center text-red-400 py-12 text-lg lg:col-span-3'>❌ Failed to load service requests. Please check your connection.</p>";
+        }
+      }
+
+      // ====== Summary Form Logic ======
+      let currentRequestId = null;
+      const summaryFormModal = document.getElementById("summaryFormModal");
+      const closeModalBtn = document.getElementById("closeModalBtn");
+      const summaryForm = document.getElementById("summaryForm");
+
+      function openSummaryForm(requestId) {
+        currentRequestId = requestId;
+        summaryFormModal.classList.add("active");
+      }
+
+      closeModalBtn.addEventListener("click", () => {
+        summaryFormModal.classList.remove("active");
+      });
+
+      // Close modal when clicking outside of it
+      summaryFormModal.addEventListener("click", (e) => {
+        if (e.target === summaryFormModal) {
+          summaryFormModal.classList.remove("active");
+        }
+      });
+
+      summaryForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const submitButton = e.submitter;
+        submitButton.disabled = true;
+        submitButton.textContent = "Saving...";
+
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+        data.amount = parseFloat(data.amount); // Ensure amount is a number
+
+        const token = localStorage.getItem("token");
+
+        try {
+          const res = await fetch(
+            `https://techlink-backend.onrender.com/api/request-summary/${currentRequestId}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify(data),
             }
+          );
+
+          if (!res.ok) throw new Error("Failed to submit summary");
+
+          showMessage("✅ Summary saved successfully!", "success");
+          summaryFormModal.classList.remove("active");
+          e.target.reset();
+          await fetchRequests(token); // refresh list
+        } catch (err) {
+          console.error("Error saving summary:", err);
+          showMessage("❌ Failed to save summary. " + err.message, "error");
+        } finally {
+          submitButton.disabled = false;
+          submitButton.textContent = "Save Summary";
+        }
+      });
+
+      // ====== Auth + Initialization ======
+      document.addEventListener("DOMContentLoaded", async () => {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          console.log("No token found, redirecting to login.");
+          localStorage.removeItem("user");
+          localStorage.removeItem("role");
+          // Note: Redirect is commented out to allow testing in the immersive environment.
+          // In production, uncomment the line below:
+          // window.location.href = "signin.html";
+          // Updated to lg:col-span-3
+          document.getElementById("requestsContainer").innerHTML =
+            "<p class='text-center text-red-400 py-12 text-lg lg:col-span-3'>Authentication required. Please log in.</p>";
+          return;
         }
 
-        // ====== Summary Form Logic ======
-        let currentRequestId = null;
-        const summaryFormModal = document.getElementById("summaryFormModal");
-        const closeModalBtn = document.getElementById("closeModalBtn");
-        const summaryForm = document.getElementById("summaryForm");
+        const decodedToken = decodeJwt(token);
 
-        function openSummaryForm(requestId) {
-            currentRequestId = requestId;
-            summaryFormModal.classList.add("active");
+        if (!decodedToken || !decodedToken.id) {
+          showMessage("Authentication failed. Please log in again.", "error");
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          localStorage.removeItem("role");
+          // window.location.href = "signin.html";
+          return;
         }
 
-        closeModalBtn.addEventListener("click", () => {
-            summaryFormModal.classList.remove("active");
-        });
-        
-        // Close modal when clicking outside of it
-        summaryFormModal.addEventListener('click', (e) => {
-            if (e.target === summaryFormModal) {
-                summaryFormModal.classList.remove("active");
-            }
-        });
-
-
-        summaryForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            
-            const submitButton = e.submitter;
-            submitButton.disabled = true;
-            submitButton.textContent = 'Saving...';
-
-            const formData = new FormData(e.target);
-            const data = Object.fromEntries(formData.entries());
-            data.amount = parseFloat(data.amount); // Ensure amount is a number
-
-            const token = localStorage.getItem("token");
-
-            try {
-                const res = await fetch(
-                    `https://techlink-backend.onrender.com/api/request-summary/${currentRequestId}`,
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${token}`,
-                        },
-                        body: JSON.stringify(data),
-                    }
-                );
-
-                if (!res.ok) throw new Error("Failed to submit summary");
-
-                showMessage("✅ Summary saved successfully!", 'success');
-                summaryFormModal.classList.remove("active");
-                e.target.reset();
-                await fetchRequests(token); // refresh list
-            } catch (err) {
-                console.error("Error saving summary:", err);
-                showMessage("❌ Failed to save summary. " + err.message, 'error');
-            } finally {
-                submitButton.disabled = false;
-                submitButton.textContent = 'Save Summary';
-            }
-        });
-
-        // ====== Auth + Initialization ======
-        document.addEventListener("DOMContentLoaded", async () => {
-            const token = localStorage.getItem("token");
-
-            if (!token) {
-                console.log("No token found, redirecting to login.");
-                localStorage.removeItem("user");
-                localStorage.removeItem("role");
-                // Note: Redirect is commented out to allow testing in the immersive environment. 
-                // In production, uncomment the line below:
-                // window.location.href = "signin.html"; 
-                // Updated to lg:col-span-3
-                document.getElementById("requestsContainer").innerHTML = 
-                    "<p class='text-center text-red-400 py-12 text-lg lg:col-span-3'>Authentication required. Please log in.</p>";
-                return;
-            }
-
-            const decodedToken = decodeJwt(token);
-
-            if (!decodedToken || !decodedToken.id) {
-                showMessage("Authentication failed. Please log in again.", 'error');
-                localStorage.removeItem("token");
-                localStorage.removeItem("user");
-                localStorage.removeItem("role");
-                // window.location.href = "signin.html";
-                return;
-            }
-
-            await fetchRequests(token);
-        });
+        await fetchRequests(token);
+      });
     </script>
-</body>
+  </body>
 </html>
