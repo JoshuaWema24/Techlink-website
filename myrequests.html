@@ -132,9 +132,9 @@
             <i class="fas fa-list-check text-violet-400 mr-2"></i> My Service Requests
         </h1>
 
-        <div class="requests space-y-6" id="requestsContainer">
+        <div class="requests grid grid-cols-1 lg:grid-cols-2 gap-6" id="requestsContainer">
             <!-- Service Request Cards will be inserted here -->
-            <div class='text-center py-12'>
+            <div class='text-center py-12 lg:col-span-2'>
                 <i class="fas fa-spinner fa-spin text-4xl text-violet-400"></i>
                 <p class="text-gray-400 mt-4">Loading requests...</p>
             </div>
@@ -222,7 +222,7 @@
         async function fetchRequests(token) {
             const container = document.getElementById("requestsContainer");
             container.innerHTML = `
-                <div class='text-center py-12' id="loadingState">
+                <div class='text-center py-12 lg:col-span-2' id="loadingState">
                     <i class="fas fa-spinner fa-spin text-4xl text-violet-400"></i>
                     <p class="text-gray-400 mt-4">Loading requests...</p>
                 </div>
@@ -243,7 +243,7 @@
 
                 if (!data || data.length === 0) {
                     container.innerHTML =
-                        "<p class='text-center text-gray-400 py-12 text-lg'>✅ You have no service requests at the moment.</p>";
+                        "<p class='text-center text-gray-400 py-12 text-lg lg:col-span-2'>✅ You have no service requests at the moment.</p>";
                     return;
                 }
                 
@@ -319,7 +319,7 @@
             } catch (err) {
                 console.error("Error fetching requests:", err);
                 container.innerHTML =
-                    "<p class='text-center text-red-400 py-12 text-lg'>❌ Failed to load service requests. Please check your connection.</p>";
+                    "<p class='text-center text-red-400 py-12 text-lg lg:col-span-2'>❌ Failed to load service requests. Please check your connection.</p>";
             }
         }
 
@@ -399,7 +399,7 @@
                 // In production, uncomment the line below:
                 // window.location.href = "signin.html"; 
                 document.getElementById("requestsContainer").innerHTML = 
-                    "<p class='text-center text-red-400 py-12 text-lg'>Authentication required. Please log in.</p>";
+                    "<p class='text-center text-red-400 py-12 text-lg lg:col-span-2'>Authentication required. Please log in.</p>";
                 return;
             }
 
