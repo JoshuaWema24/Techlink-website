@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Termyte Service Request</title>
+    <!-- Load Tailwind CSS for modern utility classes and responsiveness -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        /* Configure Tailwind to use 'Inter' font and dark theme colors */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        :root {
+            --primary-purple: #6c63ff;
+            --light-purple: #9e8dff;
+            --bg-dark: #0d0d1f;
+            --card-bg: rgba(40, 44, 68, 0.9);
+            --card-input-bg: #2d3044;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom right, var(--bg-dark), #14142c);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--light-purple);
+            margin-bottom: 2rem;
+            font-size: 2.5rem; /* Larger title */
+            font-weight: 700;
+        }
+
+        /* General Responsive Grid: Adapts from 1 column (mobile) to 2-3 columns (tablet/desktop) */
+        .grid {
+            display: grid;
+            /* Adaptive grid: items take up at least 280px. */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        /* --- Huge Screen Layout (1280px+) --- */
+        @media (min-width: 1280px) {
+            .grid {
+                grid-template-columns: repeat(4, 1fr); /* Enforce explicit 4 columns for modern desktop layout */
+            }
+            /* Ensures description spans 2 columns in the 4-column layout */
+            #card-description {
+                 grid-column: span 2 / span 2 !important;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 2px solid transparent;
+            border-radius: 16px;
+            padding: 20px;
+            transition: 0.3s ease;
+            box-shadow: 0 0 15px rgba(108, 99, 255, 0.1);
+        }
+
+        .card:hover {
+            border-color: var(--primary-purple);
+            box-shadow: 0 4px 20px rgba(108, 99, 255, 0.25);
+        }
+
+        .card.active {
+            border-color: var(--light-purple);
+            background: rgba(54, 58, 90, 0.95);
+        }
+        
+        /* Ensures the icon and label are visible as the clickable header */
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer; /* Added pointer only to the header */
+            user-select: none;
+            flex-wrap: wrap;
+        }
+        
+        .card-header i {
+            font-size: 24px;
+            color: var(--primary-purple);
+            transition: 0.3s;
+        }
+        
+        .card-header label {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        /* --- Form Elements within Card --- */
+        .card input,
+        .card select,
+        .card textarea {
+            width: 100%;
+            padding: 12px;
+            font-size: 15px;
+            background: var(--card-input-bg);
+            color: #fff;
+            border: 1px solid #3d405a;
+            border-radius: 8px;
+            margin-top: 8px;
+            transition: border-color 0.3s;
+        }
+
+        .card input:focus,
+        .card select:focus,
+        .card textarea:focus {
+            outline: none;
+            border-color: var(--light-purple);
+            box-shadow: 0 0 0 2px rgba(158, 141, 255, 0.3);
+        }
+        
+        /* Fix for select arrow color in dark mode */
+        .card select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 1.2em;
+            padding-right: 30px;
+        }
+
+        .card textarea {
+            resize: vertical;
+        }
+
+        /* Core accordion logic CSS */
+        .card-content {
+            display: none;
+            margin-top: 15px;
+        }
+        /* When card is active, show content and animate it */
+        .card.active .card-content {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        /* Submit Button Styling */
+        .submit-btn {
+            grid-column: 1 / -1; /* Make button span all columns */
+            margin-top: 30px;
+            padding: 16px 32px;
+            font-size: 18px;
+            background: linear-gradient(to right, #6c63ff, #8a80ff);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            cursor: pointer;
+            transition: 0.3s ease;
+            box-shadow: 0 5px 20px rgba(108, 99, 255, 0.4);
+            font-weight: bold;
+            display: block;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(108, 99, 255, 0.6);
+        }
+        
+        /* Disable button during submission */
+        .submit-btn:disabled {
+            background: #4a4a75;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* Message Box for submission feedback */
+        #messageBox {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            font-weight: 600;
+        }
+        
+        #messageBox.fade-in {
+            opacity: 1;
+        }
+
+        /* Keyframes */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Mobile adjustments for padding only, as grid handles layout automatically */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Increased max-width for modern, spacious desktop layout -->
+    <div class="lg:max-w-screen-2xl mx-auto w-full">
+        <h2>Request a New Service</h2>
+
+        <form id="requestForm" class="grid">
+            
+            <!-- Service Type -->
+            <div class="card" id="card-service">
+                <div class="card-header">
+                    <i class="fas fa-tools"></i>
+                    <label for="serviceType">Service Type</label>
+                </div>
+                <div class="card-content">
+                    <select id="serviceType" name="serviceType" required>
+                        <option value="" disabled selected>Select a category...</option>
+                        <option value="Device & PC Repair">💻 Device & PC Repair</option>
+                        <option value="Home Tech & Setup">🏠 Home Tech & Setup</option>
+                        <option value="Plumbing & Water Solutions">💧 Plumbing & Water Solutions</option>
+                        <option value="Electrical Wiring & Lighting">⚡ Electrical Wiring & Lighting</option>
+                        <option value="Website Development">🌐 Website Development</option>
+                        <option value="Mobile App Development">🚀 Mobile App Development</option>
+                        <option value="IT Support & Security">🔒 IT Support & Security</option>
+                        <option value="Bespoke Software">⚙️ Bespoke Software</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Specific Service (NEW CARD) -->
+            <div class="card" id="card-sub-service">
+                <div class="card-header">
+                    <i class="fas fa-list-check"></i>
+                    <label for="specificService">Specific Service</label>
+                </div>
+                <div class="card-content">
+                    <select id="specificService" name="specificService" required disabled>
+                        <option value="" disabled selected>Please select a Service Type first...</option>
+                    </select>
+                    <p class="mt-3 text-sm text-gray-400">Prices are estimates in KES (Kenyan Shillings) and subject to final quote.</p>
+                </div>
+            </div>
+
+            <!-- Location -->
+            <div class="card" id="card-location">
+                <div class="card-header">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <label for="location">Location</label>
+                </div>
+                <div class="card-content">
+                    <input
+                        id="location"
+                        type="text"
+                        name="location"
+                        placeholder="e.g., Nairobi, Kenya"
+                        required
+                    />
+                </div>
+            </div>
+
+            <!-- Urgency -->
+            <div class="card" id="card-urgency">
+                <div class="card-header">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <label for="urgency">Urgency</label>
+                </div>
+                <div class="card-content">
+                    <select id="urgency" name="urgency">
+                        <option value="Low">Low (Within a week)</option>
+                        <option value="Medium">Medium (Within 1-3 days)</option>
+                        <option value="High">High (Immediate)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Time -->
+            <div class="card" id="card-time">
+                <div class="card-header">
+                    <i class="fas fa-calendar-alt"></i>
+                    <label for="time">Preferred Time</label>
+                </div>
+                <div class="card-content">
+                    <input id="time" type="datetime-local" name="time" />
+                </div>
+            </div>
+
+            <!-- Description - Spans two columns for better text area size -->
+            <!-- The md:col-span-2 ensures it spans two columns on medium screens and up -->
+            <div class="card md:col-span-2" id="card-description">
+                <div class="card-header">
+                    <i class="fas fa-comment-dots"></i>
+                    <label for="description">Detailed Description of Request</label>
+                </div>
+                <div class="card-content">
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="5"
+                        placeholder="Please provide all relevant details: model numbers, symptoms, specific requirements, budget, etc."
+                        required
+                    ></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">🚀 Submit Request</button>
+        </form>
+    </div>
+
+    <!-- Message Box for non-alert feedback -->
+    <div id="messageBox" class="hidden" role="alert"></div>
+
+    <script>
+    // --- SERVICE MAP ---
+    const serviceMap = {
+        "Device & PC Repair": [
+            "Laptop Screen Repair (KES 5,000 - 15,000)",
+            "Software Troubleshooting (KES 1,500 - 5,000)",
+            "Virus Removal (KES 2,000 - 5,000)",
+            "Hardware Upgrade (KES 4,000 - 10,000)",
+            "Data Recovery (Quote required)"
+        ],
+        "Home Tech & Setup": [
+            "Smart Home Installation (KES 4,000 - 8,000)",
+            "Wi-Fi Network Setup (KES 3,000 - 6,000)",
+            "Printer Configuration (KES 1,500 - 3,000)",
+            "TV Mounting & Setup (KES 2,000 - 4,500)"
+        ],
+        "Plumbing & Water Solutions": [
+            "Leaky Faucet Fix (KES 2,500 - 5,000)",
+            "Toilet Repair (KES 3,000 - 6,000)",
+            "Drain Unclogging (KES 4,000 - 7,000)",
+            "Water Heater Service (KES 5,000 - 12,000)"
+        ],
+        "Electrical Wiring & Lighting": [
+            "Socket Installation (KES 2,500 - 4,000 per point)",
+            "Lighting Fixture Repair (KES 2,000 - 5,000)",
+            "Circuit Breaker Issues (KES 4,000 - 8,000)",
+            "Rewiring Service (Quote required)"
+        ],
+        "Website Development": [
+            "Landing Page Design (KES 15,000 - 50,000)",
+            "Full E-commerce Site (KES 80,000 - 250,000+)",
+            "CMS Integration (WordPress/Other) (KES 25,000 - 70,000)",
+            "Website Redesign (KES 30,000 - 90,000)"
+        ],
+        "Mobile App Development": [
+            "iOS App (Swift/Kotlin) (KES 100,000 - 400,000+)",
+            "Android App (Java/Kotlin) (KES 80,000 - 350,000+)",
+            "Cross-Platform App (React Native/Flutter) (KES 80,000 - 300,000+)"
+        ],
+        "IT Support & Security": [
+            "Cybersecurity Audit (Quote required)",
+            "Managed IT Services (KES 5,000 - 20,000 monthly)",
+            "Office 365 Setup (KES 2,000 - 5,000 per user)",
+            "Cloud Backup Solutions (Quote required)"
+        ],
+        "Bespoke Software": [
+            "Custom CRM/ERP (Quote required)",
+            "Database Design (Quote required)",
+            "Automation Tools (KES 30,000 - 150,000)"
+        ],
+    };
+
+    const subsequentCardIds = ['card-location', 'card-urgency', 'card-time', 'card-description'];
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const cards = document.querySelectorAll('.card');
+        const requestForm = document.getElementById('requestForm');
+        const submitBtn = document.querySelector('.submit-btn');
+        const messageBox = document.getElementById('messageBox');
+        const serviceTypeSelect = document.getElementById('serviceType');
+        const specificServiceSelect = document.getElementById('specificService');
+        const subServiceCard = document.getElementById('card-sub-service');
+        const locationCard = document.getElementById('card-location');
+
+        // --- Set First Card Active ---
+        document.getElementById('card-service')?.classList.add('active');
+
+        // --- Card Toggle (Accordion) ---
+        cards.forEach(card => {
+            const header = card.querySelector('.card-header');
+            if (header) {
+                header.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isActive = card.classList.contains('active');
+                    cards.forEach(c => c.classList.remove('active'));
+                    if (!isActive) card.classList.add('active');
+                });
+            }
+        });
+
+        // --- When Service Type is Selected ---
+        serviceTypeSelect.addEventListener('change', (event) => {
+            const selectedType = event.target.value;
+            const subServices = serviceMap[selectedType] || [];
+
+            // Reset specific service dropdown
+            specificServiceSelect.innerHTML = '<option value="" disabled selected>Select a specific service...</option>';
+            specificServiceSelect.disabled = false;
+
+            // Populate options
+            subServices.forEach(service => {
+                const option = document.createElement('option');
+                option.value = service;
+                option.textContent = service;
+                specificServiceSelect.appendChild(option);
+            });
+
+            // Move to next card
+            document.getElementById('card-service').classList.remove('active');
+            subServiceCard.classList.add('active');
+
+            // Reset subsequent cards
+            subsequentCardIds.forEach(id => document.getElementById(id)?.classList.remove('active'));
+
+            subServiceCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+
+        // --- Auto-Advance to Location After Selecting Specific Service ---
+        specificServiceSelect.addEventListener('change', () => {
+            if (specificServiceSelect.value) {
+                subServiceCard.classList.remove('active');
+                locationCard.classList.add('active');
+                locationCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+
+        // --- FORM SUBMISSION ---
+        requestForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(requestForm);
+            const data = Object.fromEntries(formData.entries());
+
+            // Validate key fields
+            if (!data.serviceType || !data.specificService) {
+                showMessage("Please select both Service Type and Specific Service.", "error");
+                const cardToActivate = data.serviceType ? subServiceCard : document.getElementById('card-service');
+                cards.forEach(c => c.classList.remove('active'));
+                cardToActivate.classList.add('active');
+                cardToActivate.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+
+            submitBtn.disabled = true;
+
+            // ✅ MATCHES YOUR BACKEND req.body EXACTLY
+            const payload = {
+                serviceType: data.serviceType,
+                specificService: data.specificService,
+                location: data.location,
+                urgency: data.urgency,
+                time: data.time,
+                description: data.description,
+            };
+
+            const BACKEND_SUBMISSION_URL = 'https://techlink-backend.onrender.com/api/request-service'; // ✅ Replace with your real endpoint
+
+            try {
+                const response = await fetch(BACKEND_SUBMISSION_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+
+                if (!response.ok) throw new Error(`Server responded with ${response.status}`);
+
+                const cleanService = data.specificService.replace(/\s*\(.*\)$/, '');
+                showMessage(`✅ "${cleanService}" request submitted successfully for ${data.location}. We'll reach out soon!`, 'success');
+
+                requestForm.reset();
+                specificServiceSelect.disabled = true;
+                specificServiceSelect.innerHTML = '<option value="" disabled selected>Please select a Service Type first...</option>';
+                cards.forEach(c => c.classList.remove('active'));
+                document.getElementById('card-service').classList.add('active');
+            } catch (error) {
+                console.error(error);
+                showMessage(`❌ Submission failed: ${error.message}`, 'error');
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+
+        // --- Helper: Message Display ---
+        function showMessage(message, type) {
+            messageBox.textContent = message;
+            messageBox.classList.remove('hidden');
+            messageBox.style.backgroundColor = (type === 'success') ? '#4CAF50' :
+                                               (type === 'error') ? '#f44336' : '#2196F3';
+            messageBox.classList.add('fade-in');
+
+            setTimeout(() => {
+                messageBox.classList.remove('fade-in');
+                setTimeout(() => messageBox.classList.add('hidden'), 500);
+            }, 5000);
+        }
+    });
+
+
+    </script>
+</body>
+</html>

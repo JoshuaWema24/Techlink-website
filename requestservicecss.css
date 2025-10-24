@@ -1,116 +1,213 @@
-
-      body {
-        margin: 0;
-        font-family: "Segoe UI", sans-serif;
-        background: linear-gradient(to right, #0d0d1f, #14142c);
-        color: #fff;
-        padding: 40px;
-      }
-
-      h2 {
-        text-align: center;
-        color: #9e8dff;
-        margin-bottom: 40px;
-        font-size: 2rem;
-      }
-
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 20px;
-      }
-
-      .card {
-        background: rgba(40, 44, 68, 0.9);
-        border: 2px solid transparent;
-        border-radius: 16px;
-        padding: 20px;
-        position: relative;
-        transition: 0.3s ease;
-        cursor: pointer;
-        box-shadow: 0 0 15px rgba(108, 99, 255, 0.1);
-      }
-
-      .card:hover {
-        border-color: #6c63ff;
-        box-shadow: 0 4px 20px rgba(108, 99, 255, 0.25);
-      }
-
-      .card.active {
-        border-color: #9e8dff;
-        background: rgba(54, 58, 90, 0.95);
-      }
-
-      .card i {
-        font-size: 24px;
-        color: #6c63ff;
-        margin-bottom: 10px;
-        display: block;
-      }
-
-      .card label {
-        display: block;
-        font-size: 14px;
-        color: #bbb;
-        margin-bottom: 8px;
-      }
-
-      .card input,
-      .card select,
-      .card textarea {
-        width: 100%;
-        padding: 10px;
-        font-size: 15px;
-        background: #2d3044;
-        color: #fff;
-        border: none;
-        border-radius: 8px;
-        margin-top: 8px;
-      }
-
-      .card textarea {
-        resize: vertical;
-      }
-
-      .card-content {
-        display: none;
-        margin-top: 15px;
-        animation: fadeIn 0.5s ease;
-      }
-
-      .card.active .card-content {
-        display: block;
-      }
-
-      .submit-btn {
-        margin-top: 30px;
-        padding: 14px 28px;
-        font-size: 16px;
-        background: linear-gradient(to right, #6c63ff, #8a80ff);
-        border: none;
-        border-radius: 12px;
-        color: #fff;
-        cursor: pointer;
-        transition: 0.3s ease;
-        box-shadow: 0 0 10px rgba(108, 99, 255, 0.3);
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .submit-btn:hover {
-        transform: scale(1.05);
-        box-shadow: 0 10px 20px rgba(108, 99, 255, 0.5);
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
+ /* Configure Tailwind to use 'Inter' font and dark theme colors */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        :root {
+            --primary-purple: #6c63ff;
+            --light-purple: #9e8dff;
+            --bg-dark: #0d0d1f;
+            --card-bg: rgba(40, 44, 68, 0.9);
+            --card-input-bg: #2d3044;
         }
-        to {
-          opacity: 1;
-          transform: translateY(0);
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom right, var(--bg-dark), #14142c);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
         }
-      }
-    
+
+        h2 {
+            text-align: center;
+            color: var(--light-purple);
+            margin-bottom: 2rem;
+            font-size: 2.5rem; /* Larger title */
+            font-weight: 700;
+        }
+
+        /* General Responsive Grid: Adapts from 1 column (mobile) to 2-3 columns (tablet/desktop) */
+        .grid {
+            display: grid;
+            /* Adaptive grid: items take up at least 280px. */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        /* --- Huge Screen Layout (1280px+) --- */
+        @media (min-width: 1280px) {
+            .grid {
+                grid-template-columns: repeat(4, 1fr); /* Enforce explicit 4 columns for modern desktop layout */
+            }
+            /* Ensures description spans 2 columns in the 4-column layout */
+            #card-description {
+                 grid-column: span 2 / span 2 !important;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 2px solid transparent;
+            border-radius: 16px;
+            padding: 20px;
+            transition: 0.3s ease;
+            box-shadow: 0 0 15px rgba(108, 99, 255, 0.1);
+        }
+
+        .card:hover {
+            border-color: var(--primary-purple);
+            box-shadow: 0 4px 20px rgba(108, 99, 255, 0.25);
+        }
+
+        .card.active {
+            border-color: var(--light-purple);
+            background: rgba(54, 58, 90, 0.95);
+        }
+        
+        /* Ensures the icon and label are visible as the clickable header */
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer; /* Added pointer only to the header */
+            user-select: none;
+            flex-wrap: wrap;
+        }
+        
+        .card-header i {
+            font-size: 24px;
+            color: var(--primary-purple);
+            transition: 0.3s;
+        }
+        
+        .card-header label {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        /* --- Form Elements within Card --- */
+        .card input,
+        .card select,
+        .card textarea {
+            width: 100%;
+            padding: 12px;
+            font-size: 15px;
+            background: var(--card-input-bg);
+            color: #fff;
+            border: 1px solid #3d405a;
+            border-radius: 8px;
+            margin-top: 8px;
+            transition: border-color 0.3s;
+        }
+
+        .card input:focus,
+        .card select:focus,
+        .card textarea:focus {
+            outline: none;
+            border-color: var(--light-purple);
+            box-shadow: 0 0 0 2px rgba(158, 141, 255, 0.3);
+        }
+        
+        /* Fix for select arrow color in dark mode */
+        .card select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 1.2em;
+            padding-right: 30px;
+        }
+
+        .card textarea {
+            resize: vertical;
+        }
+
+        /* Core accordion logic CSS */
+        .card-content {
+            display: none;
+            margin-top: 15px;
+        }
+        /* When card is active, show content and animate it */
+        .card.active .card-content {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        /* Submit Button Styling */
+        .submit-btn {
+            grid-column: 1 / -1; /* Make button span all columns */
+            margin-top: 30px;
+            padding: 16px 32px;
+            font-size: 18px;
+            background: linear-gradient(to right, #6c63ff, #8a80ff);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            cursor: pointer;
+            transition: 0.3s ease;
+            box-shadow: 0 5px 20px rgba(108, 99, 255, 0.4);
+            font-weight: bold;
+            display: block;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(108, 99, 255, 0.6);
+        }
+        
+        /* Disable button during submission */
+        .submit-btn:disabled {
+            background: #4a4a75;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* Message Box for submission feedback */
+        #messageBox {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            font-weight: 600;
+        }
+        
+        #messageBox.fade-in {
+            opacity: 1;
+        }
+
+        /* Keyframes */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Mobile adjustments for padding only, as grid handles layout automatically */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+        }

@@ -11,81 +11,133 @@
     <link rel="stylesheet" href="requestservicecss.css" class="css" />
   </head>
   <body>
-    <h2>Request a New Service</h2>
+    <!-- Increased max-width for modern, spacious desktop layout -->
+    <div class="lg:max-w-screen-2xl mx-auto w-full">
+      <h2>Request a New Service</h2>
 
-    <form id="requestForm" class="grid">
-      <!-- Service Type -->
-      <div class="card">
-        <i class="fas fa-tools"></i>
-        <label for="serviceType">Service Type</label>
-        <div class="card-content">
-          <select id="serviceType" name="serviceType" required>
-            <option value="Device & PC Repair"> Device & PC Repair  </option>
-            <option value="Home Tech & Setup">Home Tech & Setup</option>
-            <option value="💧 Plumbing & Water Solutions">💧 Plumbing & Water Solutions</option>
-            <option value="⚡ Electrical Wiring & Lighting">⚡ Electrical Wiring & Lighting</option>
-            <option value="💻 Website Development">💻 Website Development</option>
-            <option value="🚀 Mobile App Development">🚀 Mobile App Development</option>
-            <option value="🔒 IT Support & Security">🔒 IT Support & Security</option>
-            <option value="⚙️ Bespoke Software">⚙️ Bespoke Software</option>
-          </select>
+      <form id="requestForm" class="grid">
+        <!-- Service Type -->
+        <div class="card" id="card-service">
+          <div class="card-header">
+            <i class="fas fa-tools"></i>
+            <label for="serviceType">Service Type</label>
+          </div>
+          <div class="card-content">
+            <select id="serviceType" name="serviceType" required>
+              <option value="" disabled selected>Select a category...</option>
+              <option value="Device & PC Repair">💻 Device & PC Repair</option>
+              <option value="Home Tech & Setup">🏠 Home Tech & Setup</option>
+              <option value="Plumbing & Water Solutions">
+                💧 Plumbing & Water Solutions
+              </option>
+              <option value="Electrical Wiring & Lighting">
+                ⚡ Electrical Wiring & Lighting
+              </option>
+              <option value="Website Development">
+                🌐 Website Development
+              </option>
+              <option value="Mobile App Development">
+                🚀 Mobile App Development
+              </option>
+              <option value="IT Support & Security">
+                🔒 IT Support & Security
+              </option>
+              <option value="Bespoke Software">⚙️ Bespoke Software</option>
+            </select>
+          </div>
         </div>
-      </div>
 
-      <!-- Location -->
-      <div class="card">
-        <i class="fas fa-map-marker-alt"></i>
-        <label for="location">Location</label>
-        <div class="card-content">
-          <input
-            id="location"
-            type="text"
-            name="location"
-            placeholder="e.g., Nairobi, Kenya"
-            required
-          />
+        <!-- Specific Service (NEW CARD) -->
+        <div class="card" id="card-sub-service">
+          <div class="card-header">
+            <i class="fas fa-list-check"></i>
+            <label for="specificService">Specific Service</label>
+          </div>
+          <div class="card-content">
+            <select
+              id="specificService"
+              name="specificService"
+              required
+              disabled
+            >
+              <option value="" disabled selected>
+                Please select a Service Type first...
+              </option>
+            </select>
+            <p class="mt-3 text-sm text-gray-400">
+              Prices are estimates in KES (Kenyan Shillings) and subject to
+              final quote.
+            </p>
+          </div>
         </div>
-      </div>
 
-      <!-- Urgency -->
-      <div class="card">
-        <i class="fas fa-exclamation-circle"></i>
-        <label for="urgency">Urgency</label>
-        <div class="card-content">
-          <select id="urgency" name="urgency">
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
-          </select>
+        <!-- Location -->
+        <div class="card" id="card-location">
+          <div class="card-header">
+            <i class="fas fa-map-marker-alt"></i>
+            <label for="location">Location</label>
+          </div>
+          <div class="card-content">
+            <input
+              id="location"
+              type="text"
+              name="location"
+              placeholder="e.g., Nairobi, Kenya"
+              required
+            />
+          </div>
         </div>
-      </div>
 
-      <!-- Time -->
-      <div class="card">
-        <i class="fas fa-calendar-alt"></i>
-        <label for="time">Preferred Time</label>
-        <div class="card-content">
-          <input id="time" type="datetime-local" name="preferredTime" />
+        <!-- Urgency -->
+        <div class="card" id="card-urgency">
+          <div class="card-header">
+            <i class="fas fa-exclamation-circle"></i>
+            <label for="urgency">Urgency</label>
+          </div>
+          <div class="card-content">
+            <select id="urgency" name="urgency">
+              <option value="Low">Low (Within a week)</option>
+              <option value="Medium">Medium (Within 1-3 days)</option>
+              <option value="High">High (Immediate)</option>
+            </select>
+          </div>
         </div>
-      </div>
 
-      <!-- Description -->
-      <div class="card">
-        <i class="fas fa-comment-dots"></i>
-        <label for="description">Description</label>
-        <div class="card-content">
-          <textarea
-            id="description"
-            name="description"
-            rows="4"
-            placeholder="Briefly describe the problem..."
-            required
-          ></textarea>
+        <!-- Time -->
+        <div class="card" id="card-time">
+          <div class="card-header">
+            <i class="fas fa-calendar-alt"></i>
+            <label for="time">Preferred Time</label>
+          </div>
+          <div class="card-content">
+            <input id="time" type="datetime-local" name="time" />
+          </div>
         </div>
-      </div>
 
-      <button type="submit" class="submit-btn">🚀 Submit Request</button>
-    </form>
+        <!-- Description - Spans two columns for better text area size -->
+        <!-- The md:col-span-2 ensures it spans two columns on medium screens and up -->
+        <div class="card md:col-span-2" id="card-description">
+          <div class="card-header">
+            <i class="fas fa-comment-dots"></i>
+            <label for="description">Detailed Description of Request</label>
+          </div>
+          <div class="card-content">
+            <textarea
+              id="description"
+              name="description"
+              rows="5"
+              placeholder="Please provide all relevant details: model numbers, symptoms, specific requirements, budget, etc."
+              required
+            ></textarea>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn">🚀 Submit Request</button>
+      </form>
+    </div>
+
+    <!-- Message Box for non-alert feedback -->
+    <div id="messageBox" class="hidden" role="alert"></div>
 
     <script src="requestservicescript.js"></script>
   </body>
