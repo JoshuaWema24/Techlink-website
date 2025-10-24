@@ -66,3 +66,196 @@ h2 {
   border-radius: 10px;
   border: 1px solid #444;
 }
+/* ====== General Page Layout ====== */
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #f7f9fc;
+  margin: 0;
+  padding: 0;
+}
+
+#requestsContainer {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 20px;
+}
+
+/* ====== Request Card ====== */
+.card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 16px;
+  margin-bottom: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #1e40af; /* blue-800 */
+  margin-bottom: 8px;
+}
+
+.card .meta {
+  color: #555;
+  font-size: 0.9rem;
+  margin: 4px 0;
+}
+
+.card .desc {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.card button.summary-btn {
+  margin-top: 10px;
+  background-color: #2563eb; /* blue-600 */
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.card button.summary-btn:hover {
+  background-color: #1e40af; /* blue-800 */
+}
+
+/* ====== Summary Section (Shown After Adding) ====== */
+.card .summary-section {
+  background: #f9fafb;
+  border-left: 4px solid #3b82f6;
+  padding: 10px 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+/* ====== Modal Background ====== */
+#summaryFormModal {
+  display: none; /* hidden by default */
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Show modal when class “active” is added */
+#summaryFormModal.active {
+  display: flex;
+  animation: fadeIn 0.25s ease-in;
+}
+
+/* ====== Modal Content ====== */
+.modal-content {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  position: relative;
+  animation: slideUp 0.3s ease-out;
+}
+
+.modal-content h2 {
+  text-align: center;
+  margin-bottom: 16px;
+  font-size: 1.3rem;
+  color: #1f2937;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-content label {
+  font-size: 0.9rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+.modal-content input,
+.modal-content select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.modal-content input:focus,
+.modal-content select:focus {
+  border-color: #3b82f6;
+}
+
+.modal-content .modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.modal-content button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.modal-content button#closeModalBtn {
+  background-color: #9ca3af;
+  color: white;
+}
+
+.modal-content button#closeModalBtn:hover {
+  background-color: #6b7280;
+}
+
+.modal-content button[type="submit"] {
+  background-color: #2563eb;
+  color: white;
+}
+
+.modal-content button[type="submit"]:hover {
+  background-color: #1e40af;
+}
+
+/* ====== Animations ====== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

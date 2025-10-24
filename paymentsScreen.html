@@ -1,89 +1,937 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Termyte - Pay for Service</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <script src="https://www.paypal.com/sdk/js?client-id=AeIxkLzDtxTyFLbP_xPymP4s_N2F_spwcvQOMjmE7GNXgfpKHwzto4yPy3NvZXJToE4SUiGKhp6bH7_h&currency=USD"></script>
-    <link rel="stylesheet" href="paymentscreencss.css" class="css" />
-  </head>
-  <body>
-    <div class="background-elements">
-      <span></span><span></span><span></span><span></span><span></span>
-      <span></span><span></span><span></span><span></span><span></span>
-    </div>
-
-    <div class="payment-container">
-      <h1>Complete Your Payment</h1>
-
-      <div class="payment-details">
-        <p>Service: <strong>Electrical Fault Diagnosis</strong></p>
-        <p>Technician's name: <strong>Frank</strong></p>
-        <p>Amount Due:</p>
-        <p class="payment-amount">Ksh 4,500.00</p>
-      </div>
-
-      <h2>Select Payment Method</h2>
-      <div class="payment-methods">
-        <div class="method-option" id="mpesa-option">
-          <span class="mpesa-icon">M</span>
-          <span class="method-name">M-Pesa (Kenya)</span>
-        </div>
-
-        <div class="method-option" id="paypal-option">
-          <i class="fab fa-paypal"></i>
-          <span class="method-name">PayPal</span>
-        </div>
-        <div class="method-option" id="visa-option">
-          <i class="fab fa-cc-visa"></i>
-          <span class="method-name">Visa Card</span>
-        </div>
-        <div class="method-option" id="mastercard-option">
-          <i class="fab fa-cc-mastercard"></i>
-          <span class="method-name">Mastercard</span>
-        </div>
-        <div class="method-option" id="other-option">
-          <i class="fas fa-money-check-alt"></i>
-          <span class="method-name">Other Online Payment</span>
-        </div>
-      </div>
-
-      <div class="mpesa-input-container" id="mpesa-phone-input-container">
-        <label for="mpesa-phone">Enter M-Pesa Phone Number:</label>
-        <input
-          type="tel"
-          id="mpesa-phone"
-          placeholder="e.g., 0712345678"
-          pattern="^(07|2547)\d{8}$"
-          required
-        />
-        <small style="color: #ccc; text-align: left"
-          >(Format: 07xxxxxxxx or 2547xxxxxxxx)</small
-        >
-
-        <label for="mpesa-amount">Enter Amount:</label>
-        <input
-          type="number"
-          id="mpesa-amount"
-          placeholder="e.g., 4500"
-          required
-        />
-
-        <button id="initiateMpesaPayBtn">Initiate M-Pesa Payment</button>
-      </div>
-
-      <button class="pay-button" id="payNowBtn" disabled>Pay Now</button>
-    </div>
-
-    <script src="paymentscript.js"></script>
-  </body>
-</html>
+    <title>Termyte - Secure Payment</title>
     
+<script src="https://cdn.tailwindcss.com"></script>
+    
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@700&display=swap" rel="stylesheet" />
+    
+<script src="https://www.paypal.com/sdk/js?client-id=AeIxkLzDtxTyFLbP_xPymP4s_N2F_spwcvQOMjmE7GNXgfpKHwzto4yPy3NvZXJToE4SUiGKhp6bH7_h&currency=USD"></script>
+    <style>
+        :root {
+            --primary-purple: #6c63ff;
+            --light-purple: #9e8dff;
+            --bg-dark: #0d0d1f;
+            --card-bg: #1c1f33; /* Slightly lighter card background for contrast */
+            --input-bg: #2d3044;
+            --text-light: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --border-color: #3d405a;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom right, var(--bg-dark), #14142c);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            margin: 0;
+        }
+
+        /* --- Global Container for the entire payment screen --- */
+        .main-payment-wrapper {
+            background-color: #121520; /* A very dark, subtle background for the wrapper */
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            max-width: 1100px; /* Increased max-width */
+            width: 100%;
+            display: flex;
+            flex-direction: column; /* Default to column for mobile */
+            gap: 30px; /* Gap between sections */
+            position: relative;
+        }
+
+        /* Desktop Layout */
+        @media (min-width: 1024px) {
+            .main-payment-wrapper {
+                flex-direction: row; /* Two columns on larger screens */
+                padding: 40px;
+                gap: 40px;
+            }
+        }
+
+        /* --- General Card Styling --- */
+        .payment-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            flex-grow: 1; /* Allow cards to grow */
+        }
+        
+        .payment-card.col-span-2 { /* For a card that spans two sections in a grid */
+            grid-column: span 2 / span 2;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--light-purple);
+            text-align: center;
+            margin-bottom: 30px;
+            grid-column: 1 / -1; /* Make title span all columns in grid context */
+        }
+        
+        h3 { /* Subheadings for payment methods/details */
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+        
+        /* --- Payment Methods Column (Left) --- */
+        .payment-methods-column {
+            flex: 1; /* Takes equal space as dynamic content column */
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .method-option {
+            background: var(--input-bg); /* Darker background for non-selected */
+            padding: 18px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 2px solid transparent;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .method-option:hover {
+            border-color: var(--primary-purple);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(108, 99, 255, 0.3);
+        }
+
+        .method-option.selected {
+            border-color: var(--light-purple);
+            background: #2a2e4a; /* Slightly lighter when selected */
+            box-shadow: 0 0 15px rgba(108, 99, 255, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .method-option .icon-name {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .method-option i, .method-option .mpesa-icon {
+            font-size: 28px;
+            color: var(--primary-purple);
+        }
+        .method-option .mpesa-icon {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 32px;
+        }
+
+        .method-option .method-name {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        .method-option .arrow-icon {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        /* --- Dynamic Content Column (Right) --- */
+        .dynamic-content-column {
+            flex: 1; /* Takes equal space */
+            display: grid; /* Use grid for internal layout of dynamic cards */
+            grid-template-columns: 1fr;
+            gap: 20px;
+            align-content: start; /* Align content to the top */
+        }
+        
+        @media (min-width: 1024px) {
+            .dynamic-content-column {
+                grid-template-columns: repeat(2, 1fr); /* Two columns inside on large screens */
+            }
+        }
+        
+        .dynamic-content-card { /* Base styling for all cards in the dynamic section */
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.4s ease-out;
+        }
+        .dynamic-content-card.active {
+            display: block; /* Shown when active */
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Card Specific Styles (Credit Card Form) --- */
+        .card-form-group {
+            margin-bottom: 18px;
+        }
+        .card-form-group label {
+            display: block;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+        .card-form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .card-form-group input::placeholder {
+            color: #777;
+        }
+        .card-form-group input:focus {
+            outline: none;
+            border-color: var(--primary-purple);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+        }
+        
+        .flex-row-inputs {
+            display: flex;
+            gap: 15px;
+        }
+        .flex-row-inputs > div {
+            flex: 1;
+        }
+
+        /* --- M-Pesa Input Specific Styles --- */
+        .mpesa-input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding-top: 10px; /* Space from title */
+        }
+        .mpesa-input-container label {
+            font-size: 1rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        .mpesa-input-container input {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+        .mpesa-input-container small {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        #initiateMpesaPayBtn {
+            background: #108e49; /* M-Pesa Green */
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: background 0.2s, transform 0.2s;
+        }
+        #initiateMpesaPayBtn:hover { background: #0d6e36; transform: translateY(-1px); }
+        #initiateMpesaPayBtn:disabled { background: #555; cursor: not-allowed; }
+
+
+        /* --- PayPal Button Container --- */
+        #paypal-button-container {
+            padding-top: 10px;
+            min-height: 50px; /* Give it space even when empty */
+        }
+
+
+        /* --- Payment Processing & Success Cards --- */
+        .processing-card, .success-card {
+            display: none; /* Hidden by default */
+            text-align: center;
+            padding: 30px;
+            height: fit-content; /* Ensure they don't stretch */
+        }
+        .processing-card.active, .success-card.active {
+            display: block;
+        }
+
+        .processing-card p, .success-card p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+        
+        .success-card .icon-wrapper {
+            background-color: #28a745; /* Green for success */
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px auto;
+        }
+        .success-card .icon-wrapper i {
+            font-size: 36px;
+            color: #fff;
+        }
+        .success-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar-container {
+            background-color: var(--input-bg);
+            border-radius: 5px;
+            height: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, #4CAF50, #8bc34a);
+            border-radius: 5px;
+            animation: progress 2s linear forwards;
+        }
+
+        @keyframes progress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        
+        /* Done Button */
+        .done-button {
+            background: var(--primary-purple);
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-top: 30px;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .done-button:hover { background: #8a80ff; transform: translateY(-1px); }
+
+
+        /* --- Message Box for non-alert feedback --- */
+        #messageBox {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            font-weight: 600;
+            min-width: 250px;
+            text-align: center;
+        }
+        
+        #messageBox.success { background-color: #4CAF50; }
+        #messageBox.error { background-color: #f44336; }
+        #messageBox.warning { background-color: #ff9800; }
+        
+        #messageBox.fade-in { opacity: 1; }
+        #messageBox.hidden { display: none; }
+
+        /* Background elements (kept for aesthetic) */
+        .background-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-elements">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="main-payment-wrapper">
+        <h1>Payments</h1>
+
+        
+<div class="payment-methods-column">
+            
+            <!-- MOVED ORDER SUMMARY TO THE TOP -->
+            <div class="payment-card">
+                <h3>Order Summary</h3>
+                <div id="order-summary-details" class="text-sm text-gray-300 space-y-2 mt-4">
+                    <!-- Dynamic content will be loaded here by JavaScript -->
+                    <div class="flex items-center justify-center py-4">
+                        <i class="fas fa-spinner fa-spin text-xl text-primary-purple"></i>
+                        <span class="ml-3 text-gray-400">Fetching details...</span>
+                    </div>
+                </div>
+            </div>
+            <!-- END ORDER SUMMARY CARD -->
+
+            <!-- MOVED PAYMENT METHODS TO THE BOTTOM -->
+            <div class="payment-card">
+                <h3>Payment methods</h3>
+                <p class="text-sm text-gray-400 mb-4">Choose a payment method</p>
+
+                <div class="space-y-3">
+                    <div class="method-option selected" id="mpesa-option">
+                        <div class="icon-name">
+                            <span class="mpesa-icon">M</span>
+                            <span class="method-name">M-Pesa (Kenya)</span>
+                        </div>
+                        <i class="fas fa-chevron-right arrow-icon"></i>
+                    </div>
+
+                    <div class="method-option" id="card-option">
+                        <div class="icon-name">
+                            <i class="fab fa-cc-stripe"></i> 
+<span class="method-name">Credit/Debit Card</span>
+                        </div>
+                        <i class="fas fa-chevron-right arrow-icon"></i>
+                    </div>
+                    
+                    <div class="method-option" id="paypal-option">
+                        <div class="icon-name">
+                            <i class="fab fa-paypal"></i>
+                            <span class="method-name">PayPal</span>
+                        </div>
+                        <i class="fas fa-chevron-right arrow-icon"></i>
+                    </div>
+
+                    <div class="method-option" id="other-option">
+                        <div class="icon-name">
+                            <i class="fas fa-money-check-alt"></i>
+                            <span class="method-name">Other Online Payment</span>
+                        </div>
+                        <i class="fas fa-chevron-right arrow-icon"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- END PAYMENT METHODS CARD -->
+
+        </div>
+
+        
+<div class="dynamic-content-column">
+            
+
+<div class="payment-card dynamic-content-card active col-span-2" id="mpesa-content">
+                <h3>M-Pesa Payment (Kenya)</h3>
+                <p class="text-sm text-gray-400 mb-4">Enter your M-Pesa details to initiate STK Push.</p>
+                <div class="mpesa-input-container">
+                    <label for="mpesa-phone">Phone Number:</label>
+                    <input type="tel" id="mpesa-phone" placeholder="e.g., 0712345678" pattern="^(07|2547)\d{8}$" required />
+                    <small class="text-gray-500">(Format: 07xxxxxxxx or 2547xxxxxxxx)</small>
+                    
+                    <label for="mpesa-amount" class="mt-4">Amount (Ksh):</label>
+                    <!-- Input value will be set dynamically by JavaScript -->
+                    <input type="number" id="mpesa-amount" placeholder="e.g., 4500" value="" required />
+
+                    <button id="initiateMpesaPayBtn">Initiate M-Pesa Payment</button>
+                </div>
+            </div>
+
+            
+
+<div class="payment-card dynamic-content-card col-span-2" id="card-content">
+                <h3>Credit Card</h3>
+                <p class="text-sm text-gray-400 mb-4">Add your card details to complete payment.</p>
+                
+                <div class="card-form-group">
+                    <label for="card-number">Card Number</label>
+                    <input type="text" id="card-number" placeholder="**** **** **** 2421" maxlength="19" required />
+                </div>
+                <div class="flex-row-inputs">
+                    <div class="card-form-group">
+                        <label for="expiry-date">Expiry</label>
+                        <input type="text" id="expiry-date" placeholder="MM/YY" maxlength="5" required />
+                    </div>
+                    <div class="card-form-group">
+                        <label for="cvv">CVV/CVC</label>
+                        <input type="text" id="cvv" placeholder="***" maxlength="4" required />
+                    </div>
+                </div>
+                <!-- Button text will be set dynamically by JavaScript -->
+                <button class="pay-button mt-6 w-full" id="payWithCardBtn">Pay ...</button>
+            </div>
+
+            
+
+<div class="payment-card dynamic-content-card col-span-2" id="paypal-content">
+                <h3>PayPal</h3>
+                <p class="text-sm text-gray-400 mb-4">Click the button below to pay securely via PayPal.</p>
+                <div id="paypal-button-container"></div>
+            </div>
+
+            
+
+<div class="payment-card dynamic-content-card col-span-2" id="other-content">
+                <h3>Other Online Payment</h3>
+                <p class="text-sm text-gray-400 mb-4">
+                    For other online payment methods, you will be redirected to a secure payment gateway.
+                </p>
+                <button class="pay-button mt-6 w-full" id="proceedOtherPayBtn">Proceed to Payment Gateway</button>
+            </div>
+
+            
+
+<div class="payment-card dynamic-content-card col-span-2" id="processing-content">
+                <h3>Payment processing</h3>
+                <p>Please wait while we process your transaction.</p>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: 0;"></div>
+                </div>
+            </div>
+
+            
+
+<div class="payment-card dynamic-content-card col-span-2" id="success-content">
+                <div class="icon-wrapper">
+                    <i class="fas fa-check"></i>
+                </div>
+                <h3>Payment successful!</h3>
+                <p>Your service request payment has been placed. We'll send you an email with your order details.</p>
+                <button class="done-button">Done</button>
+            </div>
+
+        </div>
+    </div>
+
+    
+<div id="messageBox" class="hidden" role="alert"></div>
+
+    <script>
+        // --- Global Variables ---
+        // Placeholder for the Order Summary API. Replace this with your actual endpoint.
+        const ORDER_SUMMARY_API_URL = "https://techlink-backend.onrender.com/api/order/current-session";
+
+        const PAYPAL_POST_URL = "https://techlink-backend.onrender.com/api/payments/paypal";
+        const MPESA_STK_PUSH_URL = "https://techlink-backend.onrender.com/stkpush";
+        const MPESA_STATUS_URL = "https://techlink-backend.onrender.com/payment-status";
+
+        let currentOrder = {
+            amount: 0,
+            currency: 'Ksh',
+            service: 'N/A',
+            technician: 'N/A'
+        };
+
+        // --- DOM Elements ---
+        const payMethodsOptions = document.querySelectorAll(".method-option");
+        const dynamicContentCards = document.querySelectorAll(".dynamic-content-card");
+        const orderSummaryDetailsDiv = document.getElementById("order-summary-details");
+
+        // Specific content cards
+        const processingContent = document.getElementById("processing-content");
+        const successContent = document.getElementById("success-content");
+
+        // M-Pesa elements
+        const mpesaPhoneInput = document.getElementById("mpesa-phone");
+        const mpesaAmountInput = document.getElementById("mpesa-amount");
+        const initiateMpesaPayBtn = document.getElementById("initiateMpesaPayBtn");
+
+        // Credit Card elements
+        const cardNumberInput = document.getElementById('card-number');
+        const expiryDateInput = document.getElementById('expiry-date');
+        const cvvInput = document.getElementById('cvv');
+        const payWithCardBtn = document.getElementById('payWithCardBtn');
+
+        // Other elements
+        const proceedOtherPayBtn = document.getElementById('proceedOtherPayBtn');
+        const doneButton = document.querySelector('.done-button');
+
+
+        let currentActiveMethod = "mpesa-option"; // Default to M-Pesa
+
+        // ================== UTILITY: MESSAGE BOX ==================
+        function showMessage(message, type = 'info') {
+            const messageBox = document.getElementById('messageBox');
+            messageBox.textContent = message;
+            messageBox.className = 'hidden'; // Clear existing classes
+            
+            messageBox.classList.remove('hidden');
+            messageBox.classList.remove('success', 'error', 'warning');
+            messageBox.classList.add(type);
+            messageBox.classList.add('fade-in');
+            
+            setTimeout(() => {
+                messageBox.classList.remove('fade-in');
+                // Wait for fade-out transition before hiding completely
+                setTimeout(() => {
+                    messageBox.classList.add('hidden');
+                }, 500); 
+            }, 5000); // Message visible for 5 seconds
+        }
+
+        // ================== FETCH ORDER SUMMARY LOGIC ==================
+
+        /**
+         * Fetches and displays the order summary from the backend.
+         */
+        async function fetchOrderSummary() {
+            try {
+                // Show loading state
+                orderSummaryDetailsDiv.innerHTML = `
+                    <div class="flex items-center justify-center py-4">
+                        <i class="fas fa-spinner fa-spin text-xl text-primary-purple"></i>
+                        <span class="ml-3 text-gray-400">Fetching details...</span>
+                    </div>
+                `;
+                
+                // --- START Simulated API Call ---
+                // In a real application, you would use: const response = await fetch(ORDER_SUMMARY_API_URL);
+                const mockOrderData = await new Promise(resolve => setTimeout(() => resolve({
+                    service: "Electrical Fault Diagnosis",
+                    technician: "Frank K.",
+                    amount: 4500.00,
+                    currency: "Ksh",
+                    orderId: "ORD-92847"
+                }), 1500)); // Simulate network latency
+                // --- END Simulated API Call ---
+
+                // Update global order state
+                currentOrder = mockOrderData;
+                const formattedAmount = currentOrder.amount.toLocaleString('en-US', { minimumFractionDigits: 2 });
+
+                // Update the Order Summary card
+                orderSummaryDetailsDiv.innerHTML = `
+                    <p>Service: <strong>${currentOrder.service}</strong></p>
+                    <p>Technician: <strong>${currentOrder.technician}</strong></p>
+                    <p>Order ID: <strong>${currentOrder.orderId}</strong></p>
+                    <p class="text-xl font-bold text-white mt-4">Amount Due: ${currentOrder.currency} ${formattedAmount}</p>
+                `;
+                
+                // Update dependent UI elements
+                mpesaAmountInput.value = currentOrder.amount;
+                payWithCardBtn.textContent = `Pay ${currentOrder.currency} ${formattedAmount}`;
+                
+                // Re-initialize PayPal with the new amount if necessary
+                initializePayPal();
+
+            } catch (error) {
+                console.error("Error fetching order summary:", error);
+                orderSummaryDetailsDiv.innerHTML = `
+                    <p class="text-center text-red-400 py-4">
+                        <i class="fas fa-exclamation-triangle mr-2"></i> Failed to load order summary.
+                    </p>
+                `;
+                showMessage("Failed to load order summary. Please refresh the page.", 'error');
+            }
+        }
+
+
+        // ================== UI STATE MANAGEMENT ==================
+        function showDynamicContent(contentCardId) {
+            dynamicContentCards.forEach(card => card.classList.remove('active'));
+            const cardToShow = document.getElementById(contentCardId);
+            if (cardToShow) {
+                cardToShow.classList.add('active');
+                // Scroll to the active content card on smaller screens for better UX
+                if (window.innerWidth < 1024) { // Assuming 1024px is our breakpoint for 2-column layout
+                    cardToShow.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        }
+
+        function selectPaymentMethod(methodId) {
+            payMethodsOptions.forEach(option => option.classList.remove('selected'));
+            document.getElementById(methodId).classList.add('selected');
+            currentActiveMethod = methodId;
+
+            // Hide processing/success states if active
+            processingContent.classList.remove('active');
+            successContent.classList.remove('active');
+
+            if (methodId === 'mpesa-option') {
+                showDynamicContent('mpesa-content');
+            } else if (methodId === 'card-option') {
+                showDynamicContent('card-content');
+            } else if (methodId === 'paypal-option') {
+                showDynamicContent('paypal-content');
+            } else if (methodId === 'other-option') {
+                showDynamicContent('other-content');
+            }
+        }
+
+        payMethodsOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                selectPaymentMethod(option.id);
+            });
+        });
+
+        // ================== M-PESA LOGIC ==================
+        initiateMpesaPayBtn.addEventListener("click", async () => {
+            const phone = mpesaPhoneInput.value.trim();
+            const amount = mpesaAmountInput.value.trim();
+
+            if (currentOrder.amount === 0) {
+                 showMessage("Order amount is zero. Cannot initiate payment.", 'error');
+                 return;
+            }
+
+            if (!/^(07\d{8}|2547\d{8})$/.test(phone)) {
+                showMessage("Please enter a valid Safaricom number (07xxxxxxxx or 2547xxxxxxxx).", 'error');
+                return;
+            }
+            if (!amount || isNaN(amount) || Number(amount) < 1) {
+                showMessage("Please enter a valid amount (must be Ksh 1 or more).", 'error');
+                return;
+            }
+
+            try {
+                initiateMpesaPayBtn.disabled = true;
+                initiateMpesaPayBtn.textContent = 'Processing...';
+                
+                showDynamicContent('processing-content'); // Show processing state
+                document.querySelector('#processing-content .progress-bar').style.width = '0%';
+                setTimeout(() => {
+                    document.querySelector('#processing-content .progress-bar').style.width = '100%';
+                }, 100); // Start animation shortly after display
+
+                // In a real app, ensure you send the amount from currentOrder, not just the input value
+                const response = await fetch(MPESA_STK_PUSH_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ phone, amount: currentOrder.amount, orderId: currentOrder.orderId }),
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    const reference = result.data.reference;
+                    showMessage("📲 STK Push sent! Enter PIN on your phone to complete payment.", 'warning');
+                    // Polling for status
+                    window.paymentStatusInterval = setInterval(async () => {
+                        const statusResponse = await fetch(`${MPESA_STATUS_URL}/${reference}`);
+                        const statusResult = await statusResponse.json();
+
+                        if (statusResult.status === "SUCCESS") {
+                            clearInterval(window.paymentStatusInterval);
+                            showMessage("✅ M-Pesa Payment successful!", 'success');
+                            showDynamicContent('success-content');
+                            // Optionally redirect
+                        } else if (statusResult.status === "FAILED") {
+                            clearInterval(window.paymentStatusInterval);
+                            showMessage("❌ M-Pesa Payment failed. Please try again.", 'error');
+                            showDynamicContent('mpesa-content'); // Go back to M-Pesa input
+                        }
+                    }, 5000); // Poll every 5 seconds
+                } else {
+                    showMessage("❌ M-Pesa initiation failed: " + (result.message || "Unknown error."), 'error');
+                    showDynamicContent('mpesa-content'); // Go back to M-Pesa input
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                showMessage("⚠️ Network error: Could not contact M-Pesa server.", 'error');
+                showDynamicContent('mpesa-content'); // Go back to M-Pesa input
+            } finally {
+                initiateMpesaPayBtn.disabled = false;
+                initiateMpesaPayBtn.textContent = 'Initiate M-Pesa Payment';
+            }
+        });
+
+        // ================== CREDIT CARD LOGIC ==================
+        // Card number formatting
+        cardNumberInput.addEventListener('input', (event) => {
+            let value = event.target.value.replace(/\D/g, ''); // Remove non-digits
+            value = value.replace(/(\d{4})(?=\d)/g, '$1 '); // Add space every 4 digits
+            event.target.value = value.trim();
+        });
+
+        // Expiry date formatting MM/YY
+        expiryDateInput.addEventListener('input', (event) => {
+            let value = event.target.value.replace(/\D/g, ''); // Remove non-digits
+            if (value.length > 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            event.target.value = value;
+        });
+
+        payWithCardBtn.addEventListener('click', () => {
+            if (currentOrder.amount === 0) {
+                 showMessage("Order amount is zero. Cannot initiate payment.", 'error');
+                 return;
+            }
+
+            // Basic validation for demonstration
+            if (!cardNumberInput.value || !expiryDateInput.value || !cvvInput.value) {
+                showMessage("Please fill in all card details.", 'error');
+                return;
+            }
+            if (cardNumberInput.value.replace(/\s/g, '').length !== 16) {
+                showMessage("Please enter a valid 16-digit card number.", 'error');
+                return;
+            }
+            if (!/^\d{2}\/\d{2}$/.test(expiryDateInput.value)) {
+                 showMessage("Please enter expiry date in MM/YY format.", 'error');
+                 return;
+            }
+            if (!/^\d{3,4}$/.test(cvvInput.value)) {
+                 showMessage("Please enter a valid 3 or 4 digit CVV.", 'error');
+                 return;
+            }
+
+
+            // Simulate card payment processing
+            payWithCardBtn.disabled = true;
+            payWithCardBtn.textContent = 'Processing...';
+            showDynamicContent('processing-content');
+            document.querySelector('#processing-content .progress-bar').style.width = '0%';
+            setTimeout(() => {
+                document.querySelector('#processing-content .progress-bar').style.width = '100%';
+            }, 100);
+
+            setTimeout(() => {
+                showMessage("✅ Credit Card Payment successful!", 'success');
+                showDynamicContent('success-content');
+                payWithCardBtn.disabled = false;
+                payWithCardBtn.textContent = `Pay ${currentOrder.currency} ${currentOrder.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+                // Reset form fields
+                cardNumberInput.value = '';
+                expiryDateInput.value = '';
+                cvvInput.value = '';
+            }, 3000); // Simulate 3 second processing
+        });
+
+
+        // ================== PAYPAL LOGIC ==================
+        function initializePayPal() {
+            // Clear existing buttons to prevent duplicates when re-initializing
+            paypalButtonContainer.innerHTML = ''; 
+
+            if (typeof paypal !== 'undefined' && typeof paypal.Buttons === 'function') {
+                paypal.Buttons({
+                    style: {
+                        shape: 'rect', // Changed to rect for a more modern look
+                        label: 'pay',
+                        layout: 'vertical',
+                        color: 'blue',
+                        height: 48
+                    },
+                    createOrder: function (data, actions) {
+                         // PayPal requires amounts in USD or other major currencies. 
+                         // We are using a fixed USD value for the mock, but in a real app, 
+                         // you'd convert currentOrder.amount from KES to USD here.
+                        const amountInUSD = (currentOrder.amount / 150).toFixed(2); // Mock conversion KES to USD (1USD ~ 150KES)
+
+                        return actions.order.create({
+                            purchase_units: [
+                                {
+                                    amount: { value: amountInUSD, currency_code: "USD" }, 
+                                    description: `${currentOrder.service} by ${currentOrder.technician} (${currentOrder.orderId})`,
+                                },
+                            ],
+                        });
+                    },
+                    onApprove: function (data, actions) {
+                        return actions.order.capture().then(function (details) {
+                            showMessage("✅ Payment completed by " + details.payer.name.given_name + " via PayPal!", 'success');
+                            showDynamicContent('success-content');
+
+                            const paymentData = {
+                                orderID: data.orderID,
+                                orderId: currentOrder.orderId,
+                                amount: currentOrder.amount,
+                                currency: currentOrder.currency,
+                                // ... other details
+                            };
+
+                            fetch(PAYPAL_POST_URL, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify(paymentData),
+                            })
+                                .then((res) => res.json())
+                                .then((data) => {
+                                    console.log("Server response (PayPal):", data);
+                                })
+                                .catch((err) => {
+                                    console.error("Error posting PayPal payment:", err);
+                                    showMessage("⚠️ PayPal payment succeeded but we couldn’t notify the server.", 'warning');
+                                });
+                        });
+                    },
+                    onError: function (err) {
+                        console.error(err);
+                        showMessage("❌ An error occurred during the PayPal transaction.", 'error');
+                        showDynamicContent('paypal-content'); // Go back to PayPal button
+                    },
+                    onCancel: function (data) {
+                        console.log('PayPal payment cancelled', data);
+                        showMessage("Payment cancelled by user.", 'info');
+                        showDynamicContent('paypal-content'); // Go back to PayPal button
+                    }
+                }).render("#paypal-button-container");
+            } else {
+                 console.error('PayPal SDK not loaded correctly.');
+            }
+        }
+
+        // ================== OTHER ONLINE PAYMENT LOGIC ==================
+        proceedOtherPayBtn.addEventListener('click', () => {
+             if (currentOrder.amount === 0) {
+                 showMessage("Order amount is zero. Cannot proceed to payment.", 'error');
+                 return;
+            }
+            showMessage("Redirecting to secure payment gateway for other online payment...", 'warning');
+            proceedOtherPayBtn.disabled = true;
+            proceedOtherPayBtn.textContent = 'Redirecting...';
+            // Simulate redirection
+            setTimeout(() => {
+                // In a real app, you would redirect to an external payment gateway here, 
+                // passing currentOrder.amount and currentOrder.orderId as parameters.
+                showMessage("✅ Other Online Payment simulated successfully!", 'success');
+                showDynamicContent('success-content');
+                proceedOtherPayBtn.disabled = false;
+                proceedOtherPayBtn.textContent = 'Proceed to Payment Gateway';
+            }, 3000);
+        });
+
+        // ================== DONE BUTTON LOGIC ==================
+        doneButton.addEventListener('click', () => {
+            // Reset to initial state (M-Pesa selected)
+            selectPaymentMethod('mpesa-option');
+            showMessage("Payment flow reset. Ready for new transaction.", 'info');
+        });
+
+
+        // ================== INITIALIZATION ==================
+        document.addEventListener("DOMContentLoaded", () => {
+            // 1. Fetch the order details first
+            fetchOrderSummary();
+            // 2. Select M-Pesa as the default payment method on load (UI only)
+            selectPaymentMethod('mpesa-option');
+            // PayPal initialization is now inside fetchOrderSummary to use the dynamic amount
+        });
+    </script>
+</body>
+</html>

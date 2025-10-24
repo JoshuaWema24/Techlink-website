@@ -16,6 +16,41 @@
     <div class="requests" id="requestsContainer">
       <!-- Cards will be inserted here -->
     </div>
+    <!-- Summary Form Modal -->
+    <div id="summaryFormModal" class="">
+      <div class="modal-content">
+        <h2>Add Service Summary</h2>
+        <form id="summaryForm">
+          <div>
+            <label>Technician Name</label>
+            <input type="text" name="technicianName" required />
+          </div>
+
+          <div>
+            <label>Service Done</label>
+            <input type="text" name="serviceDone" required />
+          </div>
+
+          <div>
+            <label>Amount (KES)</label>
+            <input type="number" name="amount" required />
+          </div>
+
+          <div>
+            <label>Status</label>
+            <select name="status" required>
+              <option value="Completed">Completed</option>
+              <option value="Pending">Pending</option>
+            </select>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" id="closeModalBtn">Cancel</button>
+            <button type="submit">Save Summary</button>
+          </div>
+        </form>
+      </div>
+    </div>
 
     <script src="myrequestscript.js"></script>
   </body>
