@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 🔌 SOCKET.IO integration
-  const socket = io("https://techlink-backend.onrender.com", {
+  const socket = io("https://techlink-backend-ra33.onrender.com", {
     transports: ["websocket"],
   });
 

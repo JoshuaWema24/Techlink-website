@@ -14,7 +14,7 @@ form.addEventListener("submit", async (e) => {
   }
 
   try {
-    const res = await fetch("https://techlink-backend.onrender.com/login", {
+    const res = await fetch("https://techlink-backend-ra33.onrender.com/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
