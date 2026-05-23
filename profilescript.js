@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Clear any potentially stale data if we're redirecting
     localStorage.removeItem("user");
     localStorage.removeItem("role"); // Also clear the 'role' if you store it
-    return (window.location.href = "signin.html");
+    return (window.location.href = "../Utility/signin.html");
   }
 
   // 3. Decode the token to get its payload.

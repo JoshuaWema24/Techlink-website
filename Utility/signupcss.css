@@ -16,7 +16,7 @@
 }
 
 body {
-  background: url("anthropomorphic-futuristic-robot-performing-regular-human-job.jpg")
+  background: url("../assets/anthropomorphic-futuristic-robot-performing-regular-human-job.jpg")
     no-repeat center center fixed;
   background-size: cover;
   display: flex;
