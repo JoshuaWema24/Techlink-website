@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.log("No token found, redirecting to login.");
     localStorage.removeItem("user");
     localStorage.removeItem("role");
-    return (window.location.href = "signin.html");
+    return (window.location.href = "../Utility/signin.html");
   }
 
   const decodedToken = decodeJwt(token);

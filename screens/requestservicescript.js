@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ✅ Check authentication
   if (!token) {
     alert("You are not logged in.");
-    window.location.href = "signin.html";
+    window.location.href = "../Utility/signin.html";
     return;
   }
 
@@ -24,7 +24,7 @@ function getUserIdFromToken(token) {
   }
 }
 
-// --- SERVICE MAP ---
+// --- SERVICE MAP ---5
 const serviceMap = {
   "Device & PC Repair": [
     "Laptop Screen Repair (KES 5,000 - 15,000)",
